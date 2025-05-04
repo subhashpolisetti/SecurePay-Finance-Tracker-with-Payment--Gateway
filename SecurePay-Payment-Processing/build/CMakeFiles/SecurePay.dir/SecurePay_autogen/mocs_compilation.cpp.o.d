@@ -580,6 +580,11 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qtabwidget.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
+ /opt/homebrew/lib/QtCore.framework/Headers/QTimer \
+ /opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
+ /opt/homebrew/lib/QtCore.framework/Headers/qbasictimer.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QScrollArea \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qscrollarea.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/../core/appcontroller.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/../core/paymentgateway.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/../core/bank.h \

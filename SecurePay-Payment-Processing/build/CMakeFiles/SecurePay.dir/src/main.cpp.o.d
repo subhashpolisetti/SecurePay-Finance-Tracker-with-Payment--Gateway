@@ -524,6 +524,11 @@ CMakeFiles/SecurePay.dir/src/main.cpp.o: \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qtabwidget.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
+ /opt/homebrew/lib/QtCore.framework/Headers/QTimer \
+ /opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
+ /opt/homebrew/lib/QtCore.framework/Headers/qbasictimer.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QScrollArea \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qscrollarea.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/appcontroller.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/customer.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/merchant.h \
