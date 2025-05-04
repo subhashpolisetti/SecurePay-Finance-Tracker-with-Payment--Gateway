@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+c80753f251458b94303f63e85b2c5924 CMakeFiles/SecurePay_autogen
+0c1e6c4a7c6a4ce5e86a33b0b8d2194f SecurePay_autogen/timestamp

@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_SecurePay_FILE /Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/SecurePay)
+set(__QT_DEPLOY_TARGET_SecurePay_TYPE EXECUTABLE)
