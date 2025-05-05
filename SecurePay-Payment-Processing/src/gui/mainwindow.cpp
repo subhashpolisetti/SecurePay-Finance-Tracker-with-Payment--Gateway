@@ -5,6 +5,7 @@
 #include "exportreportdialog.h"
 #include "addcarddialog.h"
 #include "managecardsdialog.h"
+#include "checkoutscreen.h"
 #include <QMessageBox>
 #include <QDoubleValidator>
 #include <QRegularExpressionValidator>
@@ -1100,12 +1101,88 @@ void MainWindow::onOpenCheckoutClicked() {
     CheckoutScreen checkoutScreen(m_appController.get(), this);
     
     if (checkoutScreen.exec() == QDialog::Accepted) {
-        // Update transaction history after checkout
-        updateCustomerTransactionHistory();
-        updateMerchantTransactionHistory();
-        updateBalanceDisplay();
+        // Get the checkout payload
+        const CheckoutPayload& payload = checkoutScreen.getCheckoutPayload();
+        
+        // Process the checkout payload
+        receiveCheckoutPayload(payload);
         
         // Show success message
         statusBar()->showMessage("E-commerce checkout completed successfully");
     }
+}
+
+void MainWindow::receiveCheckoutPayload(const CheckoutPayload& payload) {
+    // Switch to customer role
+    m_roleComboBox->setCurrentIndex(0); // Customer role
+    
+    // Find and select the customer
+    for (int i = 0; i < m_customerComboBox->count(); ++i) {
+        QString customerName = m_customerComboBox->itemText(i);
+        std::string customerNameStr = customerName.toUtf8().constData();
+        if (customerNameStr == payload.customerId) {
+            m_customerComboBox->setCurrentIndex(i);
+            break;
+        }
+    }
+    
+    // Set the amount
+    m_amountEdit->setText(QString::number(payload.amount, 'f', 2));
+    
+    // Set the payment method
+    for (int i = 0; i < m_paymentMethodComboBox->count(); ++i) {
+        QString methodName = m_paymentMethodComboBox->itemText(i);
+        std::string methodNameStr = methodName.toUtf8().constData();
+        if (methodNameStr == payload.paymentMethodType) {
+            m_paymentMethodComboBox->setCurrentIndex(i);
+            break;
+        }
+    }
+    
+    // Handle payment details
+    if (!payload.cardToken.empty()) {
+        // Find and select the saved card
+        for (int i = 0; i < m_savedCardsComboBox->count(); ++i) {
+            // This is a simplification - in a real app, you'd need to match by token
+            // Here we're just selecting the first saved card
+            if (i > 0) { // Skip "Add New Card" option
+                m_savedCardsComboBox->setCurrentIndex(i);
+                break;
+            }
+        }
+        
+        // Set CVV
+        m_cvvEdit->setText(QString::fromUtf8(payload.cvv.c_str()));
+    } else {
+        // New card
+        m_savedCardsComboBox->setCurrentIndex(0); // "Add New Card" option
+        
+        // Set card details
+        m_cardNumberEdit->setText(QString::fromUtf8(payload.cardNumber.c_str()));
+        m_cardholderNameEdit->setText(QString::fromUtf8(payload.cardholderName.c_str()));
+        m_expiryDateEdit->setText(QString::fromUtf8(payload.expiryDate.c_str()));
+        m_cvvEdit->setText(QString::fromUtf8(payload.cvv.c_str()));
+    }
+    
+    // Scroll to the payment form section
+    QScrollArea* scrollArea = qobject_cast<QScrollArea*>(m_mainStack->currentWidget());
+    if (scrollArea) {
+        // Scroll to the submit button
+        scrollArea->ensureWidgetVisible(m_submitButton);
+    }
+    
+    // Set focus on the submit button
+    m_submitButton->setFocus();
+    
+    // Highlight the submit button
+    m_submitButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; border: 2px solid #FF5722;");
+    
+    // Reset the button style after a delay
+    QTimer* timer = new QTimer(this);
+    timer->setSingleShot(true);
+    connect(timer, &QTimer::timeout, this, [this, timer]() {
+        m_submitButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;");
+        timer->deleteLater();
+    });
+    timer->start(3000);
 }

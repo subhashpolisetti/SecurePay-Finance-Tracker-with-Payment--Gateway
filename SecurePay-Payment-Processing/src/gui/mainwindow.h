@@ -26,6 +26,9 @@
 #include "addcarddialog.h"
 #include "checkoutscreen.h"
 
+// Forward declaration
+struct CheckoutPayload;
+
 // Enum for user roles
 enum class UserRole {
     CUSTOMER,
@@ -143,6 +146,15 @@ private slots:
     
     // E-commerce checkout
     void onOpenCheckoutClicked();
+    
+    /**
+     * @brief Receive checkout payload from CheckoutScreen
+     * @param payload The checkout payload
+     * 
+     * This method receives the checkout payload from the CheckoutScreen
+     * and pre-fills the payment form with the data.
+     */
+    void receiveCheckoutPayload(const CheckoutPayload& payload);
 };
 
 #endif

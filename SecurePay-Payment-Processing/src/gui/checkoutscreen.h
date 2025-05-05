@@ -21,6 +21,28 @@
 #include "../core/cardtoken.h"
 
 /**
+ * @struct CheckoutPayload
+ * @brief Data structure to hold checkout information
+ * 
+ * This structure encapsulates all the necessary information from the checkout
+ * process to be passed to the main payment window.
+ */
+struct CheckoutPayload {
+    std::string customerId;
+    std::string productName;
+    double amount;
+    std::string shippingAddress;
+    
+    // Payment method details
+    std::string paymentMethodType;
+    std::string cardToken;        // For saved cards
+    std::string cardNumber;       // For new cards
+    std::string cardholderName;
+    std::string expiryDate;
+    std::string cvv;
+};
+
+/**
  * @class CheckoutScreen
  * @brief Dialog for simulating an e-commerce checkout process
  * 
@@ -40,6 +62,12 @@ public:
     CheckoutScreen(AppController* appController, QWidget* parent = nullptr);
     
     /**
+     * @brief Get the checkout payload
+     * @return The checkout payload with all the checkout information
+     */
+    const CheckoutPayload& getCheckoutPayload() const { return m_checkoutPayload; }
+    
+    /**
      * @brief Destructor
      */
     ~CheckoutScreen();
@@ -47,6 +75,7 @@ public:
 private:
     // Core components
     AppController* m_appController;
+    CheckoutPayload m_checkoutPayload;
     
     // Product selection
     QComboBox* m_productComboBox;
