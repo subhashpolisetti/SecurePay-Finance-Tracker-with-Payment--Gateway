@@ -30,12 +30,16 @@ set(SOURCES
     src/core/transactiondecorator.cpp
     src/core/paymentgatewayfacade.cpp
     src/core/lazyreport.cpp
+    src/core/cardtoken.cpp
+    src/core/enhancedfraudsystem.cpp
     # GUI classes
     src/gui/mainwindow.cpp
     src/gui/addcustomerdialog.cpp
     src/gui/addmerchantdialog.cpp
     src/gui/refunddialog.cpp
     src/gui/exportreportdialog.cpp
+    src/gui/addcarddialog.cpp
+    src/gui/managecardsdialog.cpp
 )
 
 set(HEADERS
@@ -57,12 +61,16 @@ set(HEADERS
     src/core/transactiondecorator.h
     src/core/paymentgatewayfacade.h
     src/core/lazyreport.h
+    src/core/cardtoken.h
+    src/core/enhancedfraudsystem.h
     # GUI classes
     src/gui/mainwindow.h
     src/gui/addcustomerdialog.h
     src/gui/addmerchantdialog.h
     src/gui/refunddialog.h
     src/gui/exportreportdialog.h
+    src/gui/addcarddialog.h
+    src/gui/managecardsdialog.h
 )
 
 add_executable(SecurePay ${SOURCES} ${HEADERS})

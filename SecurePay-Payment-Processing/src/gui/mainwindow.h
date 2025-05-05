@@ -20,6 +20,10 @@
 #include "../core/transaction.h"
 #include "../core/refundmanager.h"
 #include "../core/reportmanager.h"
+#include "../core/enhancedfraudsystem.h"
+#include "../core/cardtoken.h"
+#include "managecardsdialog.h"
+#include "addcarddialog.h"
 
 // Enum for user roles
 enum class UserRole {
@@ -52,6 +56,9 @@ private:
     QLabel* m_balanceLabel;
     QLineEdit* m_amountEdit;
     QComboBox* m_paymentMethodComboBox;
+    // Card management
+    QComboBox* m_savedCardsComboBox;
+    QPushButton* m_manageCardsButton;
     QLineEdit* m_cardNumberEdit;
     QLineEdit* m_cardholderNameEdit;
     QLineEdit* m_expiryDateEdit;
@@ -78,9 +85,18 @@ private:
     QPushButton* m_addMerchantButton;
     QLabel* m_merchantDetailsLabel;
     QTabWidget* m_merchantTabs;
+    // Transaction tables
     QTableWidget* m_merchantTransactionTable;
     QTableWidget* m_refundTable;
     QTableWidget* m_fraudAlertTable;
+    
+    // Analytics and reporting
+    QGroupBox* m_analyticsGroup;
+    QLabel* m_totalTransactionsLabel;
+    QLabel* m_totalVolumeLabel;
+    QLabel* m_avgTransactionLabel;
+    QLabel* m_fraudRateLabel;
+    QLabel* m_refundRateLabel;
     QPushButton* m_processRefundButton;
     QPushButton* m_exportMerchantReportButton;
     
@@ -106,6 +122,8 @@ private slots:
     void onCustomerSelected(int index);
     void onAddCustomerClicked();
     void onPaymentMethodSelected(int index);
+    void onSavedCardSelected(int index);
+    void onManageCardsClicked();
     void onSubmitClicked();
     void onExportCustomerReportClicked();
     void onDepositClicked();
@@ -117,6 +135,7 @@ private slots:
     void onAddMerchantClicked();
     void onProcessRefundClicked();
     void onExportMerchantReportClicked();
+    void updateAnalytics();
     
     // Common slots
     void onTransactionUpdated(const Transaction& transaction);

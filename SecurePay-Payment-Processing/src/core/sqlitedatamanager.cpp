@@ -101,6 +101,22 @@ bool SQLiteDataManager::createTables() {
         return false;
     }
     
+    // Create card_tokens table
+    sql = "CREATE TABLE IF NOT EXISTS card_tokens ("
+          "token TEXT PRIMARY KEY, "
+          "customer_id TEXT, "
+          "last_four TEXT, "
+          "card_type TEXT, "
+          "expiry_month TEXT, "
+          "expiry_year TEXT, "
+          "cardholder_name TEXT, "
+          "FOREIGN KEY (customer_id) REFERENCES customers (name)"
+          ");";
+    
+    if (!executeSQL(sql)) {
+        return false;
+    }
+    
     std::cout << "Database tables created successfully" << std::endl;
     return true;
 }
@@ -449,6 +465,77 @@ std::vector<std::unique_ptr<FraudAlert>> SQLiteDataManager::loadFraudAlerts(
     }
     
     return fraudAlerts;
+}
+
+bool SQLiteDataManager::saveCardToken(const CardToken& cardToken) {
+    std::stringstream ss;
+    ss << "INSERT OR REPLACE INTO card_tokens ("
+       << "token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name"
+       << ") VALUES ("
+       << "'" << cardToken.getToken() << "', "
+       << "'" << cardToken.getCustomerId() << "', "
+       << "'" << cardToken.getLastFourDigits() << "', "
+       << "'" << cardToken.getCardType() << "', "
+       << "'" << cardToken.getExpiryMonth() << "', "
+       << "'" << cardToken.getExpiryYear() << "', "
+       << "'" << cardToken.getCardholderName() << "'"
+       << ");";
+    
+    return executeSQL(ss.str());
+}
+
+// Callback function for loadCardTokens
+static int cardTokenCallback(void* data, int argc, char** argv, char** azColName) {
+    std::vector<std::unique_ptr<CardToken>>* cardTokens = static_cast<std::vector<std::unique_ptr<CardToken>>*>(data);
+    
+    std::string token = argv[0] ? argv[0] : "";
+    std::string customerId = argv[1] ? argv[1] : "";
+    std::string lastFour = argv[2] ? argv[2] : "";
+    std::string cardType = argv[3] ? argv[3] : "";
+    std::string expiryMonth = argv[4] ? argv[4] : "";
+    std::string expiryYear = argv[5] ? argv[5] : "";
+    std::string cardholderName = argv[6] ? argv[6] : "";
+    
+    // Create the card token
+    auto cardToken = CardTokenFactory::createCardTokenFromDatabase(
+        token, lastFour, cardType, expiryMonth, expiryYear, customerId, cardholderName);
+    
+    cardTokens->push_back(std::move(cardToken));
+    
+    return 0;
+}
+
+std::vector<std::unique_ptr<CardToken>> SQLiteDataManager::loadCardTokens() {
+    std::vector<std::unique_ptr<CardToken>> cardTokens;
+    
+    std::string sql = "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name FROM card_tokens;";
+    
+    if (!executeQuery(sql, cardTokenCallback, &cardTokens)) {
+        std::cerr << "Failed to load card tokens" << std::endl;
+    }
+    
+    return cardTokens;
+}
+
+bool SQLiteDataManager::deleteCardToken(const std::string& token) {
+    std::stringstream ss;
+    ss << "DELETE FROM card_tokens WHERE token = '" << token << "';";
+    
+    return executeSQL(ss.str());
+}
+
+std::vector<std::unique_ptr<CardToken>> SQLiteDataManager::loadCardTokensForCustomer(const std::string& customerId) {
+    std::vector<std::unique_ptr<CardToken>> cardTokens;
+    
+    std::stringstream ss;
+    ss << "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name "
+       << "FROM card_tokens WHERE customer_id = '" << customerId << "';";
+    
+    if (!executeQuery(ss.str(), cardTokenCallback, &cardTokens)) {
+        std::cerr << "Failed to load card tokens for customer " << customerId << std::endl;
+    }
+    
+    return cardTokens;
 }
 
 const Customer* SQLiteDataManager::findCustomerByName(const std::string& name, const std::vector<Customer>& customers) const {

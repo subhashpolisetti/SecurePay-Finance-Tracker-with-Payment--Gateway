@@ -7,31 +7,165 @@ PaymentGatewayFacade::PaymentGatewayFacade(
     : m_paymentGateway(paymentGateway), m_bank(bank), m_fraudSystem(fraudSystem) {
 }
 
-std::string PaymentGatewayFacade::processPayment(
+Result<std::string> PaymentGatewayFacade::processPayment(
     const Customer& customer,
     const Merchant& merchant,
     const std::string& paymentMethodType,
     const std::vector<std::string>& paymentDetails,
     double amount) {
     
+    // Validate input
+    if (amount <= 0) {
+        return Result<std::string>::failure(
+            "INVALID_AMOUNT", "Payment amount must be greater than zero");
+    }
+    
     // Create payment method
     auto paymentMethod = createPaymentMethod(paymentMethodType, paymentDetails);
     if (!paymentMethod) {
-        std::cerr << "Failed to create payment method" << std::endl;
-        return "";
+        return Result<std::string>::failure(
+            "INVALID_PAYMENT_METHOD", "Failed to create payment method");
     }
     
-    // Create transaction
-    auto transaction = TransactionFactory::createTransaction(
-        customer, merchant, std::move(paymentMethod), amount);
+    try {
+        // Create transaction
+        auto transaction = TransactionFactory::createTransaction(
+            customer, merchant, std::move(paymentMethod), amount);
+        
+        // Process transaction
+        std::string transactionId = transaction->getTransactionId();
+        m_paymentGateway.processTransaction(std::move(transaction));
+        
+        return Result<std::string>::success(transactionId);
+    } catch (const std::exception& e) {
+        return Result<std::string>::failure(
+            "PROCESSING_ERROR", std::string("Error processing payment: ") + e.what());
+    }
+}
+
+Result<std::string> PaymentGatewayFacade::processPaymentWithIdempotencyKey(
+    const Customer& customer,
+    const Merchant& merchant,
+    const std::string& paymentMethodType,
+    const std::vector<std::string>& paymentDetails,
+    double amount,
+    const std::string& idempotencyKey) {
     
-    // Process transaction
-    std::string transactionId = transaction->getTransactionId();
-    m_paymentGateway.processTransaction(std::move(transaction));
+    // Validate input
+    if (amount <= 0) {
+        return Result<std::string>::failure(
+            "INVALID_AMOUNT", "Payment amount must be greater than zero");
+    }
     
-    // Since the transaction is moved into the payment gateway, we can't access it anymore
-    // We'll return the transaction ID that we saved before processing
-    return transactionId;
+    if (idempotencyKey.empty()) {
+        return Result<std::string>::failure(
+            "INVALID_IDEMPOTENCY_KEY", "Idempotency key cannot be empty");
+    }
+    
+    // Create payment method
+    auto paymentMethod = createPaymentMethod(paymentMethodType, paymentDetails);
+    if (!paymentMethod) {
+        return Result<std::string>::failure(
+            "INVALID_PAYMENT_METHOD", "Failed to create payment method");
+    }
+    
+    try {
+        // Create transaction
+        auto transaction = TransactionFactory::createTransactionWithIdempotencyKey(
+            customer, merchant, std::move(paymentMethod), amount, idempotencyKey);
+        
+        // Process transaction with idempotency key
+        std::string transactionId = m_paymentGateway.processTransactionWithIdempotencyKey(
+            std::move(transaction), idempotencyKey);
+        
+        return Result<std::string>::success(transactionId);
+    } catch (const std::exception& e) {
+        return Result<std::string>::failure(
+            "PROCESSING_ERROR", std::string("Error processing payment: ") + e.what());
+    }
+}
+
+Result<std::string> PaymentGatewayFacade::authorizePayment(
+    const Customer& customer,
+    const Merchant& merchant,
+    const std::string& paymentMethodType,
+    const std::vector<std::string>& paymentDetails,
+    double amount) {
+    
+    // Validate input
+    if (amount <= 0) {
+        return Result<std::string>::failure(
+            "INVALID_AMOUNT", "Payment amount must be greater than zero");
+    }
+    
+    // Create payment method
+    auto paymentMethod = createPaymentMethod(paymentMethodType, paymentDetails);
+    if (!paymentMethod) {
+        return Result<std::string>::failure(
+            "INVALID_PAYMENT_METHOD", "Failed to create payment method");
+    }
+    
+    try {
+        // Create transaction
+        auto transaction = TransactionFactory::createTransaction(
+            customer, merchant, std::move(paymentMethod), amount);
+        
+        // Authorize transaction
+        std::string transactionId = transaction->getTransactionId();
+        bool success = m_paymentGateway.authorizeTransaction(std::move(transaction));
+        
+        if (success) {
+            return Result<std::string>::success(transactionId);
+        } else {
+            return Result<std::string>::failure(
+                "AUTHORIZATION_FAILED", "Failed to authorize payment");
+        }
+    } catch (const std::exception& e) {
+        return Result<std::string>::failure(
+            "PROCESSING_ERROR", std::string("Error authorizing payment: ") + e.what());
+    }
+}
+
+Result<void> PaymentGatewayFacade::capturePayment(const std::string& transactionId, double amount) {
+    if (transactionId.empty()) {
+        return Result<void>::failure(
+            "INVALID_TRANSACTION_ID", "Transaction ID cannot be empty");
+    }
+    
+    try {
+        bool success = m_paymentGateway.captureTransaction(transactionId, amount);
+        
+        if (success) {
+            return Result<void>::success();
+        } else {
+            return Result<void>::failure(
+                "CAPTURE_FAILED", "Failed to capture payment");
+        }
+    } catch (const std::exception& e) {
+        return Result<void>::failure(
+            "PROCESSING_ERROR", std::string("Error capturing payment: ") + e.what());
+    }
+}
+
+Result<void> PaymentGatewayFacade::voidPayment(const std::string& transactionId) {
+    if (transactionId.empty()) {
+        return Result<void>::failure(
+            "INVALID_TRANSACTION_ID", "Transaction ID cannot be empty");
+    }
+    
+    try {
+        bool success = m_paymentGateway.voidTransaction(transactionId);
+        
+        if (success) {
+            return Result<void>::success();
+        } else {
+            return Result<void>::failure(
+                "VOID_FAILED", "Failed to void payment");
+        }
+    } catch (const std::exception& e) {
+        return Result<void>::failure(
+            "PROCESSING_ERROR", std::string("Error voiding payment: ") + e.what());
+    }
 }
 
 const Transaction* PaymentGatewayFacade::getTransaction(const std::string& transactionId) const {

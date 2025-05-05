@@ -1,10 +1,22 @@
 #include "appcontroller.h"
 #include "refundmanager.h"
+#include "bank.h"
+#include "fraudsystem.h"
 #include <iostream>
 
-AppController::AppController() : m_paymentGateway(std::make_unique<PaymentGateway>()) {
+AppController::AppController() 
+    : m_paymentGateway(std::make_unique<PaymentGateway>()) {
     std::cout << "AppController initialized" << std::endl;
     
+    // Initialize the payment gateway facade
+    Bank& bank = Bank::getInstance();
+    FraudSystem& fraudSystem = FraudSystem::getInstance();
+    m_paymentGatewayFacade = std::make_unique<PaymentGatewayFacade>(*m_paymentGateway, bank, fraudSystem);
+    
+    // Initialize the enhanced fraud system
+    EnhancedFraudSystem::getInstance();
+    
+    // Register as an observer for transaction updates
     m_paymentGateway->addObserver(this);
     
     // Add sample customers
@@ -98,6 +110,83 @@ void AppController::processTransaction(std::unique_ptr<Transaction> transaction)
             }
         }
     }
+}
+
+std::string AppController::processTransactionWithIdempotencyKey(
+    std::unique_ptr<Transaction> transaction,
+    const std::string& idempotencyKey) {
+    
+    if (m_paymentGateway && transaction) {
+        // Store the customer name for later lookup
+        std::string customerName = transaction->getCustomer().getName();
+        
+        // Process the transaction with idempotency key
+        std::string transactionId = m_paymentGateway->processTransactionWithIdempotencyKey(
+            std::move(transaction), idempotencyKey);
+        
+        // If the transaction was approved, find the customer and deduct funds
+        for (auto& customer : m_customers) {
+            if (customer.getName() == customerName) {
+                // Find the transaction with the matching ID
+                Transaction* tx = findTransaction(transactionId);
+                if (tx && tx->getStatus() == TransactionStatus::APPROVED) {
+                    // Deduct funds from the customer's account
+                    customer.deduct(tx->getPaymentMethod().getType(), tx->getAmount());
+                }
+                break;
+            }
+        }
+        
+        return transactionId;
+    }
+    
+    return "";
+}
+
+bool AppController::authorizeTransaction(std::unique_ptr<Transaction> transaction) {
+    if (m_paymentGateway && transaction) {
+        return m_paymentGateway->authorizeTransaction(std::move(transaction));
+    }
+    
+    return false;
+}
+
+bool AppController::captureTransaction(const std::string& transactionId, double amount) {
+    if (m_paymentGateway) {
+        return m_paymentGateway->captureTransaction(transactionId, amount);
+    }
+    
+    return false;
+}
+
+bool AppController::voidTransaction(const std::string& transactionId) {
+    if (m_paymentGateway) {
+        return m_paymentGateway->voidTransaction(transactionId);
+    }
+    
+    return false;
+}
+
+Transaction* AppController::findTransaction(const std::string& transactionId) {
+    if (m_paymentGateway) {
+        return m_paymentGateway->findTransaction(transactionId);
+    }
+    
+    return nullptr;
+}
+
+void AppController::addCardToken(std::unique_ptr<CardToken> cardToken) {
+    if (cardToken) {
+        CardManager::getInstance().addCardToken(std::move(cardToken));
+    }
+}
+
+std::vector<const CardToken*> AppController::getCardTokensForCustomer(const std::string& customerId) const {
+    return CardManager::getInstance().getCardTokensForCustomer(customerId);
+}
+
+bool AppController::deleteCardToken(const std::string& token) {
+    return CardManager::getInstance().deleteCardToken(token);
 }
 
 const std::vector<std::unique_ptr<Transaction>>& AppController::getTransactionHistory() const {

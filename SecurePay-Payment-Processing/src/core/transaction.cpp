@@ -1,14 +1,12 @@
 #include "transaction.h"
-#include "merchant.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <iostream>
 
-// Transaction implementation
-Transaction::Transaction(const Customer& customer, const Merchant& merchant,
-                         std::unique_ptr<PaymentMethod> paymentMethod, double amount)
-    : m_customer(customer),
+Transaction::Transaction(const Customer& customer, const Merchant& merchant, 
+                        std::unique_ptr<PaymentMethod> paymentMethod, double amount)
+    : m_customer(customer), 
       m_merchant(merchant),
       m_paymentMethod(std::move(paymentMethod)),
       m_amount(amount),
@@ -20,6 +18,14 @@ Transaction::Transaction(const Customer& customer, const Merchant& merchant,
 
 std::string Transaction::getTransactionId() const {
     return m_transactionId;
+}
+
+std::string Transaction::getIdempotencyKey() const {
+    return m_idempotencyKey;
+}
+
+void Transaction::setIdempotencyKey(const std::string& key) {
+    m_idempotencyKey = key;
 }
 
 const Customer& Transaction::getCustomer() const {
@@ -61,6 +67,18 @@ bool Transaction::process() {
     return m_state->process(*this);
 }
 
+bool Transaction::authorize() {
+    return m_state->authorize(*this);
+}
+
+bool Transaction::capture(double amount) {
+    return m_state->capture(*this, amount);
+}
+
+bool Transaction::voidTransaction() {
+    return m_state->voidTransaction(*this);
+}
+
 bool Transaction::refund(double amount) {
     return m_state->refund(*this, amount);
 }
@@ -81,6 +99,8 @@ std::string Transaction::statusToString(TransactionStatus status) {
     switch (status) {
         case TransactionStatus::PENDING:
             return "Pending";
+        case TransactionStatus::PRE_AUTHORIZED:
+            return "Pre-Authorized";
         case TransactionStatus::APPROVED:
             return "Approved";
         case TransactionStatus::DECLINED:
@@ -91,6 +111,12 @@ std::string Transaction::statusToString(TransactionStatus status) {
             return "Refunded";
         case TransactionStatus::PARTIALLY_REFUNDED:
             return "Partially Refunded";
+        case TransactionStatus::SETTLED:
+            return "Settled";
+        case TransactionStatus::DISPUTED:
+            return "Disputed";
+        case TransactionStatus::EXPIRED:
+            return "Expired";
         default:
             return "Unknown";
     }
@@ -116,20 +142,39 @@ std::string Transaction::generateTransactionId() {
     return ss.str();
 }
 
-// TransactionFactory implementation
 std::unique_ptr<Transaction> TransactionFactory::createTransaction(
     const Customer& customer, const Merchant& merchant,
     std::unique_ptr<PaymentMethod> paymentMethod, double amount) {
     return std::make_unique<Transaction>(customer, merchant, std::move(paymentMethod), amount);
 }
 
+std::unique_ptr<Transaction> TransactionFactory::createTransactionWithIdempotencyKey(
+    const Customer& customer, const Merchant& merchant,
+    std::unique_ptr<PaymentMethod> paymentMethod, double amount,
+    const std::string& idempotencyKey) {
+    auto transaction = std::make_unique<Transaction>(customer, merchant, std::move(paymentMethod), amount);
+    transaction->setIdempotencyKey(idempotencyKey);
+    return transaction;
+}
+
 // PendingState implementation
 bool PendingState::process(Transaction& transaction) {
     std::cout << "Processing transaction " << transaction.getTransactionId() << " from pending state" << std::endl;
     
-    // In a real system, we would process the payment here
-    // For now, we'll just transition to the approved state
+    // In a real implementation, this would call the payment processor
+    // For now, we'll just transition to approved state
     transaction.setState(std::make_unique<ApprovedState>());
+    
+    return true;
+}
+
+bool PendingState::authorize(Transaction& transaction) {
+    std::cout << "Authorizing transaction " << transaction.getTransactionId() << " from pending state" << std::endl;
+    
+    // In a real implementation, this would call the payment processor for authorization only
+    // For now, we'll just transition to pre-authorized state
+    transaction.setState(std::make_unique<PreAuthorizedState>());
+    
     return true;
 }
 
@@ -146,23 +191,79 @@ std::string PendingState::toString() const {
     return "Pending";
 }
 
+// PreAuthorizedState implementation
+bool PreAuthorizedState::process(Transaction& transaction) {
+    std::cout << "Processing pre-authorized transaction " << transaction.getTransactionId() << std::endl;
+    
+    // In a real implementation, this would call the payment processor to capture the full amount
+    // For now, we'll just transition to approved state
+    transaction.setState(std::make_unique<ApprovedState>());
+    
+    return true;
+}
+
+bool PreAuthorizedState::capture(Transaction& transaction, double amount) {
+    std::cout << "Capturing pre-authorized transaction " << transaction.getTransactionId() << std::endl;
+    
+    double captureAmount = (amount > 0) ? amount : transaction.getAmount();
+    
+    if (captureAmount > transaction.getAmount()) {
+        std::cout << "Cannot capture more than the authorized amount" << std::endl;
+        return false;
+    }
+    
+    // In a real implementation, this would call the payment processor to capture the specified amount
+    // For now, we'll just transition to approved state
+    transaction.setState(std::make_unique<ApprovedState>());
+    
+    return true;
+}
+
+bool PreAuthorizedState::voidTransaction(Transaction& transaction) {
+    std::cout << "Voiding pre-authorized transaction " << transaction.getTransactionId() << std::endl;
+    
+    // In a real implementation, this would call the payment processor to void the authorization
+    // For now, we'll just transition to declined state
+    transaction.setState(std::make_unique<DeclinedState>());
+    
+    return true;
+}
+
+bool PreAuthorizedState::refund(Transaction& transaction, double amount) {
+    std::cout << "Cannot refund a pre-authorized transaction" << std::endl;
+    return false;
+}
+
+TransactionStatus PreAuthorizedState::getStatus() const {
+    return TransactionStatus::PRE_AUTHORIZED;
+}
+
+std::string PreAuthorizedState::toString() const {
+    return "Pre-Authorized";
+}
+
 // ApprovedState implementation
 bool ApprovedState::process(Transaction& transaction) {
     std::cout << "Transaction " << transaction.getTransactionId() << " is already approved" << std::endl;
-    return false;
+    return true;
 }
 
 bool ApprovedState::refund(Transaction& transaction, double amount) {
     std::cout << "Refunding " << amount << " from transaction " << transaction.getTransactionId() << std::endl;
     
-    if (amount <= 0 || amount > transaction.getRemainingAmount()) {
-        std::cout << "Invalid refund amount" << std::endl;
+    if (amount <= 0) {
+        std::cout << "Refund amount must be positive" << std::endl;
+        return false;
+    }
+    
+    if (amount > transaction.getRemainingAmount()) {
+        std::cout << "Cannot refund more than the remaining amount" << std::endl;
         return false;
     }
     
     transaction.addRefundedAmount(amount);
     
-    if (transaction.getRemainingAmount() <= 0.001) { // Using a small epsilon for floating-point comparison
+    if (transaction.getRemainingAmount() <= 0.001) {  // Using a small epsilon for floating-point comparison
         transaction.setState(std::make_unique<RefundedState>());
     } else {
         transaction.setState(std::make_unique<PartiallyRefundedState>());
@@ -200,12 +301,12 @@ std::string DeclinedState::toString() const {
 
 // FlaggedState implementation
 bool FlaggedState::process(Transaction& transaction) {
-    std::cout << "Transaction " << transaction.getTransactionId() << " requires manual review" << std::endl;
+    std::cout << "Cannot process a flagged transaction without review" << std::endl;
     return false;
 }
 
 bool FlaggedState::refund(Transaction& transaction, double amount) {
-    std::cout << "Cannot refund a flagged transaction" << std::endl;
+    std::cout << "Cannot refund a flagged transaction without review" << std::endl;
     return false;
 }
 
@@ -245,14 +346,19 @@ bool PartiallyRefundedState::process(Transaction& transaction) {
 bool PartiallyRefundedState::refund(Transaction& transaction, double amount) {
     std::cout << "Refunding additional " << amount << " from transaction " << transaction.getTransactionId() << std::endl;
     
-    if (amount <= 0 || amount > transaction.getRemainingAmount()) {
-        std::cout << "Invalid refund amount" << std::endl;
+    if (amount <= 0) {
+        std::cout << "Refund amount must be positive" << std::endl;
+        return false;
+    }
+    
+    if (amount > transaction.getRemainingAmount()) {
+        std::cout << "Cannot refund more than the remaining amount" << std::endl;
         return false;
     }
     
     transaction.addRefundedAmount(amount);
     
-    if (transaction.getRemainingAmount() <= 0.001) { // Using a small epsilon for floating-point comparison
+    if (transaction.getRemainingAmount() <= 0.001) {  // Using a small epsilon for floating-point comparison
         transaction.setState(std::make_unique<RefundedState>());
     }
     
@@ -265,4 +371,99 @@ TransactionStatus PartiallyRefundedState::getStatus() const {
 
 std::string PartiallyRefundedState::toString() const {
     return "Partially Refunded";
+}
+
+// SettledState implementation
+bool SettledState::process(Transaction& transaction) {
+    std::cout << "Transaction " << transaction.getTransactionId() << " is already settled" << std::endl;
+    return true;
+}
+
+bool SettledState::refund(Transaction& transaction, double amount) {
+    std::cout << "Refunding " << amount << " from settled transaction " << transaction.getTransactionId() << std::endl;
+    
+    if (amount <= 0) {
+        std::cout << "Refund amount must be positive" << std::endl;
+        return false;
+    }
+    
+    if (amount > transaction.getRemainingAmount()) {
+        std::cout << "Cannot refund more than the remaining amount" << std::endl;
+        return false;
+    }
+    
+    transaction.addRefundedAmount(amount);
+    
+    if (transaction.getRemainingAmount() <= 0.001) {  // Using a small epsilon for floating-point comparison
+        transaction.setState(std::make_unique<RefundedState>());
+    } else {
+        transaction.setState(std::make_unique<PartiallyRefundedState>());
+    }
+    
+    return true;
+}
+
+TransactionStatus SettledState::getStatus() const {
+    return TransactionStatus::SETTLED;
+}
+
+std::string SettledState::toString() const {
+    return "Settled";
+}
+
+// DisputedState implementation
+bool DisputedState::process(Transaction& transaction) {
+    std::cout << "Cannot process a disputed transaction" << std::endl;
+    return false;
+}
+
+bool DisputedState::refund(Transaction& transaction, double amount) {
+    std::cout << "Refunding " << amount << " from disputed transaction " << transaction.getTransactionId() << std::endl;
+    
+    if (amount <= 0) {
+        std::cout << "Refund amount must be positive" << std::endl;
+        return false;
+    }
+    
+    if (amount > transaction.getRemainingAmount()) {
+        std::cout << "Cannot refund more than the remaining amount" << std::endl;
+        return false;
+    }
+    
+    transaction.addRefundedAmount(amount);
+    
+    if (transaction.getRemainingAmount() <= 0.001) {  // Using a small epsilon for floating-point comparison
+        transaction.setState(std::make_unique<RefundedState>());
+    } else {
+        transaction.setState(std::make_unique<PartiallyRefundedState>());
+    }
+    
+    return true;
+}
+
+TransactionStatus DisputedState::getStatus() const {
+    return TransactionStatus::DISPUTED;
+}
+
+std::string DisputedState::toString() const {
+    return "Disputed";
+}
+
+// ExpiredState implementation
+bool ExpiredState::process(Transaction& transaction) {
+    std::cout << "Cannot process an expired transaction" << std::endl;
+    return false;
+}
+
+bool ExpiredState::refund(Transaction& transaction, double amount) {
+    std::cout << "Cannot refund an expired transaction" << std::endl;
+    return false;
+}
+
+TransactionStatus ExpiredState::getStatus() const {
+    return TransactionStatus::EXPIRED;
+}
+
+std::string ExpiredState::toString() const {
+    return "Expired";
 }

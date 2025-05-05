@@ -3,6 +3,8 @@
 #include "addmerchantdialog.h"
 #include "refunddialog.h"
 #include "exportreportdialog.h"
+#include "addcarddialog.h"
+#include "managecardsdialog.h"
 #include <QMessageBox>
 #include <QDoubleValidator>
 #include <QRegularExpressionValidator>
@@ -216,6 +218,20 @@ void MainWindow::setupCustomerView() {
     paymentFormLayout->addRow("Amount ($):", m_amountEdit);
     paymentFormLayout->addRow("Payment Method:", m_paymentMethodComboBox);
     
+    // Card management section
+    QGroupBox* cardManagementGroup = new QGroupBox("Card Management", paymentGroup);
+    QVBoxLayout* cardManagementLayout = new QVBoxLayout(cardManagementGroup);
+    
+    QHBoxLayout* savedCardsLayout = new QHBoxLayout();
+    m_savedCardsComboBox = new QComboBox(cardManagementGroup);
+    m_savedCardsComboBox->addItem("+ Add New Card");
+    m_manageCardsButton = new QPushButton("Manage Cards", cardManagementGroup);
+    savedCardsLayout->addWidget(new QLabel("Saved Cards:"));
+    savedCardsLayout->addWidget(m_savedCardsComboBox, 1);
+    savedCardsLayout->addWidget(m_manageCardsButton);
+    
+    cardManagementLayout->addLayout(savedCardsLayout);
+    
     // Card details section
     m_cardFieldsGroup = new QGroupBox("Card Details", paymentGroup);
     QGridLayout* cardGridLayout = new QGridLayout(m_cardFieldsGroup);
@@ -340,6 +356,10 @@ void MainWindow::setupCustomerView() {
             this, &MainWindow::onAddCustomerClicked);
     connect(m_paymentMethodComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::onPaymentMethodSelected);
+    connect(m_savedCardsComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::onSavedCardSelected);
+    connect(m_manageCardsButton, &QPushButton::clicked,
+            this, &MainWindow::onManageCardsClicked);
     connect(m_submitButton, &QPushButton::clicked,
             this, &MainWindow::onSubmitClicked);
     connect(m_exportCustomerReportButton, &QPushButton::clicked,
@@ -409,8 +429,8 @@ void MainWindow::setupMerchantView() {
     QWidget* fraudAlertsTab = new QWidget(m_merchantTabs);
     QVBoxLayout* fraudAlertsLayout = new QVBoxLayout(fraudAlertsTab);
     
-    m_fraudAlertTable = new QTableWidget(0, 4, fraudAlertsTab);
-    m_fraudAlertTable->setHorizontalHeaderLabels({"ID", "Transaction ID", "Risk Level", "Date"});
+    m_fraudAlertTable = new QTableWidget(0, 6, fraudAlertsTab);
+    m_fraudAlertTable->setHorizontalHeaderLabels({"ID", "Transaction ID", "Risk Level", "Risk Score", "Description", "Date"});
     m_fraudAlertTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_fraudAlertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     m_fraudAlertTable->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -419,12 +439,29 @@ void MainWindow::setupMerchantView() {
     
     m_merchantTabs->addTab(fraudAlertsTab, "Fraud Alerts");
     
+    // Analytics section
+    m_analyticsGroup = new QGroupBox("Transaction Analytics", m_merchantView);
+    QGridLayout* analyticsLayout = new QGridLayout(m_analyticsGroup);
+    
+    m_totalTransactionsLabel = new QLabel("Total Transactions: 0", m_analyticsGroup);
+    m_totalVolumeLabel = new QLabel("Total Volume: $0.00", m_analyticsGroup);
+    m_avgTransactionLabel = new QLabel("Average Transaction: $0.00", m_analyticsGroup);
+    m_fraudRateLabel = new QLabel("Fraud Rate: 0.00%", m_analyticsGroup);
+    m_refundRateLabel = new QLabel("Refund Rate: 0.00%", m_analyticsGroup);
+    
+    analyticsLayout->addWidget(m_totalTransactionsLabel, 0, 0);
+    analyticsLayout->addWidget(m_totalVolumeLabel, 0, 1);
+    analyticsLayout->addWidget(m_avgTransactionLabel, 1, 0);
+    analyticsLayout->addWidget(m_fraudRateLabel, 1, 1);
+    analyticsLayout->addWidget(m_refundRateLabel, 2, 0);
+    
     // Export button
     m_exportMerchantReportButton = new QPushButton("Export Report", m_merchantView);
     m_exportMerchantReportButton->setMinimumHeight(40);
     
     // Add all sections to main layout
     mainLayout->addWidget(merchantGroup);
+    mainLayout->addWidget(m_analyticsGroup);
     mainLayout->addWidget(m_merchantTabs, 1);
     mainLayout->addWidget(m_exportMerchantReportButton);
     
@@ -719,6 +756,51 @@ void MainWindow::updateBalanceDisplay() {
 
 void MainWindow::onMerchantSelected(int index) {
     updateMerchantDetails();
+    updateAnalytics();
+}
+
+void MainWindow::updateAnalytics() {
+    const auto& transactions = m_appController->getTransactionHistory();
+    
+    // Calculate analytics
+    int totalTransactions = 0;
+    double totalVolume = 0.0;
+    int flaggedTransactions = 0;
+    int refundedTransactions = 0;
+    
+    for (const auto& transaction : transactions) {
+        // Only count transactions for the selected merchant
+        int merchantIndex = m_merchantComboBox->currentIndex();
+        if (merchantIndex >= 0 && merchantIndex < static_cast<int>(m_appController->getMerchants().size())) {
+            const Merchant& selectedMerchant = m_appController->getMerchants()[merchantIndex];
+            
+            if (transaction->getMerchant().getName() == selectedMerchant.getName()) {
+                totalTransactions++;
+                totalVolume += transaction->getAmount();
+                
+                if (transaction->getStatus() == TransactionStatus::FLAGGED_FOR_REVIEW) {
+                    flaggedTransactions++;
+                }
+                
+                if (transaction->getRefundedAmount() > 0) {
+                    refundedTransactions++;
+                }
+            }
+        }
+    }
+    
+    // Update labels
+    m_totalTransactionsLabel->setText(QString("Total Transactions: %1").arg(totalTransactions));
+    m_totalVolumeLabel->setText(QString("Total Volume: $%1").arg(totalVolume, 0, 'f', 2));
+    
+    double avgTransaction = (totalTransactions > 0) ? (totalVolume / totalTransactions) : 0.0;
+    m_avgTransactionLabel->setText(QString("Average Transaction: $%1").arg(avgTransaction, 0, 'f', 2));
+    
+    double fraudRate = (totalTransactions > 0) ? (static_cast<double>(flaggedTransactions) / totalTransactions * 100.0) : 0.0;
+    m_fraudRateLabel->setText(QString("Fraud Rate: %1%").arg(fraudRate, 0, 'f', 2));
+    
+    double refundRate = (totalTransactions > 0) ? (static_cast<double>(refundedTransactions) / totalTransactions * 100.0) : 0.0;
+    m_refundRateLabel->setText(QString("Refund Rate: %1%").arg(refundRate, 0, 'f', 2));
 }
 
 void MainWindow::onAddCustomerClicked() {
@@ -747,6 +829,62 @@ void MainWindow::onAddMerchantClicked() {
 
 void MainWindow::onPaymentMethodSelected(int index) {
     updatePaymentMethodFields();
+}
+
+void MainWindow::onSavedCardSelected(int index) {
+    if (index == 0) {
+        // "Add New Card" option selected
+        m_cardNumberEdit->clear();
+        m_cardholderNameEdit->clear();
+        m_expiryDateEdit->clear();
+        m_cvvEdit->clear();
+        return;
+    }
+    
+    // Get the selected card token
+    int customerIndex = m_customerComboBox->currentIndex();
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+        return;
+    }
+    
+    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    auto cardTokens = m_appController->getCardTokensForCustomer(customer.getName());
+    
+    if (index - 1 < static_cast<int>(cardTokens.size())) {
+        const CardToken* cardToken = cardTokens[index - 1];
+        
+        // Fill in the card details
+        m_cardNumberEdit->setText("**** **** **** " + QString::fromStdString(cardToken->getLastFourDigits()));
+        m_cardholderNameEdit->setText(QString::fromStdString(cardToken->getCardholderName()));
+        m_expiryDateEdit->setText(QString::fromStdString(cardToken->getExpiryMonth() + "/" + cardToken->getExpiryYear()));
+        m_cvvEdit->clear(); // CVV is never stored
+    }
+}
+
+void MainWindow::onManageCardsClicked() {
+    int customerIndex = m_customerComboBox->currentIndex();
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+        QMessageBox::warning(this, "Error", "Please select a customer first.");
+        return;
+    }
+    
+    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    
+    ManageCardsDialog dialog(customer.getName(), this);
+    if (dialog.exec() == QDialog::Accepted) {
+        // Refresh the saved cards combo box
+        m_savedCardsComboBox->clear();
+        m_savedCardsComboBox->addItem("+ Add New Card");
+        
+        auto cardTokens = m_appController->getCardTokensForCustomer(customer.getName());
+        for (const auto* cardToken : cardTokens) {
+            QString displayText = QString::fromStdString(cardToken->getDisplayName());
+            m_savedCardsComboBox->addItem(displayText);
+        }
+        
+        // Select "Add New Card" option
+        m_savedCardsComboBox->setCurrentIndex(0);
+    }
 }
 
 void MainWindow::onSubmitClicked() {

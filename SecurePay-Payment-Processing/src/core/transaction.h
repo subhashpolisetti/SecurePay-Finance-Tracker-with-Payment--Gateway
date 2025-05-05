@@ -19,11 +19,15 @@ class TransactionState;
  */
 enum class TransactionStatus {
     PENDING,
+    PRE_AUTHORIZED,  // New state for auth-only transactions
     APPROVED,
     DECLINED,
     FLAGGED_FOR_REVIEW,
     REFUNDED,
-    PARTIALLY_REFUNDED
+    PARTIALLY_REFUNDED,
+    SETTLED,         // New state for settled transactions
+    DISPUTED,        // New state for disputed transactions
+    EXPIRED          // New state for expired pre-authorizations
 };
 
 /**
@@ -43,6 +47,34 @@ public:
      * @return True if processing was successful, false otherwise
      */
     virtual bool process(Transaction& transaction) = 0;
+    
+    /**
+     * @brief Authorize the transaction in its current state
+     * @param transaction The transaction to authorize
+     * @return True if authorization was successful, false otherwise
+     */
+    virtual bool authorize(Transaction& transaction) {
+        return false; // Default implementation, override in specific states
+    }
+    
+    /**
+     * @brief Capture the transaction in its current state
+     * @param transaction The transaction to capture
+     * @param amount The amount to capture (0 for full amount)
+     * @return True if capture was successful, false otherwise
+     */
+    virtual bool capture(Transaction& transaction, double amount = 0) {
+        return false; // Default implementation, override in specific states
+    }
+    
+    /**
+     * @brief Void the transaction in its current state
+     * @param transaction The transaction to void
+     * @return True if void was successful, false otherwise
+     */
+    virtual bool voidTransaction(Transaction& transaction) {
+        return false; // Default implementation, override in specific states
+    }
     
     /**
      * @brief Refund the transaction in its current state
@@ -95,6 +127,18 @@ public:
      * @return The unique transaction ID
      */
     virtual std::string getTransactionId() const;
+    
+    /**
+     * @brief Get the idempotency key
+     * @return The idempotency key
+     */
+    virtual std::string getIdempotencyKey() const;
+    
+    /**
+     * @brief Set the idempotency key
+     * @param key The idempotency key
+     */
+    virtual void setIdempotencyKey(const std::string& key);
     
     /**
      * @brief Get the customer
@@ -151,6 +195,25 @@ public:
     virtual bool process();
     
     /**
+     * @brief Authorize the transaction (hold funds without capturing)
+     * @return True if authorization was successful, false otherwise
+     */
+    virtual bool authorize();
+    
+    /**
+     * @brief Capture a previously authorized transaction
+     * @param amount The amount to capture (0 for full amount)
+     * @return True if capture was successful, false otherwise
+     */
+    virtual bool capture(double amount = 0);
+    
+    /**
+     * @brief Void a previously authorized transaction
+     * @return True if void was successful, false otherwise
+     */
+    virtual bool voidTransaction();
+    
+    /**
      * @brief Refund the transaction
      * @param amount The amount to refund
      * @return True if refund was successful, false otherwise
@@ -185,6 +248,7 @@ public:
     
 private:
     std::string m_transactionId;
+    std::string m_idempotencyKey;  // New field for idempotency
     Customer m_customer;
     Merchant m_merchant;
     std::unique_ptr<PaymentMethod> m_paymentMethod;
@@ -217,6 +281,20 @@ public:
     static std::unique_ptr<Transaction> createTransaction(
         const Customer& customer, const Merchant& merchant,
         std::unique_ptr<PaymentMethod> paymentMethod, double amount);
+    
+    /**
+     * @brief Create a new transaction with an idempotency key
+     * @param customer The customer making the payment
+     * @param merchant The merchant receiving the payment
+     * @param paymentMethod The payment method used
+     * @param amount The transaction amount
+     * @param idempotencyKey The idempotency key
+     * @return A unique pointer to the created transaction
+     */
+    static std::unique_ptr<Transaction> createTransactionWithIdempotencyKey(
+        const Customer& customer, const Merchant& merchant,
+        std::unique_ptr<PaymentMethod> paymentMethod, double amount,
+        const std::string& idempotencyKey);
 };
 
 /**
@@ -226,6 +304,21 @@ public:
 class PendingState : public TransactionState {
 public:
     bool process(Transaction& transaction) override;
+    bool authorize(Transaction& transaction) override;
+    bool refund(Transaction& transaction, double amount) override;
+    TransactionStatus getStatus() const override;
+    std::string toString() const override;
+};
+
+/**
+ * @class PreAuthorizedState
+ * @brief Represents a pre-authorized transaction state
+ */
+class PreAuthorizedState : public TransactionState {
+public:
+    bool process(Transaction& transaction) override;
+    bool capture(Transaction& transaction, double amount) override;
+    bool voidTransaction(Transaction& transaction) override;
     bool refund(Transaction& transaction, double amount) override;
     TransactionStatus getStatus() const override;
     std::string toString() const override;
@@ -284,6 +377,42 @@ public:
  * @brief Represents a partially refunded transaction state
  */
 class PartiallyRefundedState : public TransactionState {
+public:
+    bool process(Transaction& transaction) override;
+    bool refund(Transaction& transaction, double amount) override;
+    TransactionStatus getStatus() const override;
+    std::string toString() const override;
+};
+
+/**
+ * @class SettledState
+ * @brief Represents a settled transaction state
+ */
+class SettledState : public TransactionState {
+public:
+    bool process(Transaction& transaction) override;
+    bool refund(Transaction& transaction, double amount) override;
+    TransactionStatus getStatus() const override;
+    std::string toString() const override;
+};
+
+/**
+ * @class DisputedState
+ * @brief Represents a disputed transaction state
+ */
+class DisputedState : public TransactionState {
+public:
+    bool process(Transaction& transaction) override;
+    bool refund(Transaction& transaction, double amount) override;
+    TransactionStatus getStatus() const override;
+    std::string toString() const override;
+};
+
+/**
+ * @class ExpiredState
+ * @brief Represents an expired transaction state
+ */
+class ExpiredState : public TransactionState {
 public:
     bool process(Transaction& transaction) override;
     bool refund(Transaction& transaction, double amount) override;

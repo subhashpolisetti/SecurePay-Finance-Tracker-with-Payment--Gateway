@@ -227,6 +227,30 @@ src/core/bank.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/bank.cpp.s
 .PHONY : src/core/bank.cpp.s
 
+src/core/cardtoken.o: src/core/cardtoken.cpp.o
+.PHONY : src/core/cardtoken.o
+
+# target to build an object file
+src/core/cardtoken.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/cardtoken.cpp.o
+.PHONY : src/core/cardtoken.cpp.o
+
+src/core/cardtoken.i: src/core/cardtoken.cpp.i
+.PHONY : src/core/cardtoken.i
+
+# target to preprocess a source file
+src/core/cardtoken.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/cardtoken.cpp.i
+.PHONY : src/core/cardtoken.cpp.i
+
+src/core/cardtoken.s: src/core/cardtoken.cpp.s
+.PHONY : src/core/cardtoken.s
+
+# target to generate assembly for a file
+src/core/cardtoken.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/cardtoken.cpp.s
+.PHONY : src/core/cardtoken.cpp.s
+
 src/core/customer.o: src/core/customer.cpp.o
 .PHONY : src/core/customer.o
 
@@ -250,6 +274,30 @@ src/core/customer.s: src/core/customer.cpp.s
 src/core/customer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/customer.cpp.s
 .PHONY : src/core/customer.cpp.s
+
+src/core/enhancedfraudsystem.o: src/core/enhancedfraudsystem.cpp.o
+.PHONY : src/core/enhancedfraudsystem.o
+
+# target to build an object file
+src/core/enhancedfraudsystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o
+.PHONY : src/core/enhancedfraudsystem.cpp.o
+
+src/core/enhancedfraudsystem.i: src/core/enhancedfraudsystem.cpp.i
+.PHONY : src/core/enhancedfraudsystem.i
+
+# target to preprocess a source file
+src/core/enhancedfraudsystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.i
+.PHONY : src/core/enhancedfraudsystem.cpp.i
+
+src/core/enhancedfraudsystem.s: src/core/enhancedfraudsystem.cpp.s
+.PHONY : src/core/enhancedfraudsystem.s
+
+# target to generate assembly for a file
+src/core/enhancedfraudsystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.s
+.PHONY : src/core/enhancedfraudsystem.cpp.s
 
 src/core/fraudalert.o: src/core/fraudalert.cpp.o
 .PHONY : src/core/fraudalert.o
@@ -563,6 +611,30 @@ src/core/transactiondecorator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.s
 .PHONY : src/core/transactiondecorator.cpp.s
 
+src/gui/addcarddialog.o: src/gui/addcarddialog.cpp.o
+.PHONY : src/gui/addcarddialog.o
+
+# target to build an object file
+src/gui/addcarddialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/addcarddialog.cpp.o
+.PHONY : src/gui/addcarddialog.cpp.o
+
+src/gui/addcarddialog.i: src/gui/addcarddialog.cpp.i
+.PHONY : src/gui/addcarddialog.i
+
+# target to preprocess a source file
+src/gui/addcarddialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/addcarddialog.cpp.i
+.PHONY : src/gui/addcarddialog.cpp.i
+
+src/gui/addcarddialog.s: src/gui/addcarddialog.cpp.s
+.PHONY : src/gui/addcarddialog.s
+
+# target to generate assembly for a file
+src/gui/addcarddialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/addcarddialog.cpp.s
+.PHONY : src/gui/addcarddialog.cpp.s
+
 src/gui/addcustomerdialog.o: src/gui/addcustomerdialog.cpp.o
 .PHONY : src/gui/addcustomerdialog.o
 
@@ -659,6 +731,30 @@ src/gui/mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.s
 .PHONY : src/gui/mainwindow.cpp.s
 
+src/gui/managecardsdialog.o: src/gui/managecardsdialog.cpp.o
+.PHONY : src/gui/managecardsdialog.o
+
+# target to build an object file
+src/gui/managecardsdialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.o
+.PHONY : src/gui/managecardsdialog.cpp.o
+
+src/gui/managecardsdialog.i: src/gui/managecardsdialog.cpp.i
+.PHONY : src/gui/managecardsdialog.i
+
+# target to preprocess a source file
+src/gui/managecardsdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.i
+.PHONY : src/gui/managecardsdialog.cpp.i
+
+src/gui/managecardsdialog.s: src/gui/managecardsdialog.cpp.s
+.PHONY : src/gui/managecardsdialog.s
+
+# target to generate assembly for a file
+src/gui/managecardsdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.s
+.PHONY : src/gui/managecardsdialog.cpp.s
+
 src/gui/refunddialog.o: src/gui/refunddialog.cpp.o
 .PHONY : src/gui/refunddialog.o
 
@@ -727,9 +823,15 @@ help:
 	@echo "... src/core/bank.o"
 	@echo "... src/core/bank.i"
 	@echo "... src/core/bank.s"
+	@echo "... src/core/cardtoken.o"
+	@echo "... src/core/cardtoken.i"
+	@echo "... src/core/cardtoken.s"
 	@echo "... src/core/customer.o"
 	@echo "... src/core/customer.i"
 	@echo "... src/core/customer.s"
+	@echo "... src/core/enhancedfraudsystem.o"
+	@echo "... src/core/enhancedfraudsystem.i"
+	@echo "... src/core/enhancedfraudsystem.s"
 	@echo "... src/core/fraudalert.o"
 	@echo "... src/core/fraudalert.i"
 	@echo "... src/core/fraudalert.s"
@@ -769,6 +871,9 @@ help:
 	@echo "... src/core/transactiondecorator.o"
 	@echo "... src/core/transactiondecorator.i"
 	@echo "... src/core/transactiondecorator.s"
+	@echo "... src/gui/addcarddialog.o"
+	@echo "... src/gui/addcarddialog.i"
+	@echo "... src/gui/addcarddialog.s"
 	@echo "... src/gui/addcustomerdialog.o"
 	@echo "... src/gui/addcustomerdialog.i"
 	@echo "... src/gui/addcustomerdialog.s"
@@ -781,6 +886,9 @@ help:
 	@echo "... src/gui/mainwindow.o"
 	@echo "... src/gui/mainwindow.i"
 	@echo "... src/gui/mainwindow.s"
+	@echo "... src/gui/managecardsdialog.o"
+	@echo "... src/gui/managecardsdialog.i"
+	@echo "... src/gui/managecardsdialog.s"
 	@echo "... src/gui/refunddialog.o"
 	@echo "... src/gui/refunddialog.i"
 	@echo "... src/gui/refunddialog.s"

@@ -45,6 +45,8 @@ static constexpr auto qt_meta_stringdata_ZN10MainWindowE = QtMocHelpers::stringD
     "onCustomerSelected",
     "onAddCustomerClicked",
     "onPaymentMethodSelected",
+    "onSavedCardSelected",
+    "onManageCardsClicked",
     "onSubmitClicked",
     "onExportCustomerReportClicked",
     "onDepositClicked",
@@ -54,6 +56,7 @@ static constexpr auto qt_meta_stringdata_ZN10MainWindowE = QtMocHelpers::stringD
     "onAddMerchantClicked",
     "onProcessRefundClicked",
     "onExportMerchantReportClicked",
+    "updateAnalytics",
     "onTransactionUpdated",
     "Transaction",
     "transaction"
@@ -68,7 +71,7 @@ Q_CONSTINIT static const uint qt_meta_data_ZN10MainWindowE[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      17,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -76,26 +79,31 @@ Q_CONSTINIT static const uint qt_meta_data_ZN10MainWindowE[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   98,    2, 0x08,    1 /* Private */,
-       4,    1,  101,    2, 0x08,    3 /* Private */,
-       5,    0,  104,    2, 0x08,    5 /* Private */,
-       6,    1,  105,    2, 0x08,    6 /* Private */,
-       7,    0,  108,    2, 0x08,    8 /* Private */,
-       8,    0,  109,    2, 0x08,    9 /* Private */,
-       9,    0,  110,    2, 0x08,   10 /* Private */,
-      10,    0,  111,    2, 0x08,   11 /* Private */,
-      11,    0,  112,    2, 0x08,   12 /* Private */,
-      12,    1,  113,    2, 0x08,   13 /* Private */,
-      13,    0,  116,    2, 0x08,   15 /* Private */,
-      14,    0,  117,    2, 0x08,   16 /* Private */,
-      15,    0,  118,    2, 0x08,   17 /* Private */,
-      16,    1,  119,    2, 0x08,   18 /* Private */,
+       1,    1,  116,    2, 0x08,    1 /* Private */,
+       4,    1,  119,    2, 0x08,    3 /* Private */,
+       5,    0,  122,    2, 0x08,    5 /* Private */,
+       6,    1,  123,    2, 0x08,    6 /* Private */,
+       7,    1,  126,    2, 0x08,    8 /* Private */,
+       8,    0,  129,    2, 0x08,   10 /* Private */,
+       9,    0,  130,    2, 0x08,   11 /* Private */,
+      10,    0,  131,    2, 0x08,   12 /* Private */,
+      11,    0,  132,    2, 0x08,   13 /* Private */,
+      12,    0,  133,    2, 0x08,   14 /* Private */,
+      13,    0,  134,    2, 0x08,   15 /* Private */,
+      14,    1,  135,    2, 0x08,   16 /* Private */,
+      15,    0,  138,    2, 0x08,   18 /* Private */,
+      16,    0,  139,    2, 0x08,   19 /* Private */,
+      17,    0,  140,    2, 0x08,   20 /* Private */,
+      18,    0,  141,    2, 0x08,   21 /* Private */,
+      19,    1,  142,    2, 0x08,   22 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -105,7 +113,8 @@ Q_CONSTINIT static const uint qt_meta_data_ZN10MainWindowE[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 17,   18,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 20,   21,
 
        0        // eod
 };
@@ -130,6 +139,11 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'onPaymentMethodSelected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onSavedCardSelected'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onManageCardsClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onSubmitClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onExportCustomerReportClicked'
@@ -149,6 +163,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onExportMerchantReportClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'updateAnalytics'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onTransactionUpdated'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const Transaction &, std::false_type>
@@ -165,16 +181,19 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->onCustomerSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 2: _t->onAddCustomerClicked(); break;
         case 3: _t->onPaymentMethodSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 4: _t->onSubmitClicked(); break;
-        case 5: _t->onExportCustomerReportClicked(); break;
-        case 6: _t->onDepositClicked(); break;
-        case 7: _t->onCheckBalanceClicked(); break;
-        case 8: _t->updateBalanceDisplay(); break;
-        case 9: _t->onMerchantSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 10: _t->onAddMerchantClicked(); break;
-        case 11: _t->onProcessRefundClicked(); break;
-        case 12: _t->onExportMerchantReportClicked(); break;
-        case 13: _t->onTransactionUpdated((*reinterpret_cast< std::add_pointer_t<Transaction>>(_a[1]))); break;
+        case 4: _t->onSavedCardSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 5: _t->onManageCardsClicked(); break;
+        case 6: _t->onSubmitClicked(); break;
+        case 7: _t->onExportCustomerReportClicked(); break;
+        case 8: _t->onDepositClicked(); break;
+        case 9: _t->onCheckBalanceClicked(); break;
+        case 10: _t->updateBalanceDisplay(); break;
+        case 11: _t->onMerchantSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 12: _t->onAddMerchantClicked(); break;
+        case 13: _t->onProcessRefundClicked(); break;
+        case 14: _t->onExportMerchantReportClicked(); break;
+        case 15: _t->updateAnalytics(); break;
+        case 16: _t->onTransactionUpdated((*reinterpret_cast< std::add_pointer_t<Transaction>>(_a[1]))); break;
         default: ;
         }
     }
@@ -199,14 +218,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 17;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 17)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 14;
+        _id -= 17;
     }
     return _id;
 }

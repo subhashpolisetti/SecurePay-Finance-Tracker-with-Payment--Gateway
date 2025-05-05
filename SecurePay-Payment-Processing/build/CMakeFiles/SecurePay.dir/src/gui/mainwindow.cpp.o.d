@@ -525,21 +525,40 @@ CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.o: \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/paymentgateway.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/fraudsystem.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/bank.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/paymentgatewayfacade.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/enhancedfraudsystem.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/fraudalert.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/cardtoken.h \
+ /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
+ /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+ /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
+ /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/transaction.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/refundmanager.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/refund.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/reportmanager.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/fraudalert.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcustomerdialog.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/enhancedfraudsystem.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/cardtoken.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QDialog \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qdialog.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QListWidget \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qlistwidget.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qlistview.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QHBoxLayout \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qdialog.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qdialogbuttonbox.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcarddialog.h \
+ /opt/homebrew/lib/QtGui.framework/Headers/QRegularExpressionValidator \
+ /opt/homebrew/lib/QtGui.framework/Headers/qvalidator.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcustomerdialog.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/customer.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QHBoxLayout \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/merchant.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.h \
  /opt/homebrew/lib/QtGui.framework/Headers/QDoubleValidator \
- /opt/homebrew/lib/QtGui.framework/Headers/qvalidator.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QTextEdit \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qtextedit.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QRadioButton \
@@ -589,11 +608,6 @@ CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.o: \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/fs_dir.h \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/fs_ops.h \
  /opt/homebrew/lib/QtCore.framework/Headers/qfileinfo.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qdialog.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qdialogbuttonbox.h \
- /opt/homebrew/lib/QtGui.framework/Headers/QRegularExpressionValidator \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QHeaderView \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qheaderview.h \
  /opt/homebrew/lib/QtCore.framework/Headers/QDateTime \

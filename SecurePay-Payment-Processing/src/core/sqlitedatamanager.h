@@ -118,6 +118,34 @@ public:
         const std::vector<std::unique_ptr<Transaction>>& transactions) override;
     
     /**
+     * @brief Save a card token to the SQLite database
+     * @param cardToken The card token to save
+     * @return True if save was successful, false otherwise
+     */
+    bool saveCardToken(const CardToken& cardToken) override;
+    
+    /**
+     * @brief Load all card tokens from the SQLite database
+     * @return Vector of unique pointers to card tokens
+     */
+    std::vector<std::unique_ptr<CardToken>> loadCardTokens() override;
+    
+    /**
+     * @brief Delete a card token from the SQLite database
+     * @param token The token to delete
+     * @return True if deletion was successful, false otherwise
+     */
+    bool deleteCardToken(const std::string& token) override;
+    
+    /**
+     * @brief Load card tokens for a specific customer
+     * @param customerId The customer ID
+     * @return Vector of unique pointers to card tokens
+     */
+    std::vector<std::unique_ptr<CardToken>> loadCardTokensForCustomer(
+        const std::string& customerId) override;
+    
+    /**
      * @brief Find a customer by name
      * @param name The customer name
      * @param customers Vector of customers to search

@@ -412,6 +412,12 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/cardtoken.h",
+			"MU",
+			"PRMOGMWJPH/moc_cardtoken.cpp",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/customer.h",
 			"MU",
 			"PRMOGMWJPH/moc_customer.cpp",
@@ -421,6 +427,12 @@
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/datamanager.h",
 			"MU",
 			"PRMOGMWJPH/moc_datamanager.cpp",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/enhancedfraudsystem.h",
+			"MU",
+			"PRMOGMWJPH/moc_enhancedfraudsystem.cpp",
 			null
 		],
 		[
@@ -502,6 +514,12 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/addcarddialog.h",
+			"MU",
+			"MXUWEOXILK/moc_addcarddialog.cpp",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/addcustomerdialog.h",
 			"MU",
 			"MXUWEOXILK/moc_addcustomerdialog.cpp",
@@ -523,6 +541,12 @@
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h",
 			"MU",
 			"MXUWEOXILK/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h",
+			"MU",
+			"MXUWEOXILK/moc_managecardsdialog.cpp",
 			null
 		],
 		[
@@ -620,7 +644,17 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/cardtoken.cpp",
+			"MU",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/customer.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/core/enhancedfraudsystem.cpp",
 			"MU",
 			null
 		],
@@ -690,6 +724,11 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/addcarddialog.cpp",
+			"MU",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/addcustomerdialog.cpp",
 			"MU",
 			null
@@ -706,6 +745,11 @@
 		],
 		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.cpp",
 			"MU",
 			null
 		],

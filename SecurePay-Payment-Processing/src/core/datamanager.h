@@ -9,6 +9,7 @@
 #include "transaction.h"
 #include "refund.h"
 #include "fraudalert.h"
+#include "cardtoken.h"
 
 /**
  * @class DataManager
@@ -111,6 +112,34 @@ public:
      */
     virtual std::vector<std::unique_ptr<FraudAlert>> loadFraudAlerts(
         const std::vector<std::unique_ptr<Transaction>>& transactions) = 0;
+    
+    /**
+     * @brief Save a card token to storage
+     * @param cardToken The card token to save
+     * @return True if save was successful, false otherwise
+     */
+    virtual bool saveCardToken(const CardToken& cardToken) = 0;
+    
+    /**
+     * @brief Load all card tokens from storage
+     * @return Vector of unique pointers to card tokens
+     */
+    virtual std::vector<std::unique_ptr<CardToken>> loadCardTokens() = 0;
+    
+    /**
+     * @brief Delete a card token from storage
+     * @param token The token to delete
+     * @return True if deletion was successful, false otherwise
+     */
+    virtual bool deleteCardToken(const std::string& token) = 0;
+    
+    /**
+     * @brief Load card tokens for a specific customer
+     * @param customerId The customer ID
+     * @return Vector of unique pointers to card tokens
+     */
+    virtual std::vector<std::unique_ptr<CardToken>> loadCardTokensForCustomer(
+        const std::string& customerId) = 0;
 };
 
 #endif // DATAMANAGER_H
