@@ -61,6 +61,7 @@ SecurePay_autogen/timestamp: \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/qos.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/sched.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h \
+	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
 	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
@@ -178,6 +179,8 @@ SecurePay_autogen/timestamp: \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcustomerdialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.h \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.cpp \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.cpp \
@@ -528,6 +531,7 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qtransform.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qvalidator.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qwindowdefs.h \
+	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QCheckBox \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QComboBox \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QDateEdit \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QDialog \
@@ -557,6 +561,7 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractslider.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractspinbox.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qboxlayout.h \
+	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qcheckbox.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qcombobox.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qdatetimeedit.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qdialog.h \

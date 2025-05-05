@@ -12,6 +12,7 @@
 #include "paymentgatewayfacade.h"
 #include "enhancedfraudsystem.h"
 #include "cardtoken.h"
+#include "sqlitedatamanager.h"
 
 /**
  * @class AppController
@@ -160,6 +161,18 @@ public:
      */
     void setTransactionUpdateCallback(std::function<void(const Transaction&)> callback);
     
+    /**
+     * @brief Save all data to the database
+     * @return True if save was successful, false otherwise
+     */
+    bool saveAllData();
+    
+    /**
+     * @brief Load all data from the database
+     * @return True if load was successful, false otherwise
+     */
+    bool loadAllData();
+
 private:
     /**
      * @brief Vector of customers
@@ -185,6 +198,11 @@ private:
      * @brief Transaction update callback
      */
     std::function<void(const Transaction&)> m_transactionUpdateCallback;
+    
+    /**
+     * @brief Data manager for persistence
+     */
+    std::unique_ptr<SQLiteDataManager> m_dataManager;
     
     /**
      * @brief Create a payment method

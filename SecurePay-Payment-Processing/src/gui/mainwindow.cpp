@@ -343,11 +343,17 @@ void MainWindow::setupCustomerView() {
     transactionLayout->addWidget(resultGroup);
     transactionLayout->addWidget(historyGroup);
     
+    // E-commerce checkout button
+    QPushButton* checkoutButton = new QPushButton("Open E-Commerce Checkout", m_customerView);
+    checkoutButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;");
+    checkoutButton->setMinimumHeight(40);
+    
     // Add all sections to main layout
     mainLayout->addWidget(customerGroup);
     mainLayout->addWidget(m_depositGroup);
     mainLayout->addWidget(paymentGroup);
     mainLayout->addLayout(transactionLayout);
+    mainLayout->addWidget(checkoutButton);
     
     // Connect signals
     connect(m_customerComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -368,6 +374,8 @@ void MainWindow::setupCustomerView() {
             this, &MainWindow::onDepositClicked);
     connect(m_checkBalanceButton, &QPushButton::clicked,
             this, &MainWindow::onCheckBalanceClicked);
+    connect(checkoutButton, &QPushButton::clicked,
+            this, &MainWindow::onOpenCheckoutClicked);
 }
 
 void MainWindow::setupMerchantView() {
@@ -1086,4 +1094,18 @@ void MainWindow::onTransactionUpdated(const Transaction& transaction) {
     updateBalanceDisplay();
     
     statusBar()->showMessage("Transaction updated: " + QString::fromUtf8(transaction.getTransactionId().c_str()));
+}
+
+void MainWindow::onOpenCheckoutClicked() {
+    CheckoutScreen checkoutScreen(m_appController.get(), this);
+    
+    if (checkoutScreen.exec() == QDialog::Accepted) {
+        // Update transaction history after checkout
+        updateCustomerTransactionHistory();
+        updateMerchantTransactionHistory();
+        updateBalanceDisplay();
+        
+        // Show success message
+        statusBar()->showMessage("E-commerce checkout completed successfully");
+    }
 }

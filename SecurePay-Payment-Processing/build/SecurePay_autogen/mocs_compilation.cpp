@@ -2,6 +2,7 @@
 #include "MXUWEOXILK/moc_addcarddialog.cpp"
 #include "MXUWEOXILK/moc_addcustomerdialog.cpp"
 #include "MXUWEOXILK/moc_addmerchantdialog.cpp"
+#include "MXUWEOXILK/moc_checkoutscreen.cpp"
 #include "MXUWEOXILK/moc_exportreportdialog.cpp"
 #include "MXUWEOXILK/moc_mainwindow.cpp"
 #include "MXUWEOXILK/moc_managecardsdialog.cpp"

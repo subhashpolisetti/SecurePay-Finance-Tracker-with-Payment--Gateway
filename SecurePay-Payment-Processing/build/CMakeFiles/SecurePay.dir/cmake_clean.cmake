@@ -46,6 +46,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/SecurePay.dir/src/gui/addcustomerdialog.cpp.o.d"
   "CMakeFiles/SecurePay.dir/src/gui/addmerchantdialog.cpp.o"
   "CMakeFiles/SecurePay.dir/src/gui/addmerchantdialog.cpp.o.d"
+  "CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o"
+  "CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o.d"
   "CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o"
   "CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o.d"
   "CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.o"

@@ -24,6 +24,7 @@
 #include "../core/cardtoken.h"
 #include "managecardsdialog.h"
 #include "addcarddialog.h"
+#include "checkoutscreen.h"
 
 // Enum for user roles
 enum class UserRole {
@@ -139,6 +140,9 @@ private slots:
     
     // Common slots
     void onTransactionUpdated(const Transaction& transaction);
+    
+    // E-commerce checkout
+    void onOpenCheckoutClicked();
 };
 
 #endif

@@ -532,6 +532,12 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h",
+			"MU",
+			"MXUWEOXILK/moc_checkoutscreen.cpp",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h",
 			"MU",
 			"MXUWEOXILK/moc_exportreportdialog.cpp",
@@ -735,6 +741,11 @@
 		],
 		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.cpp",
 			"MU",
 			null
 		],

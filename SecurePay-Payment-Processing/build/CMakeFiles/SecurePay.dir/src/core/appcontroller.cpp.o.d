@@ -275,8 +275,11 @@ CMakeFiles/SecurePay.dir/src/core/appcontroller.cpp.o: \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refundmanager.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/sqlitedatamanager.h \
+ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/datamanager.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refund.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refundmanager.h \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iostream \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ios \
