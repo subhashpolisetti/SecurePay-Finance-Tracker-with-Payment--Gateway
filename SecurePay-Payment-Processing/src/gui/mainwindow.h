@@ -25,6 +25,7 @@
 #include "managecardsdialog.h"
 #include "addcarddialog.h"
 #include "checkoutscreen.h"
+#include "logindialog.h"
 
 // Forward declaration
 struct CheckoutPayload;
@@ -44,7 +45,7 @@ public:
     
 private:
     // Core components
-    std::unique_ptr<AppController> m_appController;
+    AppController& m_appController;
     RefundManager* m_refundManager;
     ReportManager* m_reportManager;
     
@@ -54,8 +55,11 @@ private:
     
     // Customer view widgets
     QWidget* m_customerView;
+    QLabel* m_customerNameLabel;
     QComboBox* m_customerComboBox;
     QPushButton* m_addCustomerButton;
+    QPushButton* m_loginButton;
+    QPushButton* m_logoutButton;
     QLabel* m_customerDetailsLabel;
     QLabel* m_balanceLabel;
     QLineEdit* m_amountEdit;
@@ -118,9 +122,17 @@ private:
     void updateRefundHistory();
     void updateFraudAlerts();
     
+    // Authentication methods
+    void showLoginDialog();
+    void updateAuthenticationStatus();
+    
 private slots:
     // Role selection
     void onRoleChanged(int index);
+    
+    // Authentication slots
+    void onLoginClicked();
+    void onLogoutClicked();
     
     // Customer view slots
     void onCustomerSelected(int index);

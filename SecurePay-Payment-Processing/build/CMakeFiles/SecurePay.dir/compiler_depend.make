@@ -185,6 +185,8 @@ SecurePay_autogen/timestamp: /Applications/Xcode.app/Contents/Developer/Platform
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.cpp \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.cpp \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.cpp \
@@ -1038,6 +1040,7 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: SecurePay_aut
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.h \
@@ -1046,6 +1049,7 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: SecurePay_aut
   SecurePay_autogen/MXUWEOXILK/moc_addmerchantdialog.cpp \
   SecurePay_autogen/MXUWEOXILK/moc_checkoutscreen.cpp \
   SecurePay_autogen/MXUWEOXILK/moc_exportreportdialog.cpp \
+  SecurePay_autogen/MXUWEOXILK/moc_logindialog.cpp \
   SecurePay_autogen/MXUWEOXILK/moc_mainwindow.cpp \
   SecurePay_autogen/MXUWEOXILK/moc_managecardsdialog.cpp \
   SecurePay_autogen/MXUWEOXILK/moc_refunddialog.cpp \
@@ -1645,10 +1649,12 @@ CMakeFiles/SecurePay.dir/src/core/appcontroller.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/binders.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bit \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/algorithmfwd.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/align.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/alloc_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/allocated_ptr.h \
@@ -1707,10 +1713,12 @@ CMakeFiles/SecurePay.dir/src/core/appcontroller.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_bvector.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_construct.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_function.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_heap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_funcs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
@@ -1770,8 +1778,10 @@ CMakeFiles/SecurePay.dir/src/core/appcontroller.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/optional \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
@@ -1939,6 +1949,7 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/binders.h \
@@ -1987,12 +1998,15 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_bvector.h \
@@ -2003,6 +2017,7 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -2013,6 +2028,7 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf_iterator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/string_view.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stringfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uniform_int_dist.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unique_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator_args.h \
@@ -2023,6 +2039,7 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
@@ -2050,21 +2067,37 @@ CMakeFiles/SecurePay.dir/src/core/bank.cpp.o: /Users/subhashpolisetti/Documents/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -2509,7 +2542,10 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/messages_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/time_members.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/binders.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bit \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/alloc_traits.h \
@@ -2520,6 +2556,7 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/basic_string.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/char_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/charconv.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/codecvt.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/concept_check.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/cpp_type_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/cxxabi_forced.h \
@@ -2536,8 +2573,11 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/istream.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_classes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_classes.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_conv.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets_nonio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets_nonio.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/localefwd.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/memory_resource.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/memoryfwd.h \
@@ -2550,11 +2590,17 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/quoted_string.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/sstream.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_bvector.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_construct.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_function.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator.h \
@@ -2562,23 +2608,31 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tree.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_uninitialized.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_vector.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf_iterator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/string_view.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stringfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uniform_int_dist.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator_args.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/utility.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/vector.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/version.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cctype \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdlib \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ctime \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cwchar \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cwctype \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/debug/assertions.h \
@@ -2591,23 +2645,45 @@ CMakeFiles/SecurePay.dir/src/core/customer.cpp.o: /Users/subhashpolisetti/Docume
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/string_conversions.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/type_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/initializer_list \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iomanip \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ios \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iosfwd \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/istream \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/limits \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/locale \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/sstream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -2748,6 +2824,7 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/messages_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/time_members.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
@@ -2808,6 +2885,8 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/regex.h \
@@ -2826,6 +2905,7 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/sstream.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
@@ -2841,6 +2921,7 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_stack.h \
@@ -2865,6 +2946,7 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
@@ -2896,11 +2978,14 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/regex \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/sstream \
@@ -2910,12 +2995,25 @@ CMakeFiles/SecurePay.dir/src/core/enhancedfraudsystem.cpp.o: /Users/subhashpolis
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -3350,6 +3448,7 @@ CMakeFiles/SecurePay.dir/src/core/fraudsystem.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
@@ -3400,12 +3499,15 @@ CMakeFiles/SecurePay.dir/src/core/fraudsystem.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
@@ -3418,6 +3520,7 @@ CMakeFiles/SecurePay.dir/src/core/fraudsystem.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -3439,6 +3542,7 @@ CMakeFiles/SecurePay.dir/src/core/fraudsystem.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
@@ -3466,22 +3570,38 @@ CMakeFiles/SecurePay.dir/src/core/fraudsystem.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -3623,6 +3743,7 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
@@ -3675,12 +3796,15 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
@@ -3692,6 +3816,7 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -3702,6 +3827,7 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf_iterator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/string_view.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stringfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uniform_int_dist.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unique_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unordered_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator.h \
@@ -3713,6 +3839,7 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
@@ -3742,22 +3869,38 @@ CMakeFiles/SecurePay.dir/src/core/lazyreport.cpp.o: /Users/subhashpolisetti/Docu
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -4073,6 +4216,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgateway.cpp.o: /Users/subhashpolisetti/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
@@ -4127,12 +4271,15 @@ CMakeFiles/SecurePay.dir/src/core/paymentgateway.cpp.o: /Users/subhashpolisetti/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
@@ -4146,6 +4293,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgateway.cpp.o: /Users/subhashpolisetti/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -4168,6 +4316,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgateway.cpp.o: /Users/subhashpolisetti/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
@@ -4197,23 +4346,39 @@ CMakeFiles/SecurePay.dir/src/core/paymentgateway.cpp.o: /Users/subhashpolisetti/
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -4354,6 +4519,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgatewayfacade.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
@@ -4408,12 +4574,15 @@ CMakeFiles/SecurePay.dir/src/core/paymentgatewayfacade.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
@@ -4427,6 +4596,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgatewayfacade.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -4449,6 +4619,7 @@ CMakeFiles/SecurePay.dir/src/core/paymentgatewayfacade.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
@@ -4478,23 +4649,39 @@ CMakeFiles/SecurePay.dir/src/core/paymentgatewayfacade.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -5171,6 +5358,7 @@ CMakeFiles/SecurePay.dir/src/core/refundmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
@@ -5221,12 +5409,15 @@ CMakeFiles/SecurePay.dir/src/core/refundmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
@@ -5239,6 +5430,7 @@ CMakeFiles/SecurePay.dir/src/core/refundmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -5260,6 +5452,7 @@ CMakeFiles/SecurePay.dir/src/core/refundmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
@@ -5287,22 +5480,38 @@ CMakeFiles/SecurePay.dir/src/core/refundmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -5449,6 +5658,7 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/messages_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/time_members.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
@@ -5510,12 +5720,15 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/quoted_string.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/sstream.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
@@ -5530,6 +5743,7 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -5552,6 +5766,7 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
@@ -5584,11 +5799,14 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/sstream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
@@ -5596,12 +5814,25 @@ CMakeFiles/SecurePay.dir/src/core/reportmanager.cpp.o: /Users/subhashpolisetti/D
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -6332,6 +6563,7 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/messages_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/time_members.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
@@ -6387,12 +6619,15 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/quoted_string.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/sstream.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
@@ -6404,6 +6639,7 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
@@ -6414,6 +6650,7 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf_iterator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/string_view.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stringfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uniform_int_dist.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unique_ptr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator_args.h \
@@ -6424,6 +6661,7 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
@@ -6454,10 +6692,13 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/sstream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
@@ -6465,11 +6706,24 @@ CMakeFiles/SecurePay.dir/src/core/transactiondecorator.cpp.o: /Users/subhashpoli
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
@@ -7122,6 +7376,7 @@ CMakeFiles/SecurePay.dir/src/gui/addcustomerdialog.cpp.o: /Users/subhashpolisett
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
@@ -7172,6 +7427,8 @@ CMakeFiles/SecurePay.dir/src/gui/addcustomerdialog.cpp.o: /Users/subhashpolisett
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
@@ -7256,6 +7513,7 @@ CMakeFiles/SecurePay.dir/src/gui/addcustomerdialog.cpp.o: /Users/subhashpolisett
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdlib.h \
@@ -8666,6 +8924,7 @@ CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o: /Users/subhashpoliset
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/messages_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/time_members.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
@@ -8732,6 +8991,8 @@ CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o: /Users/subhashpoliset
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/quoted_string.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
@@ -8825,6 +9086,7 @@ CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o: /Users/subhashpoliset
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/sstream \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
@@ -9078,6 +9340,523 @@ CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.o: /Users/subhashpoliset
   /opt/homebrew/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h
 
+CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/___wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/__wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctermid.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_locale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_printf.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_time.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctype_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wchar.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/ctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/errno.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/limits.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/locale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/limits.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/pthread_impl.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/qos.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/sched.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_cond_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_condattr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_key_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_mutex_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_mutexattr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_once_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_rwlock_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_rwlockattr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_clock_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mach_port_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mbstate_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_off_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_seek_set.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_time_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timespec.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_va_list.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wint_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/errno.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/qos.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/stdio.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/time.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wchar.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/pthread.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/appcontroller.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/bank.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/cardtoken.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/customer.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/datamanager.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/enhancedfraudsystem.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/fraudalert.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/fraudsystem.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/merchant.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentgateway.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentgatewayfacade.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentmethod.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refund.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/sqlitedatamanager.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/transaction.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/atomic_word.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/c++allocator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/c++config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/c++locale.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/cpu_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/atomic \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/auto_ptr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/backward/binders.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bit \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/algorithmfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/align.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/alloc_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/allocated_ptr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/allocator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/atomic_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/atomic_lockfree_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/basic_string.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/basic_string.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/char_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/charconv.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/chrono.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/concept_check.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/cpp_type_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/cxxabi_forced.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/cxxabi_init_exception.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/enable_special_members.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/erase_if.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/exception.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/exception_defines.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/exception_ptr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/functexcept.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/functional_hash.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/hash_bytes.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/hashtable.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/hashtable_policy.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/invoke.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ios_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/list.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_classes.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_classes.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/localefwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/memory_resource.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/memoryfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/move.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/nested_exception.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/new_allocator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/node_handle.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ostream_insert.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/parse_numbers.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_atomic.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/shared_ptr_base.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/specfun.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_abs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/std_function.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algo.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_algobase.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_bvector.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_construct.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_function.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_heap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_funcs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_iterator_base_types.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_list.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_map.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_multimap.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_numeric.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_pair.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_raw_storage_iter.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_relops.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tempbuf.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_tree.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_uninitialized.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_vector.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stream_iterator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/streambuf_iterator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/string_view.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stringfwd.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uniform_int_dist.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unique_ptr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/unordered_map.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/uses_allocator_args.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/utility.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/vector.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/version.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cassert \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cctype \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cerrno \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/chrono \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/climits \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/clocale \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cmath \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/compare \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/concepts \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstddef \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdint \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdio \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdlib \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstring \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ctime \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cwchar \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/debug/assertions.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/debug/debug.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/exception \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/aligned_buffer.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/alloc_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/atomicity.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/concurrence.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/numeric_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/string_conversions.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ext/type_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/functional \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/initializer_list \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iosfwd \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iterator \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/limits \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/list \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/map \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/memory \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/new \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/numeric \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/optional \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/execution_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_algorithm_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdlib.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/streambuf \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/string_view \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/system_error \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/bessel_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/beta_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/ell_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/exp_integral.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/gamma.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/hypergeometric.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/legendre_function.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/modified_bessel_func.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_hermite.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/poly_laguerre.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/riemann_zeta.tcc \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tr1/special_function_util.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/tuple \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/type_traits \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/typeinfo \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/unordered_map \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/utility \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/variant \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/version \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/_stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/math.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdint.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include-fixed/stdio.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/limits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdbool.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stddef.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdint.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/syslimits.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/q20functional.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/q20iterator.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/q20memory.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/q20type_traits.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/q23utility.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qalgorithms.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qanystringview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qarraydata.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qarraydataops.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qarraydatapointer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qassert.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qatomic.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qatomic_cxx11.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbasicatomic.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbindingstorage.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbytearray.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbytearrayalgorithms.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbytearraylist.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qbytearrayview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qchar.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcompare.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcompare_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcomparehelpers.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcompilerdetection.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qconfig.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qconstructormacros.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcontainerfwd.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcontainerinfo.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcontainertools_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qcontiguouscache.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdarwinhelpers.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdatastream.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qdebug.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qendian.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qexceptionhandling.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qflags.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfloat16.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qforeach.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfunctionaltools_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qfunctionpointer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qgenericatomic.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qglobal.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qglobalstatic.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qhash.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qhashfunctions.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qiodevice.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qiodevicebase.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qiterable.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qiterator.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qlatin1stringview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qline.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qlist.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qlocale.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qlogging.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmalloc.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmap.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmargins.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmath.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmetacontainer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qmetatype.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qminmax.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qnamespace.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qnumeric.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qobject.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qobject_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qobjectdefs.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qobjectdefs_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qoverload.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qpair.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qpoint.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qprocessordetection.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qrect.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qrefcount.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qregularexpression.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qscopedpointer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qscopeguard.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qset.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qshareddata.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qshareddata_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qsharedpointer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qsharedpointer_impl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qsize.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qspan.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstring.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringalgorithms.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringbuilder.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringconverter.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringconverter_base.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringfwd.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringlist.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringliteral.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringmatcher.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringtokenizer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qstringview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qswap.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qsysinfo.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qsystemdetection.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtaggedpointer.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtclasshelpermacros.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtconfiginclude.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtconfigmacros.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtcore-config.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtcoreexports.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtdeprecationdefinitions.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtdeprecationmarkers.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtenvironmentvariables.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtextstream.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtmetamacros.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtnoop.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtpreprocessorsupport.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtresource.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qttranslation.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qttypetraits.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtversion.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtversionchecks.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtypeinfo.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qtypes.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qurl.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qutf8stringview.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qvariant.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qvarlengtharray.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qversiontagging.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qxptype_traits.h \
+  /opt/homebrew/lib/QtCore.framework/Headers/qyieldcpu.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/QRegularExpressionValidator \
+  /opt/homebrew/lib/QtGui.framework/Headers/qaction.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qbitmap.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qbrush.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qcolor.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qcursor.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qfont.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qfontinfo.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qfontmetrics.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qicon.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qimage.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qkeysequence.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpaintdevice.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpalette.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpen.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpicture.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpixelformat.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpixmap.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qpolygon.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qregion.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qrgb.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qrgba64.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtextcursor.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtextdocument.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtextformat.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtextoption.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtgui-config.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtguiexports.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtguiglobal.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qtransform.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qvalidator.h \
+  /opt/homebrew/lib/QtGui.framework/Headers/qwindowdefs.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QDialog \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QFormLayout \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QGroupBox \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QHBoxLayout \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QLabel \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QLayout \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QLineEdit \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QRadioButton \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QVBoxLayout \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractbutton.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qboxlayout.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qdialog.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qdialogbuttonbox.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qformlayout.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qframe.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qgridlayout.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qgroupbox.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qlabel.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qlayout.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qlayoutitem.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qlineedit.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qradiobutton.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qsizepolicy.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qtwidgets-config.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qtwidgetsexports.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qwidget.h
+
 CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.o: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -9231,6 +10010,7 @@ CMakeFiles/SecurePay.dir/src/gui/mainwindow.cpp.o: /Users/subhashpolisetti/Docum
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.h \
@@ -10347,6 +11127,7 @@ CMakeFiles/SecurePay.dir/src/gui/refunddialog.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/opt_random.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/os_defines.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/algorithm \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/array \
@@ -10397,6 +11178,8 @@ CMakeFiles/SecurePay.dir/src/gui/refunddialog.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/postypes.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/predefined_ops.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ptr_traits.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/random.tcc \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/range_access.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/refwrap.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/requires_hosted.h \
@@ -10481,6 +11264,7 @@ CMakeFiles/SecurePay.dir/src/gui/refunddialog.cpp.o: /Users/subhashpolisetti/Doc
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_memory_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/glue_numeric_defs.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/pstl/pstl_config.h \
+  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/random \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ratio \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdexcept \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/stdlib.h \
@@ -10872,6 +11656,7 @@ CMakeFiles/SecurePay.dir/src/main.cpp.o: /Users/subhashpolisetti/Documents/Softw
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/transaction.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcarddialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/atomic_word.h \
@@ -11255,6 +12040,7 @@ CMakeFiles/SecurePay.dir/src/main.cpp.o: /Users/subhashpolisetti/Documents/Softw
   /opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
   /opt/homebrew/lib/QtWidgets.framework/Headers/QMessageBox \
   /opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/QRadioButton \
   /opt/homebrew/lib/QtWidgets.framework/Headers/QScrollArea \
   /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
   /opt/homebrew/lib/QtWidgets.framework/Headers/QStatusBar \
@@ -11287,6 +12073,7 @@ CMakeFiles/SecurePay.dir/src/main.cpp.o: /Users/subhashpolisetti/Documents/Softw
   /opt/homebrew/lib/QtWidgets.framework/Headers/qmainwindow.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qmessagebox.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
+  /opt/homebrew/lib/QtWidgets.framework/Headers/qradiobutton.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qrubberband.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qscrollarea.h \
   /opt/homebrew/lib/QtWidgets.framework/Headers/qsizepolicy.h \
@@ -11685,6 +12472,8 @@ CMakeFiles/SecurePay.dir/src/main.cpp.o: /Users/subhashpolisetti/Documents/Softw
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/ctype_inline.h:
 
 SecurePay_autogen/MXUWEOXILK/moc_refunddialog.cpp:
+
+SecurePay_autogen/MXUWEOXILK/moc_logindialog.cpp:
 
 SecurePay_autogen/MXUWEOXILK/moc_addcustomerdialog.cpp:
 
@@ -12162,9 +12951,9 @@ SecurePay_autogen/moc_predefs.h:
 
 /opt/homebrew/lib/QtGui.framework/Headers/qpaintdevice.h:
 
-/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qmetatype.h:
-
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qfontinfo.h:
+
+/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qmetatype.h:
 
 /opt/homebrew/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake:
 
@@ -12528,6 +13317,8 @@ SecurePay_autogen/MXUWEOXILK/moc_addmerchantdialog.cpp:
 
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qdarwinhelpers.h:
 
+/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qcontiguouscache.h:
+
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qcontainerinfo.h:
 
 /opt/homebrew/lib/cmake/Qt6Gui/Qt6QGifPluginTargets.cmake:
@@ -12639,6 +13430,8 @@ SecurePay_autogen/MXUWEOXILK/moc_addmerchantdialog.cpp:
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qarraydatapointer.h:
 
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtablewidget.h:
+
+/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp:
 
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iosfwd:
 
@@ -13078,12 +13871,6 @@ SecurePay_autogen/MXUWEOXILK/moc_managecardsdialog.cpp:
 
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/gthr-default.h:
 
-/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/ctype.h:
-
-/opt/homebrew/share/cmake/Modules/CheckCXXCompilerFlag.cmake:
-
-/opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h:
-
 /opt/homebrew/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets-release.cmake:
 
 /opt/homebrew/lib/cmake/Qt6Gui/Qt6QICNSPluginAdditionalTargetInfo.cmake:
@@ -13230,6 +14017,8 @@ SecurePay_autogen/MXUWEOXILK/moc_managecardsdialog.cpp:
 
 /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/enhancedfraudsystem.cpp:
 
+/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h:
+
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cstdio:
 
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/stl_relops.h:
@@ -13321,8 +14110,6 @@ SecurePay_autogen/MXUWEOXILK/moc_managecardsdialog.cpp:
 /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qregularexpression.h:
 
 /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/CMakeLists.txt:
-
-/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qcontiguouscache.h:
 
 /opt/homebrew/lib/QtCore.framework/Headers/qstringbuilder.h:
 
@@ -13699,6 +14486,12 @@ CMakeFiles/3.31.5/CMakeCXXCompiler.cmake:
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h:
 
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h:
+
+/opt/homebrew/share/cmake/Modules/CheckCXXCompilerFlag.cmake:
+
+/opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/error_constants.h:
+
+/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/ctype.h:
 
 /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets_nonio.tcc:
 

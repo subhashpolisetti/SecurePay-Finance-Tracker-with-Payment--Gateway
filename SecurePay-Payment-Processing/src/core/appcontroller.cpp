@@ -3,9 +3,11 @@
 #include "bank.h"
 #include "fraudsystem.h"
 #include <iostream>
+#include <algorithm>
 
 AppController::AppController() 
-    : m_paymentGateway(std::make_unique<PaymentGateway>()) {
+    : m_authenticatedCustomer(nullptr),
+      m_paymentGateway(std::make_unique<PaymentGateway>()) {
     std::cout << "AppController initialized" << std::endl;
     
     // Initialize the payment gateway facade
@@ -165,14 +167,71 @@ bool AppController::loadAllData() {
     return success;
 }
 
-void AppController::addCustomer(const Customer& customer) {
+const Customer& AppController::addCustomer(const Customer& customer) {
     m_customers.push_back(customer);
-    std::cout << "Added customer: " << customer.getName() << std::endl;
+    std::cout << "Added customer: " << customer.getName() << " with ID: " << customer.getUserId() << std::endl;
     
     // Save the customer to the database
     if (m_dataManager) {
         m_dataManager->saveCustomer(customer);
     }
+    
+    // Return a reference to the newly added customer
+    return m_customers.back();
+}
+
+const Customer* AppController::findCustomerByUserId(const std::string& userId) const {
+    auto it = std::find_if(m_customers.begin(), m_customers.end(),
+                          [&userId](const Customer& c) { return c.getUserId() == userId; });
+    
+    if (it != m_customers.end()) {
+        return &(*it);
+    }
+    
+    return nullptr;
+}
+
+const Customer* AppController::findCustomerByUsernameOrEmail(const std::string& usernameOrEmail) const {
+    auto it = std::find_if(m_customers.begin(), m_customers.end(),
+                          [&usernameOrEmail](const Customer& c) { 
+                              return c.getUsername() == usernameOrEmail || c.getEmail() == usernameOrEmail; 
+                          });
+    
+    if (it != m_customers.end()) {
+        return &(*it);
+    }
+    
+    return nullptr;
+}
+
+const Customer* AppController::authenticateCustomer(const std::string& usernameOrEmail, const std::string& pin) {
+    for (const auto& customer : m_customers) {
+        if (customer.authenticate(usernameOrEmail, pin)) {
+            m_authenticatedCustomer = &customer;
+            std::cout << "Customer authenticated: " << customer.getName() << std::endl;
+            return m_authenticatedCustomer;
+        }
+    }
+    
+    std::cout << "Authentication failed for: " << usernameOrEmail << std::endl;
+    return nullptr;
+}
+
+const Customer* AppController::getAuthenticatedCustomer() const {
+    return m_authenticatedCustomer;
+}
+
+void AppController::setAuthenticatedCustomer(const Customer* customer) {
+    m_authenticatedCustomer = customer;
+}
+
+void AppController::logoutCustomer() {
+    m_authenticatedCustomer = nullptr;
+    std::cout << "Customer logged out" << std::endl;
+}
+
+bool AppController::isCustomerAuthenticated() const {
+    return m_authenticatedCustomer != nullptr;
 }
 
 const std::vector<Customer>& AppController::getCustomers() const {

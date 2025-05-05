@@ -544,6 +544,12 @@
 			null
 		],
 		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h",
+			"MU",
+			"MXUWEOXILK/moc_logindialog.cpp",
+			null
+		],
+		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h",
 			"MU",
 			"MXUWEOXILK/moc_mainwindow.cpp",
@@ -751,6 +757,11 @@
 		],
 		[
 			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp",
 			"MU",
 			null
 		],

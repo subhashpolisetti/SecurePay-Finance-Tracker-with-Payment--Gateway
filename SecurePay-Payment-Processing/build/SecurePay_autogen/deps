@@ -183,6 +183,8 @@ SecurePay_autogen/timestamp: \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.cpp \

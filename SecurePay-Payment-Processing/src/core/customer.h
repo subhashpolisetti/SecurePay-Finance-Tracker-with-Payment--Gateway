@@ -3,6 +3,8 @@
 
 #include <string>
 #include <map>
+#include <ctime>
+#include <random>
 
 /**
  * @class Customer
@@ -19,12 +21,30 @@ public:
     Customer();
     
     /**
-     * @brief Parameterized constructor
+     * @brief Parameterized constructor for registration
+     * @param name The customer's name
+     * @param email The customer's email
+     * @param username The customer's username
+     * @param pin The customer's PIN (password)
+     * @param billingAddress The customer's billing address
+     */
+    Customer(const std::string& name, const std::string& email, 
+             const std::string& username, const std::string& pin, 
+             const std::string& billingAddress);
+    
+    /**
+     * @brief Legacy constructor for backward compatibility
      * @param name The customer's name
      * @param email The customer's email
      * @param billingAddress The customer's billing address
      */
     Customer(const std::string& name, const std::string& email, const std::string& billingAddress);
+    
+    /**
+     * @brief Get the customer's unique ID
+     * @return The customer's unique ID
+     */
+    std::string getUserId() const;
     
     /**
      * @brief Get the customer's name
@@ -37,6 +57,12 @@ public:
      * @return The customer's email
      */
     std::string getEmail() const;
+    
+    /**
+     * @brief Get the customer's username
+     * @return The customer's username
+     */
+    std::string getUsername() const;
     
     /**
      * @brief Get the customer's billing address
@@ -57,10 +83,30 @@ public:
     void setEmail(const std::string& email);
     
     /**
+     * @brief Set the customer's username
+     * @param username The new username
+     */
+    void setUsername(const std::string& username);
+    
+    /**
+     * @brief Set the customer's PIN
+     * @param pin The new PIN
+     */
+    void setPin(const std::string& pin);
+    
+    /**
      * @brief Set the customer's billing address
      * @param billingAddress The new billing address
      */
     void setBillingAddress(const std::string& billingAddress);
+    
+    /**
+     * @brief Authenticate a customer with username/email and PIN
+     * @param usernameOrEmail The username or email to authenticate with
+     * @param pin The PIN to authenticate with
+     * @return True if authentication is successful, false otherwise
+     */
+    bool authenticate(const std::string& usernameOrEmail, const std::string& pin) const;
     
     /**
      * @brief Set the balance for a payment method
@@ -98,10 +144,19 @@ public:
     const std::map<std::string, double>& getAllBalances() const;
     
 private:
+    std::string m_userId;
     std::string m_name;
     std::string m_email;
+    std::string m_username;
+    std::string m_pin;
     std::string m_billingAddress;
     std::map<std::string, double> m_balances;
+    
+    /**
+     * @brief Generate a unique user ID
+     * @return A unique user ID
+     */
+    std::string generateUserId() const;
 };
 
 #endif // CUSTOMER_H

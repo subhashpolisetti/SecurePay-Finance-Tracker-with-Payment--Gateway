@@ -593,6 +593,10 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: \
  /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/fs_ops.h \
  /opt/homebrew/lib/QtCore.framework/Headers/qfileinfo.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/../core/reportmanager.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_logindialog.cpp \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/logindialog.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_mainwindow.cpp \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/mainwindow.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QMainWindow \
@@ -606,8 +610,6 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qstatusbar.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QTabWidget \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qtabwidget.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
  /opt/homebrew/lib/QtCore.framework/Headers/QTimer \
  /opt/homebrew/lib/QtCore.framework/Headers/qtimer.h \
  /opt/homebrew/lib/QtCore.framework/Headers/qbasictimer.h \
@@ -621,6 +623,7 @@ CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o: \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qlistview.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/addcarddialog.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/checkoutscreen.h \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/logindialog.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_managecardsdialog.cpp \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/../../../src/gui/managecardsdialog.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_refunddialog.cpp \

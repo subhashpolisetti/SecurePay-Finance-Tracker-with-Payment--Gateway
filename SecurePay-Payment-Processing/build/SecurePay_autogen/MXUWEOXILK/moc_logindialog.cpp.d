@@ -1,4 +1,4 @@
-/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_refunddialog.cpp: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.h \
+/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/MXUWEOXILK/moc_logindialog.cpp: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/build/SecurePay_autogen/moc_predefs.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -62,6 +62,7 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/qos.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/pthread/sched.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stddef.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
@@ -132,11 +133,20 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/time.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wchar.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/appcontroller.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/bank.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/cardtoken.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/customer.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/datamanager.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/enhancedfraudsystem.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/fraudalert.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/fraudsystem.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/merchant.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentgateway.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentgatewayfacade.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/paymentmethod.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refund.h \
-  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/refundmanager.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/sqlitedatamanager.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/transaction.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/atomic_word.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/c++allocator.h \
@@ -313,7 +323,6 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q20memory.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q20type_traits.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q23utility.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qabstractitemmodel.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qalgorithms.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qanystringview.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qarraydata.h \
@@ -361,7 +370,6 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qlatin1stringview.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qline.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qlist.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qlocale.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qlogging.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qmalloc.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qmap.h \
@@ -382,7 +390,6 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qprocessordetection.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qrect.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qrefcount.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qregularexpression.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qscopedpointer.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qscopeguard.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qset.h \
@@ -433,7 +440,6 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qversiontagging.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qxptype_traits.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qyieldcpu.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/QDoubleValidator \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qaction.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qbitmap.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qbrush.h \
@@ -463,43 +469,36 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qtguiexports.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qtguiglobal.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qtransform.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qvalidator.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtGui.framework/Versions/A/Headers/qwindowdefs.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QComboBox \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QDialog \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QFormLayout \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QGroupBox \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QHBoxLayout \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QLabel \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QLayout \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QLineEdit \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QMessageBox \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QPushButton \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QRadioButton \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QTextEdit \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QStackedWidget \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QVBoxLayout \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractbutton.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractitemdelegate.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractscrollarea.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractslider.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractspinbox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qboxlayout.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qcombobox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qdialog.h \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qdialogbuttonbox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qformlayout.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qframe.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qgridlayout.h \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qgroupbox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qlabel.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qlayout.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qlayoutitem.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qlineedit.h \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qmessagebox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qpushbutton.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qradiobutton.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qrubberband.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qsizepolicy.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qslider.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qstyle.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qstyleoption.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtabbar.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtabwidget.h \
-  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtextedit.h \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qstackedwidget.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgets-config.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgetsexports.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qtwidgetsglobal.h \

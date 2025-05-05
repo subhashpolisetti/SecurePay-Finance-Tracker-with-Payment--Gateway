@@ -42,6 +42,8 @@ static constexpr auto qt_meta_stringdata_ZN10MainWindowE = QtMocHelpers::stringD
     "onRoleChanged",
     "",
     "index",
+    "onLoginClicked",
+    "onLogoutClicked",
     "onCustomerSelected",
     "onAddCustomerClicked",
     "onPaymentMethodSelected",
@@ -75,7 +77,7 @@ Q_CONSTINIT static const uint qt_meta_data_ZN10MainWindowE[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      19,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -83,46 +85,50 @@ Q_CONSTINIT static const uint qt_meta_data_ZN10MainWindowE[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  128,    2, 0x08,    1 /* Private */,
-       4,    1,  131,    2, 0x08,    3 /* Private */,
-       5,    0,  134,    2, 0x08,    5 /* Private */,
-       6,    1,  135,    2, 0x08,    6 /* Private */,
-       7,    1,  138,    2, 0x08,    8 /* Private */,
-       8,    0,  141,    2, 0x08,   10 /* Private */,
-       9,    0,  142,    2, 0x08,   11 /* Private */,
-      10,    0,  143,    2, 0x08,   12 /* Private */,
-      11,    0,  144,    2, 0x08,   13 /* Private */,
-      12,    0,  145,    2, 0x08,   14 /* Private */,
-      13,    0,  146,    2, 0x08,   15 /* Private */,
-      14,    1,  147,    2, 0x08,   16 /* Private */,
-      15,    0,  150,    2, 0x08,   18 /* Private */,
-      16,    0,  151,    2, 0x08,   19 /* Private */,
-      17,    0,  152,    2, 0x08,   20 /* Private */,
-      18,    0,  153,    2, 0x08,   21 /* Private */,
-      19,    1,  154,    2, 0x08,   22 /* Private */,
-      22,    0,  157,    2, 0x08,   24 /* Private */,
-      23,    1,  158,    2, 0x08,   25 /* Private */,
+       1,    1,  140,    2, 0x08,    1 /* Private */,
+       4,    0,  143,    2, 0x08,    3 /* Private */,
+       5,    0,  144,    2, 0x08,    4 /* Private */,
+       6,    1,  145,    2, 0x08,    5 /* Private */,
+       7,    0,  148,    2, 0x08,    7 /* Private */,
+       8,    1,  149,    2, 0x08,    8 /* Private */,
+       9,    1,  152,    2, 0x08,   10 /* Private */,
+      10,    0,  155,    2, 0x08,   12 /* Private */,
+      11,    0,  156,    2, 0x08,   13 /* Private */,
+      12,    0,  157,    2, 0x08,   14 /* Private */,
+      13,    0,  158,    2, 0x08,   15 /* Private */,
+      14,    0,  159,    2, 0x08,   16 /* Private */,
+      15,    0,  160,    2, 0x08,   17 /* Private */,
+      16,    1,  161,    2, 0x08,   18 /* Private */,
+      17,    0,  164,    2, 0x08,   20 /* Private */,
+      18,    0,  165,    2, 0x08,   21 /* Private */,
+      19,    0,  166,    2, 0x08,   22 /* Private */,
+      20,    0,  167,    2, 0x08,   23 /* Private */,
+      21,    1,  168,    2, 0x08,   24 /* Private */,
+      24,    0,  171,    2, 0x08,   26 /* Private */,
+      25,    1,  172,    2, 0x08,   27 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    3,
-    QMetaType::Void, QMetaType::Int,    3,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 20,   21,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 24,   25,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 22,   23,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 26,   27,
 
        0        // eod
 };
@@ -139,6 +145,10 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'onRoleChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'onLoginClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onLogoutClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'onCustomerSelected'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
@@ -191,24 +201,26 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->onRoleChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 1: _t->onCustomerSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 2: _t->onAddCustomerClicked(); break;
-        case 3: _t->onPaymentMethodSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 4: _t->onSavedCardSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 5: _t->onManageCardsClicked(); break;
-        case 6: _t->onSubmitClicked(); break;
-        case 7: _t->onExportCustomerReportClicked(); break;
-        case 8: _t->onDepositClicked(); break;
-        case 9: _t->onCheckBalanceClicked(); break;
-        case 10: _t->updateBalanceDisplay(); break;
-        case 11: _t->onMerchantSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 12: _t->onAddMerchantClicked(); break;
-        case 13: _t->onProcessRefundClicked(); break;
-        case 14: _t->onExportMerchantReportClicked(); break;
-        case 15: _t->updateAnalytics(); break;
-        case 16: _t->onTransactionUpdated((*reinterpret_cast< std::add_pointer_t<Transaction>>(_a[1]))); break;
-        case 17: _t->onOpenCheckoutClicked(); break;
-        case 18: _t->receiveCheckoutPayload((*reinterpret_cast< std::add_pointer_t<CheckoutPayload>>(_a[1]))); break;
+        case 1: _t->onLoginClicked(); break;
+        case 2: _t->onLogoutClicked(); break;
+        case 3: _t->onCustomerSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 4: _t->onAddCustomerClicked(); break;
+        case 5: _t->onPaymentMethodSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 6: _t->onSavedCardSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 7: _t->onManageCardsClicked(); break;
+        case 8: _t->onSubmitClicked(); break;
+        case 9: _t->onExportCustomerReportClicked(); break;
+        case 10: _t->onDepositClicked(); break;
+        case 11: _t->onCheckBalanceClicked(); break;
+        case 12: _t->updateBalanceDisplay(); break;
+        case 13: _t->onMerchantSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 14: _t->onAddMerchantClicked(); break;
+        case 15: _t->onProcessRefundClicked(); break;
+        case 16: _t->onExportMerchantReportClicked(); break;
+        case 17: _t->updateAnalytics(); break;
+        case 18: _t->onTransactionUpdated((*reinterpret_cast< std::add_pointer_t<Transaction>>(_a[1]))); break;
+        case 19: _t->onOpenCheckoutClicked(); break;
+        case 20: _t->receiveCheckoutPayload((*reinterpret_cast< std::add_pointer_t<CheckoutPayload>>(_a[1]))); break;
         default: ;
         }
     }
@@ -233,14 +245,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 19)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 19;
+        _id -= 21;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 19)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 19;
+        _id -= 21;
     }
     return _id;
 }

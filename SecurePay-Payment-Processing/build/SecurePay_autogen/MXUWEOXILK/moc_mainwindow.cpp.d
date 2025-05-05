@@ -152,6 +152,7 @@
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/core/transaction.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addcarddialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
+  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
   /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/atomic_word.h \
   /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/c++allocator.h \
@@ -497,6 +498,7 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QMainWindow \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QMessageBox \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QPushButton \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QRadioButton \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QScrollArea \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QStackedWidget \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QStatusBar \
@@ -528,6 +530,7 @@
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qmainwindow.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qmessagebox.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qpushbutton.h \
+  /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qradiobutton.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qrubberband.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qscrollarea.h \
   /opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qsizepolicy.h \

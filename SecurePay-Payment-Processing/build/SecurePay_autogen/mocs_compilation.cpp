@@ -4,6 +4,7 @@
 #include "MXUWEOXILK/moc_addmerchantdialog.cpp"
 #include "MXUWEOXILK/moc_checkoutscreen.cpp"
 #include "MXUWEOXILK/moc_exportreportdialog.cpp"
+#include "MXUWEOXILK/moc_logindialog.cpp"
 #include "MXUWEOXILK/moc_mainwindow.cpp"
 #include "MXUWEOXILK/moc_managecardsdialog.cpp"
 #include "MXUWEOXILK/moc_refunddialog.cpp"

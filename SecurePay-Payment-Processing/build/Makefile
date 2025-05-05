@@ -731,6 +731,30 @@ src/gui/exportreportdialog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/exportreportdialog.cpp.s
 .PHONY : src/gui/exportreportdialog.cpp.s
 
+src/gui/logindialog.o: src/gui/logindialog.cpp.o
+.PHONY : src/gui/logindialog.o
+
+# target to build an object file
+src/gui/logindialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o
+.PHONY : src/gui/logindialog.cpp.o
+
+src/gui/logindialog.i: src/gui/logindialog.cpp.i
+.PHONY : src/gui/logindialog.i
+
+# target to preprocess a source file
+src/gui/logindialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.i
+.PHONY : src/gui/logindialog.cpp.i
+
+src/gui/logindialog.s: src/gui/logindialog.cpp.s
+.PHONY : src/gui/logindialog.s
+
+# target to generate assembly for a file
+src/gui/logindialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.s
+.PHONY : src/gui/logindialog.cpp.s
+
 src/gui/mainwindow.o: src/gui/mainwindow.cpp.o
 .PHONY : src/gui/mainwindow.o
 
@@ -910,6 +934,9 @@ help:
 	@echo "... src/gui/exportreportdialog.o"
 	@echo "... src/gui/exportreportdialog.i"
 	@echo "... src/gui/exportreportdialog.s"
+	@echo "... src/gui/logindialog.o"
+	@echo "... src/gui/logindialog.i"
+	@echo "... src/gui/logindialog.s"
 	@echo "... src/gui/mainwindow.o"
 	@echo "... src/gui/mainwindow.i"
 	@echo "... src/gui/mainwindow.s"

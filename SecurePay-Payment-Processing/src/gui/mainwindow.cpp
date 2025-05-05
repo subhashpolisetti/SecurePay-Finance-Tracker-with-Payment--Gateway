@@ -5,7 +5,6 @@
 #include "exportreportdialog.h"
 #include "addcarddialog.h"
 #include "managecardsdialog.h"
-#include "checkoutscreen.h"
 #include <QMessageBox>
 #include <QDoubleValidator>
 #include <QRegularExpressionValidator>
@@ -15,9 +14,8 @@
 #include <functional>
 #include <iostream>
 
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), m_appController(AppController::getInstance()) {
     // Initialize core components
-    m_appController = std::make_unique<AppController>();
     m_refundManager = &RefundManager::getInstance();
     m_reportManager = &ReportManager::getInstance();
     
@@ -25,16 +23,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     setupUI();
     
     // Register for transaction updates
-    m_appController->setTransactionUpdateCallback(
+    m_appController.setTransactionUpdateCallback(
         std::bind(&MainWindow::onTransactionUpdated, this, std::placeholders::_1));
     
     // Populate customer combo box
-    for (const auto& customer : m_appController->getCustomers()) {
+    for (const auto& customer : m_appController.getCustomers()) {
         m_customerComboBox->addItem(QString::fromUtf8(customer.getName().c_str()));
     }
     
     // Populate merchant combo box
-    for (const auto& merchant : m_appController->getMerchants()) {
+    for (const auto& merchant : m_appController.getMerchants()) {
         m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
     }
     
@@ -153,6 +151,15 @@ void MainWindow::setupCustomerView() {
     QGroupBox* customerGroup = new QGroupBox("Customer Information", m_customerView);
     QVBoxLayout* customerLayout = new QVBoxLayout(customerGroup);
     
+    // Authentication buttons
+    QHBoxLayout* authLayout = new QHBoxLayout();
+    m_loginButton = new QPushButton("Login", customerGroup);
+    m_logoutButton = new QPushButton("Logout", customerGroup);
+    m_logoutButton->setEnabled(false); // Initially disabled until user logs in
+    authLayout->addWidget(m_loginButton);
+    authLayout->addWidget(m_logoutButton);
+    
+    // Customer selection
     QHBoxLayout* customerSelectionLayout = new QHBoxLayout();
     m_customerComboBox = new QComboBox(customerGroup);
     m_addCustomerButton = new QPushButton("Add Customer", customerGroup);
@@ -173,6 +180,7 @@ void MainWindow::setupCustomerView() {
     // Check balance button
     m_checkBalanceButton = new QPushButton("Check Balance", customerGroup);
     
+    customerLayout->addLayout(authLayout);
     customerLayout->addLayout(customerSelectionLayout);
     customerLayout->addWidget(m_customerDetailsLabel);
     customerLayout->addWidget(m_balanceLabel);
@@ -344,17 +352,19 @@ void MainWindow::setupCustomerView() {
     transactionLayout->addWidget(resultGroup);
     transactionLayout->addWidget(historyGroup);
     
-    // E-commerce checkout button
-    QPushButton* checkoutButton = new QPushButton("Open E-Commerce Checkout", m_customerView);
-    checkoutButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;");
-    checkoutButton->setMinimumHeight(40);
+    // E-commerce shopping button
+    QPushButton* openCheckoutButton = new QPushButton("E-commerce Shopping", m_customerView);
+    openCheckoutButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; font-size: 14pt;");
+    openCheckoutButton->setMinimumHeight(60);
+    openCheckoutButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    connect(openCheckoutButton, &QPushButton::clicked, this, &MainWindow::onOpenCheckoutClicked);
     
     // Add all sections to main layout
     mainLayout->addWidget(customerGroup);
     mainLayout->addWidget(m_depositGroup);
     mainLayout->addWidget(paymentGroup);
     mainLayout->addLayout(transactionLayout);
-    mainLayout->addWidget(checkoutButton);
+    mainLayout->addWidget(openCheckoutButton);
     
     // Connect signals
     connect(m_customerComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -375,8 +385,10 @@ void MainWindow::setupCustomerView() {
             this, &MainWindow::onDepositClicked);
     connect(m_checkBalanceButton, &QPushButton::clicked,
             this, &MainWindow::onCheckBalanceClicked);
-    connect(checkoutButton, &QPushButton::clicked,
-            this, &MainWindow::onOpenCheckoutClicked);
+    connect(m_loginButton, &QPushButton::clicked,
+            this, &MainWindow::onLoginClicked);
+    connect(m_logoutButton, &QPushButton::clicked,
+            this, &MainWindow::onLogoutClicked);
 }
 
 void MainWindow::setupMerchantView() {
@@ -539,8 +551,8 @@ void MainWindow::onRoleChanged(int index) {
 
 void MainWindow::updateCustomerDetails() {
     int index = m_customerComboBox->currentIndex();
-    if (index >= 0 && index < static_cast<int>(m_appController->getCustomers().size())) {
-        const Customer& customer = m_appController->getCustomers()[index];
+    if (index >= 0 && index < static_cast<int>(m_appController.getCustomers().size())) {
+        const Customer& customer = m_appController.getCustomers()[index];
         QString details = QString("<b>Name:</b> %1<br><b>Email:</b> %2<br><b>Address:</b> %3")
             .arg(QString::fromUtf8(customer.getName().c_str()))
             .arg(QString::fromUtf8(customer.getEmail().c_str()))
@@ -553,8 +565,8 @@ void MainWindow::updateCustomerDetails() {
 
 void MainWindow::updateMerchantDetails() {
     int index = m_merchantComboBox->currentIndex();
-    if (index >= 0 && index < static_cast<int>(m_appController->getMerchants().size())) {
-        const Merchant& merchant = m_appController->getMerchants()[index];
+    if (index >= 0 && index < static_cast<int>(m_appController.getMerchants().size())) {
+        const Merchant& merchant = m_appController.getMerchants()[index];
         QString details = QString("<b>Name:</b> %1<br><b>Email:</b> %2<br><b>Address:</b> %3")
             .arg(QString::fromUtf8(merchant.getName().c_str()))
             .arg(QString::fromUtf8(merchant.getEmail().c_str()))
@@ -603,7 +615,7 @@ void MainWindow::updatePaymentMethodFields() {
 }
 
 void MainWindow::updateCustomerTransactionHistory() {
-    const auto& transactions = m_appController->getTransactionHistory();
+    const auto& transactions = m_appController.getTransactionHistory();
     
     m_customerTransactionTable->setRowCount(0);
     
@@ -629,7 +641,7 @@ void MainWindow::updateCustomerTransactionHistory() {
 }
 
 void MainWindow::updateMerchantTransactionHistory() {
-    const auto& transactions = m_appController->getTransactionHistory();
+    const auto& transactions = m_appController.getTransactionHistory();
     
     m_merchantTransactionTable->setRowCount(0);
     
@@ -674,7 +686,7 @@ void MainWindow::onCustomerSelected(int index) {
 
 void MainWindow::onDepositClicked() {
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         QMessageBox::warning(this, "Validation Error", "Please select a customer.");
         return;
     }
@@ -688,7 +700,7 @@ void MainWindow::onDepositClicked() {
         return;
     }
     
-    Customer& customer = m_appController->getCustomersMutable()[customerIndex];
+    Customer& customer = m_appController.getCustomersMutable()[customerIndex];
     QString paymentMethodType = m_depositMethodComboBox->currentText();
     
     // Get current balance
@@ -715,12 +727,12 @@ void MainWindow::onCheckBalanceClicked() {
     updateBalanceDisplay();
     
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         QMessageBox::warning(this, "Validation Error", "Please select a customer.");
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    const Customer& customer = m_appController.getCustomers()[customerIndex];
     
     QString balanceInfo = "Current Balances:\n\n";
     
@@ -736,12 +748,12 @@ void MainWindow::onCheckBalanceClicked() {
 
 void MainWindow::updateBalanceDisplay() {
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         m_balanceLabel->setText("No customer selected");
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    const Customer& customer = m_appController.getCustomers()[customerIndex];
     
     QString balanceText = "Balances: ";
     
@@ -769,7 +781,7 @@ void MainWindow::onMerchantSelected(int index) {
 }
 
 void MainWindow::updateAnalytics() {
-    const auto& transactions = m_appController->getTransactionHistory();
+    const auto& transactions = m_appController.getTransactionHistory();
     
     // Calculate analytics
     int totalTransactions = 0;
@@ -780,8 +792,8 @@ void MainWindow::updateAnalytics() {
     for (const auto& transaction : transactions) {
         // Only count transactions for the selected merchant
         int merchantIndex = m_merchantComboBox->currentIndex();
-        if (merchantIndex >= 0 && merchantIndex < static_cast<int>(m_appController->getMerchants().size())) {
-            const Merchant& selectedMerchant = m_appController->getMerchants()[merchantIndex];
+        if (merchantIndex >= 0 && merchantIndex < static_cast<int>(m_appController.getMerchants().size())) {
+            const Merchant& selectedMerchant = m_appController.getMerchants()[merchantIndex];
             
             if (transaction->getMerchant().getName() == selectedMerchant.getName()) {
                 totalTransactions++;
@@ -816,7 +828,7 @@ void MainWindow::onAddCustomerClicked() {
     AddCustomerDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
         Customer customer = dialog.getCustomer();
-        m_appController->addCustomer(customer);
+        m_appController.addCustomer(customer);
         
         m_customerComboBox->addItem(QString::fromUtf8(customer.getName().c_str()));
         
@@ -828,7 +840,7 @@ void MainWindow::onAddMerchantClicked() {
     AddMerchantDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
         Merchant merchant = dialog.getMerchant();
-        m_appController->addMerchant(merchant);
+        m_appController.addMerchant(merchant);
         
         m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
         
@@ -852,12 +864,12 @@ void MainWindow::onSavedCardSelected(int index) {
     
     // Get the selected card token
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
-    auto cardTokens = m_appController->getCardTokensForCustomer(customer.getName());
+    const Customer& customer = m_appController.getCustomers()[customerIndex];
+    auto cardTokens = m_appController.getCardTokensForCustomer(customer.getName());
     
     if (index - 1 < static_cast<int>(cardTokens.size())) {
         const CardToken* cardToken = cardTokens[index - 1];
@@ -872,12 +884,12 @@ void MainWindow::onSavedCardSelected(int index) {
 
 void MainWindow::onManageCardsClicked() {
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         QMessageBox::warning(this, "Error", "Please select a customer first.");
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    const Customer& customer = m_appController.getCustomers()[customerIndex];
     
     ManageCardsDialog dialog(customer.getName(), this);
     if (dialog.exec() == QDialog::Accepted) {
@@ -885,7 +897,7 @@ void MainWindow::onManageCardsClicked() {
         m_savedCardsComboBox->clear();
         m_savedCardsComboBox->addItem("+ Add New Card");
         
-        auto cardTokens = m_appController->getCardTokensForCustomer(customer.getName());
+        auto cardTokens = m_appController.getCardTokensForCustomer(customer.getName());
         for (const auto* cardToken : cardTokens) {
             QString displayText = QString::fromStdString(cardToken->getDisplayName());
             m_savedCardsComboBox->addItem(displayText);
@@ -907,12 +919,12 @@ void MainWindow::onSubmitClicked() {
     }
     
     int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
         QMessageBox::warning(this, "Validation Error", "Please select a customer.");
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    const Customer& customer = m_appController.getCustomers()[customerIndex];
     
     QString paymentMethodType = m_paymentMethodComboBox->currentText();
     std::string details1, details2, details3, details4;
@@ -964,14 +976,14 @@ void MainWindow::onSubmitClicked() {
     }
     
     // For now, just use the first merchant in the list
-    if (m_appController->getMerchants().empty()) {
+    if (m_appController.getMerchants().empty()) {
         QMessageBox::warning(this, "Validation Error", "No merchants available.");
         return;
     }
     
-    const Merchant& merchant = m_appController->getMerchants()[0];
+    const Merchant& merchant = m_appController.getMerchants()[0];
     
-    auto transaction = m_appController->createTransaction(
+    auto transaction = m_appController.createTransaction(
         customer,
         merchant,
         paymentMethodType.toUtf8().constData(),
@@ -985,7 +997,7 @@ void MainWindow::onSubmitClicked() {
     if (transaction) {
         std::string transactionId = transaction->getTransactionId();
         
-        m_appController->processTransaction(std::move(transaction));
+        m_appController.processTransaction(std::move(transaction));
         
         m_amountEdit->clear();
         m_cardNumberEdit->clear();
@@ -998,7 +1010,7 @@ void MainWindow::onSubmitClicked() {
         updateCustomerTransactionHistory();
         updateMerchantTransactionHistory();
         
-        const auto& transactions = m_appController->getTransactionHistory();
+        const auto& transactions = m_appController.getTransactionHistory();
         TransactionStatus status = TransactionStatus::PENDING;
         
         for (const auto& tx : transactions) {
@@ -1054,7 +1066,7 @@ void MainWindow::onProcessRefundClicked() {
     
     // Find transaction in history
     const Transaction* selectedTransaction = nullptr;
-    for (const auto& transaction : m_appController->getTransactionHistory()) {
+    for (const auto& transaction : m_appController.getTransactionHistory()) {
         if (transaction->getTransactionId() == transactionId.toUtf8().constData()) {
             selectedTransaction = transaction.get();
             break;
@@ -1067,7 +1079,7 @@ void MainWindow::onProcessRefundClicked() {
     }
     
     // Open refund dialog
-    RefundDialog dialog(m_appController->getTransactionHistory(), *m_refundManager, this);
+    RefundDialog dialog(m_appController.getTransactionHistory(), *m_refundManager, this);
     if (dialog.exec() == QDialog::Accepted) {
         // Update transaction history
         updateCustomerTransactionHistory();
@@ -1097,92 +1109,110 @@ void MainWindow::onTransactionUpdated(const Transaction& transaction) {
     statusBar()->showMessage("Transaction updated: " + QString::fromUtf8(transaction.getTransactionId().c_str()));
 }
 
-void MainWindow::onOpenCheckoutClicked() {
-    CheckoutScreen checkoutScreen(m_appController.get(), this);
-    
-    if (checkoutScreen.exec() == QDialog::Accepted) {
-        // Get the checkout payload
-        const CheckoutPayload& payload = checkoutScreen.getCheckoutPayload();
-        
-        // Process the checkout payload
-        receiveCheckoutPayload(payload);
-        
-        // Show success message
-        statusBar()->showMessage("E-commerce checkout completed successfully");
+void MainWindow::showLoginDialog() {
+    LoginDialog dialog(&m_appController, this);
+    if (dialog.exec() == QDialog::Accepted) {
+        // Get the authenticated customer
+        const Customer* authenticatedCustomer = dialog.getAuthenticatedCustomer();
+        if (authenticatedCustomer) {
+            // Find the customer in the combo box
+            for (int i = 0; i < m_customerComboBox->count(); ++i) {
+                const Customer& customer = m_appController.getCustomers()[i];
+                if (customer.getUserId() == authenticatedCustomer->getUserId()) {
+                    m_customerComboBox->setCurrentIndex(i);
+                    break;
+                }
+            }
+            
+            // Update authentication status
+            updateAuthenticationStatus();
+            
+            // Show success message
+            statusBar()->showMessage("Logged in as " + QString::fromUtf8(authenticatedCustomer->getName().c_str()));
+        }
     }
 }
 
-void MainWindow::receiveCheckoutPayload(const CheckoutPayload& payload) {
-    // Switch to customer role
-    m_roleComboBox->setCurrentIndex(0); // Customer role
+void MainWindow::updateAuthenticationStatus() {
+    int customerIndex = m_customerComboBox->currentIndex();
+    bool isAuthenticated = (customerIndex >= 0 && customerIndex < static_cast<int>(m_appController.getCustomers().size()));
     
-    // Find and select the customer
-    for (int i = 0; i < m_customerComboBox->count(); ++i) {
-        QString customerName = m_customerComboBox->itemText(i);
-        std::string customerNameStr = customerName.toUtf8().constData();
-        if (customerNameStr == payload.customerId) {
-            m_customerComboBox->setCurrentIndex(i);
-            break;
-        }
+    // Update UI based on authentication status
+    m_loginButton->setEnabled(!isAuthenticated);
+    m_logoutButton->setEnabled(isAuthenticated);
+    
+    // Enable/disable customer-specific functionality
+    m_depositGroup->setEnabled(isAuthenticated);
+    m_checkBalanceButton->setEnabled(isAuthenticated);
+    m_submitButton->setEnabled(isAuthenticated);
+    
+    // Update customer details
+    updateCustomerDetails();
+    updateBalanceDisplay();
+}
+
+void MainWindow::onLoginClicked() {
+    showLoginDialog();
+}
+
+void MainWindow::onLogoutClicked() {
+    // Clear current customer selection
+    m_customerComboBox->setCurrentIndex(-1);
+    
+    // Update authentication status
+    updateAuthenticationStatus();
+    
+    // Show logout message
+    statusBar()->showMessage("Logged out successfully");
+}
+
+void MainWindow::onOpenCheckoutClicked() {
+    // Create a checkout screen
+    CheckoutScreen* checkoutScreen = new CheckoutScreen(&m_appController, this);
+    
+    // Show the checkout screen
+    if (checkoutScreen->exec() == QDialog::Accepted) {
+        // Get the checkout payload
+        const CheckoutPayload& payload = checkoutScreen->getCheckoutPayload();
+        receiveCheckoutPayload(payload);
     }
     
+    // Clean up
+    delete checkoutScreen;
+}
+
+void MainWindow::receiveCheckoutPayload(const CheckoutPayload& payload) {
     // Set the amount
     m_amountEdit->setText(QString::number(payload.amount, 'f', 2));
     
-    // Set the payment method
-    for (int i = 0; i < m_paymentMethodComboBox->count(); ++i) {
-        QString methodName = m_paymentMethodComboBox->itemText(i);
-        std::string methodNameStr = methodName.toUtf8().constData();
-        if (methodNameStr == payload.paymentMethodType) {
-            m_paymentMethodComboBox->setCurrentIndex(i);
-            break;
-        }
+    // Select the payment method
+    int paymentMethodIndex = 0; // Default to Credit Card
+    if (payload.paymentMethodType == "Debit Card") {
+        paymentMethodIndex = 1;
+    } else if (payload.paymentMethodType == "Digital Wallet") {
+        paymentMethodIndex = 2;
+    }
+    m_paymentMethodComboBox->setCurrentIndex(paymentMethodIndex);
+    
+    // Update payment method fields
+    updatePaymentMethodFields();
+    
+    // Fill in the payment details
+    if (payload.paymentMethodType == "Credit Card" || payload.paymentMethodType == "Debit Card") {
+        m_cardNumberEdit->setText(QString::fromStdString(payload.cardNumber));
+        m_cardholderNameEdit->setText(QString::fromStdString(payload.cardholderName));
+        m_expiryDateEdit->setText(QString::fromStdString(payload.expiryDate));
+        m_cvvEdit->setText(QString::fromStdString(payload.cvv));
+    } else if (payload.paymentMethodType == "Digital Wallet") {
+        // For digital wallet, we don't have specific fields in the payload
+        // so we'll just use some placeholder values
+        m_walletIdEdit->setText("wallet_" + QString::fromStdString(payload.customerId));
+        m_walletEmailEdit->setText(QString::fromStdString(payload.customerId) + "@example.com");
     }
     
-    // Handle payment details
-    if (!payload.cardToken.empty()) {
-        // Find and select the saved card
-        for (int i = 0; i < m_savedCardsComboBox->count(); ++i) {
-            // This is a simplification - in a real app, you'd need to match by token
-            // Here we're just selecting the first saved card
-            if (i > 0) { // Skip "Add New Card" option
-                m_savedCardsComboBox->setCurrentIndex(i);
-                break;
-            }
-        }
-        
-        // Set CVV
-        m_cvvEdit->setText(QString::fromUtf8(payload.cvv.c_str()));
-    } else {
-        // New card
-        m_savedCardsComboBox->setCurrentIndex(0); // "Add New Card" option
-        
-        // Set card details
-        m_cardNumberEdit->setText(QString::fromUtf8(payload.cardNumber.c_str()));
-        m_cardholderNameEdit->setText(QString::fromUtf8(payload.cardholderName.c_str()));
-        m_expiryDateEdit->setText(QString::fromUtf8(payload.expiryDate.c_str()));
-        m_cvvEdit->setText(QString::fromUtf8(payload.cvv.c_str()));
-    }
+    // Switch to customer view
+    m_roleComboBox->setCurrentIndex(0); // Customer role
     
-    // Scroll to the payment form section
-    QScrollArea* scrollArea = qobject_cast<QScrollArea*>(m_mainStack->currentWidget());
-    if (scrollArea) {
-        // Scroll to the submit button
-        scrollArea->ensureWidgetVisible(m_submitButton);
-    }
-    
-    // Set focus on the submit button
+    // Focus on the submit button
     m_submitButton->setFocus();
-    
-    // Highlight the submit button
-    m_submitButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; border: 2px solid #FF5722;");
-    
-    // Reset the button style after a delay
-    QTimer* timer = new QTimer(this);
-    timer->setSingleShot(true);
-    connect(timer, &QTimer::timeout, this, [this, timer]() {
-        m_submitButton->setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold;");
-        timer->deleteLater();
-    });
-    timer->start(3000);
 }

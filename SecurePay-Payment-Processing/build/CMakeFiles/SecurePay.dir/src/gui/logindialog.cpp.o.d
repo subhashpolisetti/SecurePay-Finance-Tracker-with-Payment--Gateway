@@ -1,6 +1,6 @@
-CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o: \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.cpp \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
+CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o: \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp \
+ /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QDialog \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qdialog.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qtwidgetsglobal.h \
@@ -464,37 +464,21 @@ CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o: \
  /opt/homebrew/lib/QtCore.framework/Headers/qiodevice.h \
  /opt/homebrew/lib/QtGui.framework/Headers/qtextdocument.h \
  /opt/homebrew/lib/QtCore.framework/Headers/qurl.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QComboBox \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qcombobox.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractitemdelegate.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qstyleoption.h \
- /opt/homebrew/lib/QtCore.framework/Headers/qlocale.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractspinbox.h \
- /opt/homebrew/lib/QtGui.framework/Headers/qvalidator.h \
- /opt/homebrew/lib/QtCore.framework/Headers/qregularexpression.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qslider.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractslider.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qstyle.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qtabbar.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qtabwidget.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qrubberband.h \
- /opt/homebrew/lib/QtCore.framework/Headers/qabstractitemmodel.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QTextEdit \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qtextedit.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractscrollarea.h \
- /opt/homebrew/lib/QtGui.framework/Headers/qtextoption.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QLineEdit \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qlineedit.h \
  /opt/homebrew/lib/QtGui.framework/Headers/qtextcursor.h \
  /opt/homebrew/lib/QtGui.framework/Headers/qtextformat.h \
  /opt/homebrew/lib/QtGui.framework/Headers/qpen.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QLineEdit \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qlineedit.h \
+ /opt/homebrew/lib/QtGui.framework/Headers/qtextoption.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QPushButton \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qpushbutton.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qabstractbutton.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QRadioButton \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qradiobutton.h \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/QStackedWidget \
+ /opt/homebrew/lib/QtWidgets.framework/Headers/qstackedwidget.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QGroupBox \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qgroupbox.h \
- /opt/homebrew/lib/QtWidgets.framework/Headers/QCheckBox \
- /opt/homebrew/lib/QtWidgets.framework/Headers/qcheckbox.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/QVBoxLayout \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qboxlayout.h \
  /opt/homebrew/lib/QtWidgets.framework/Headers/qlayout.h \
@@ -530,28 +514,7 @@ CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o: \
  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/datamanager.h \
  /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/refund.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/customer.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/merchant.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/transaction.h \
- /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/../core/cardtoken.h \
  /opt/homebrew/lib/QtGui.framework/Headers/QRegularExpressionValidator \
  /opt/homebrew/lib/QtGui.framework/Headers/qvalidator.h \
- /opt/homebrew/lib/QtCore.framework/Headers/QDateTime \
- /opt/homebrew/lib/QtCore.framework/Headers/qdatetime.h \
- /opt/homebrew/lib/QtCore.framework/Headers/qcalendar.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/iostream \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ostream \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/ios \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/basic_ios.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/cwctype \
- /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wctype.h \
- /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wctype.h \
- /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctrans_t.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/ctype_base.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/aarch64-apple-darwin24/bits/ctype_inline.h \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/locale_facets.tcc \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/basic_ios.tcc \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/ostream.tcc \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/istream \
- /opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/bits/istream.tcc
+ /opt/homebrew/lib/QtCore.framework/Headers/qregularexpression.h \
+ /opt/homebrew/lib/QtCore.framework/Headers/qlocale.h

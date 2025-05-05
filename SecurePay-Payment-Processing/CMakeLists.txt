@@ -41,6 +41,7 @@ set(SOURCES
     src/gui/addcarddialog.cpp
     src/gui/managecardsdialog.cpp
     src/gui/checkoutscreen.cpp
+    src/gui/logindialog.cpp
 )
 
 set(HEADERS
@@ -73,6 +74,7 @@ set(HEADERS
     src/gui/addcarddialog.h
     src/gui/managecardsdialog.h
     src/gui/checkoutscreen.h
+    src/gui/logindialog.h
 )
 
 add_executable(SecurePay ${SOURCES} ${HEADERS})

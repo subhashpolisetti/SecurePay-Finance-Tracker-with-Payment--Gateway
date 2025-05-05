@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <optional>
 #include "customer.h"
 #include "merchant.h"
 #include "transaction.h"
@@ -20,17 +21,40 @@
  * 
  * This class follows the Controller pattern to manage the application's
  * business logic and coordinate between the UI and the model.
+ * It also implements the Singleton pattern to ensure only one instance exists.
  */
 class AppController : public TransactionObserver {
 public:
-    AppController();
+    /**
+     * @brief Get the singleton instance
+     * @return Reference to the singleton instance
+     */
+    static AppController& getInstance() {
+        static AppController instance;
+        return instance;
+    }
+    
+    /**
+     * @brief Destructor
+     */
     ~AppController();
+    
+    /**
+     * @brief Delete copy constructor
+     */
+    AppController(const AppController&) = delete;
+    
+    /**
+     * @brief Delete assignment operator
+     */
+    AppController& operator=(const AppController&) = delete;
     
     /**
      * @brief Add a customer
      * @param customer The customer to add
+     * @return Reference to the added customer
      */
-    void addCustomer(const Customer& customer);
+    const Customer& addCustomer(const Customer& customer);
     
     /**
      * @brief Get all customers
@@ -43,6 +67,51 @@ public:
      * @return Mutable vector of customers
      */
     std::vector<Customer>& getCustomersMutable();
+    
+    /**
+     * @brief Find a customer by user ID
+     * @param userId The user ID
+     * @return Pointer to the customer, or nullptr if not found
+     */
+    const Customer* findCustomerByUserId(const std::string& userId) const;
+    
+    /**
+     * @brief Find a customer by username or email
+     * @param usernameOrEmail The username or email
+     * @return Pointer to the customer, or nullptr if not found
+     */
+    const Customer* findCustomerByUsernameOrEmail(const std::string& usernameOrEmail) const;
+    
+    /**
+     * @brief Authenticate a customer
+     * @param usernameOrEmail The username or email
+     * @param pin The PIN
+     * @return Pointer to the authenticated customer, or nullptr if authentication failed
+     */
+    const Customer* authenticateCustomer(const std::string& usernameOrEmail, const std::string& pin);
+    
+    /**
+     * @brief Get the currently authenticated customer
+     * @return Pointer to the authenticated customer, or nullptr if not authenticated
+     */
+    const Customer* getAuthenticatedCustomer() const;
+    
+    /**
+     * @brief Set the authenticated customer
+     * @param customer Pointer to the customer to set as authenticated
+     */
+    void setAuthenticatedCustomer(const Customer* customer);
+    
+    /**
+     * @brief Log out the currently authenticated customer
+     */
+    void logoutCustomer();
+    
+    /**
+     * @brief Check if a customer is authenticated
+     * @return True if a customer is authenticated, false otherwise
+     */
+    bool isCustomerAuthenticated() const;
     
     /**
      * @brief Add a merchant
@@ -175,9 +244,19 @@ public:
 
 private:
     /**
+     * @brief Private constructor for singleton
+     */
+    AppController();
+    
+    /**
      * @brief Vector of customers
      */
     std::vector<Customer> m_customers;
+    
+    /**
+     * @brief Currently authenticated customer
+     */
+    const Customer* m_authenticatedCustomer;
     
     /**
      * @brief Vector of merchants
