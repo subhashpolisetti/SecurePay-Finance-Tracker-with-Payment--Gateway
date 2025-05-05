@@ -707,6 +707,30 @@ src/gui/checkoutscreen.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.s
 .PHONY : src/gui/checkoutscreen.cpp.s
 
+src/gui/customerview.o: src/gui/customerview.cpp.o
+.PHONY : src/gui/customerview.o
+
+# target to build an object file
+src/gui/customerview.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o
+.PHONY : src/gui/customerview.cpp.o
+
+src/gui/customerview.i: src/gui/customerview.cpp.i
+.PHONY : src/gui/customerview.i
+
+# target to preprocess a source file
+src/gui/customerview.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.i
+.PHONY : src/gui/customerview.cpp.i
+
+src/gui/customerview.s: src/gui/customerview.cpp.s
+.PHONY : src/gui/customerview.s
+
+# target to generate assembly for a file
+src/gui/customerview.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.s
+.PHONY : src/gui/customerview.cpp.s
+
 src/gui/exportreportdialog.o: src/gui/exportreportdialog.cpp.o
 .PHONY : src/gui/exportreportdialog.o
 
@@ -802,6 +826,30 @@ src/gui/managecardsdialog.s: src/gui/managecardsdialog.cpp.s
 src/gui/managecardsdialog.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.s
 .PHONY : src/gui/managecardsdialog.cpp.s
+
+src/gui/merchantview.o: src/gui/merchantview.cpp.o
+.PHONY : src/gui/merchantview.o
+
+# target to build an object file
+src/gui/merchantview.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o
+.PHONY : src/gui/merchantview.cpp.o
+
+src/gui/merchantview.i: src/gui/merchantview.cpp.i
+.PHONY : src/gui/merchantview.i
+
+# target to preprocess a source file
+src/gui/merchantview.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.i
+.PHONY : src/gui/merchantview.cpp.i
+
+src/gui/merchantview.s: src/gui/merchantview.cpp.s
+.PHONY : src/gui/merchantview.s
+
+# target to generate assembly for a file
+src/gui/merchantview.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SecurePay.dir/build.make CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.s
+.PHONY : src/gui/merchantview.cpp.s
 
 src/gui/refunddialog.o: src/gui/refunddialog.cpp.o
 .PHONY : src/gui/refunddialog.o
@@ -931,6 +979,9 @@ help:
 	@echo "... src/gui/checkoutscreen.o"
 	@echo "... src/gui/checkoutscreen.i"
 	@echo "... src/gui/checkoutscreen.s"
+	@echo "... src/gui/customerview.o"
+	@echo "... src/gui/customerview.i"
+	@echo "... src/gui/customerview.s"
 	@echo "... src/gui/exportreportdialog.o"
 	@echo "... src/gui/exportreportdialog.i"
 	@echo "... src/gui/exportreportdialog.s"
@@ -943,6 +994,9 @@ help:
 	@echo "... src/gui/managecardsdialog.o"
 	@echo "... src/gui/managecardsdialog.i"
 	@echo "... src/gui/managecardsdialog.s"
+	@echo "... src/gui/merchantview.o"
+	@echo "... src/gui/merchantview.i"
+	@echo "... src/gui/merchantview.s"
 	@echo "... src/gui/refunddialog.o"
 	@echo "... src/gui/refunddialog.i"
 	@echo "... src/gui/refunddialog.s"

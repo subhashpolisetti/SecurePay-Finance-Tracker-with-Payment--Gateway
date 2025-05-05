@@ -485,6 +485,34 @@ CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.s"
 	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp" -o CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.s
 
+CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o: CMakeFiles/SecurePay.dir/flags.make
+CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.cpp
+CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o: CMakeFiles/SecurePay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o -MF CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o.d -o CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o -c "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.cpp"
+
+CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.i"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.cpp" > CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.i
+
+CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.s"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.cpp" -o CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.s
+
+CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o: CMakeFiles/SecurePay.dir/flags.make
+CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o: /Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.cpp
+CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o: CMakeFiles/SecurePay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o -MF CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o.d -o CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o -c "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.cpp"
+
+CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.i"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.cpp" > CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.i
+
+CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.s"
+	/opt/homebrew/bin/g++-14 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.cpp" -o CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.s
+
 # Object files for target SecurePay
 SecurePay_OBJECTS = \
 "CMakeFiles/SecurePay.dir/SecurePay_autogen/mocs_compilation.cpp.o" \
@@ -515,7 +543,9 @@ SecurePay_OBJECTS = \
 "CMakeFiles/SecurePay.dir/src/gui/addcarddialog.cpp.o" \
 "CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.o" \
 "CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o" \
-"CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o"
+"CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o" \
+"CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o" \
+"CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o"
 
 # External object files for target SecurePay
 SecurePay_EXTERNAL_OBJECTS =
@@ -549,6 +579,8 @@ SecurePay: CMakeFiles/SecurePay.dir/src/gui/addcarddialog.cpp.o
 SecurePay: CMakeFiles/SecurePay.dir/src/gui/managecardsdialog.cpp.o
 SecurePay: CMakeFiles/SecurePay.dir/src/gui/checkoutscreen.cpp.o
 SecurePay: CMakeFiles/SecurePay.dir/src/gui/logindialog.cpp.o
+SecurePay: CMakeFiles/SecurePay.dir/src/gui/customerview.cpp.o
+SecurePay: CMakeFiles/SecurePay.dir/src/gui/merchantview.cpp.o
 SecurePay: CMakeFiles/SecurePay.dir/build.make
 SecurePay: /opt/homebrew/lib/QtCharts.framework/Versions/A/QtCharts
 SecurePay: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/lib/libsqlite3.tbd
@@ -558,7 +590,7 @@ SecurePay: /opt/homebrew/lib/QtOpenGL.framework/Versions/A/QtOpenGL
 SecurePay: /opt/homebrew/lib/QtGui.framework/Versions/A/QtGui
 SecurePay: /opt/homebrew/lib/QtCore.framework/Versions/A/QtCore
 SecurePay: CMakeFiles/SecurePay.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_31) "Linking CXX executable SecurePay"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_33) "Linking CXX executable SecurePay"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SecurePay.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -181,6 +181,8 @@ SecurePay_autogen/timestamp: \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/addmerchantdialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/checkoutscreen.h \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.cpp \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/customerview.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/exportreportdialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/logindialog.cpp \
@@ -189,6 +191,8 @@ SecurePay_autogen/timestamp: \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/mainwindow.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/managecardsdialog.h \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.cpp \
+	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/merchantview.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.cpp \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/gui/refunddialog.h \
 	/Users/subhashpolisetti/Documents/Software\ System\ Engineering/project/SecurePay-Payment-Processing/src/main.cpp \
@@ -363,7 +367,6 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/gcc/14.2.0_1/include/c++/14/vector \
 	/opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdarg.h \
 	/opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/current/gcc/aarch64-apple-darwin24/14/include/stdbool.h \
-	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/QTimer \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q20functional.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q20iterator.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/q20memory.h \
@@ -379,7 +382,6 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qatomic.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qatomic_cxx11.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qbasicatomic.h \
-	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qbasictimer.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qbindingstorage.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qbytearray.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qbytearrayalgorithms.h \
@@ -481,7 +483,6 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtdeprecationmarkers.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtenvironmentvariables.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtextstream.h \
-	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtimer.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtimezone.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtmetamacros.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtCore.framework/Versions/A/Headers/qtnoop.h \
@@ -556,6 +557,7 @@ SecurePay_autogen/timestamp: \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QTableWidget \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QTextEdit \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QVBoxLayout \
+	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/QWidget \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractbutton.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractitemdelegate.h \
 	/opt/homebrew/Cellar/qt/6.8.2_1/lib/QtWidgets.framework/Versions/A/Headers/qabstractitemview.h \
