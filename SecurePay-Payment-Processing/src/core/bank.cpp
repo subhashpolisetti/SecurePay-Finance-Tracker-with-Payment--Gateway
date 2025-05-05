@@ -41,7 +41,15 @@ bool Bank::isCardValid(const PaymentMethod& paymentMethod) const {
 }
 
 bool Bank::hasSufficientFunds(const Transaction& transaction) const {
-    return transaction.getAmount() < 5000.0;
+    const Customer& customer = transaction.getCustomer();
+    const std::string& paymentMethodType = transaction.getPaymentMethod().getType();
+    double balance = customer.getBalance(paymentMethodType);
+    double amount = transaction.getAmount();
+    
+    std::cout << "Checking funds for " << paymentMethodType << ": Balance $" << balance 
+              << ", Transaction amount $" << amount << std::endl;
+    
+    return balance >= amount;
 }
 
 std::string Bank::resultToString(AuthorizationResult result) {

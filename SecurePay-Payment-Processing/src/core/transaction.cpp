@@ -73,6 +73,10 @@ void Transaction::addRefundedAmount(double amount) {
     m_refundedAmount += amount;
 }
 
+bool Transaction::deductFundsFromCustomer(Customer& customer) {
+    return customer.deduct(m_paymentMethod->getType(), m_amount);
+}
+
 std::string Transaction::statusToString(TransactionStatus status) {
     switch (status) {
         case TransactionStatus::PENDING:

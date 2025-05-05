@@ -1,4 +1,5 @@
 #include "appcontroller.h"
+#include "refundmanager.h"
 #include <iostream>
 
 AppController::AppController() : m_paymentGateway(std::make_unique<PaymentGateway>()) {
@@ -13,6 +14,9 @@ AppController::AppController() : m_paymentGateway(std::make_unique<PaymentGatewa
     // Add sample merchants
     addMerchant(Merchant("Acme Store", "acme@example.com", "789 Market St, San Francisco, CA"));
     addMerchant(Merchant("XYZ Electronics", "xyz@example.com", "101 Tech Blvd, San Jose, CA"));
+    
+    // Set the customers vector in the RefundManager
+    RefundManager::getInstance().setCustomers(&m_customers);
 }
 
 AppController::~AppController() {
@@ -27,6 +31,10 @@ void AppController::addCustomer(const Customer& customer) {
 }
 
 const std::vector<Customer>& AppController::getCustomers() const {
+    return m_customers;
+}
+
+std::vector<Customer>& AppController::getCustomersMutable() {
     return m_customers;
 }
 
@@ -67,7 +75,28 @@ std::unique_ptr<Transaction> AppController::createTransaction(
 
 void AppController::processTransaction(std::unique_ptr<Transaction> transaction) {
     if (m_paymentGateway && transaction) {
+        // Store the customer name for later lookup
+        std::string customerName = transaction->getCustomer().getName();
+        
+        // Process the transaction
         m_paymentGateway->processTransaction(std::move(transaction));
+        
+        // If the transaction was approved, find the customer and deduct funds
+        for (auto& customer : m_customers) {
+            if (customer.getName() == customerName) {
+                // The transaction is now in m_paymentGateway->getTransactions()
+                // Find the transaction with the matching customer name
+                for (const auto& tx : m_paymentGateway->getTransactions()) {
+                    if (tx->getCustomer().getName() == customerName && 
+                        tx->getStatus() == TransactionStatus::APPROVED) {
+                        // Deduct funds from the customer's account
+                        customer.deduct(tx->getPaymentMethod().getType(), tx->getAmount());
+                        break;
+                    }
+                }
+                break;
+            }
+        }
     }
 }
 

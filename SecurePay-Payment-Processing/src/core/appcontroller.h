@@ -19,6 +19,7 @@ public:
 
     void addCustomer(const Customer& customer);
     const std::vector<Customer>& getCustomers() const;
+    std::vector<Customer>& getCustomersMutable();
     
     void addMerchant(const Merchant& merchant);
     const std::vector<Merchant>& getMerchants() const;

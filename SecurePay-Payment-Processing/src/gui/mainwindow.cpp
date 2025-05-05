@@ -59,16 +59,28 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setupUI() {
+    // Set object names for debugging
+    setObjectName("MainWindow");
+    
     // Create central widget and main layout
     QWidget* centralWidget = new QWidget(this);
+    centralWidget->setObjectName("centralWidget");
     QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+    mainLayout->setContentsMargins(5, 5, 5, 5);
+    mainLayout->setSpacing(5);
     
     // Create role selection toolbar
     QToolBar* roleToolbar = new QToolBar("Role Selection", this);
+    roleToolbar->setObjectName("roleToolbar");
     roleToolbar->setMovable(false);
-    roleToolbar->addWidget(new QLabel("Select Role: "));
+    roleToolbar->setFloatable(false);
+    
+    QLabel* roleLabel = new QLabel("Select Role: ");
+    roleLabel->setObjectName("roleLabel");
+    roleToolbar->addWidget(roleLabel);
     
     m_roleComboBox = new QComboBox(roleToolbar);
+    m_roleComboBox->setObjectName("roleComboBox");
     m_roleComboBox->addItem("Customer", static_cast<int>(UserRole::CUSTOMER));
     m_roleComboBox->addItem("Merchant", static_cast<int>(UserRole::MERCHANT));
     roleToolbar->addWidget(m_roleComboBox);
@@ -77,14 +89,34 @@ void MainWindow::setupUI() {
     
     // Create stacked widget for different role views
     m_mainStack = new QStackedWidget(centralWidget);
+    m_mainStack->setObjectName("mainStack");
+    m_mainStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     
-    // Create customer view
-    m_customerView = new QWidget(m_mainStack);
-    m_mainStack->addWidget(m_customerView);
+    // Create customer view with scroll area
+    QScrollArea* customerScrollArea = new QScrollArea(m_mainStack);
+    customerScrollArea->setObjectName("customerScrollArea");
+    customerScrollArea->setWidgetResizable(true);
+    customerScrollArea->setFrameShape(QFrame::NoFrame);
+    customerScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    customerScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     
-    // Create merchant view
-    m_merchantView = new QWidget(m_mainStack);
-    m_mainStack->addWidget(m_merchantView);
+    m_customerView = new QWidget(customerScrollArea);
+    m_customerView->setObjectName("customerView");
+    customerScrollArea->setWidget(m_customerView);
+    m_mainStack->addWidget(customerScrollArea);
+    
+    // Create merchant view with scroll area
+    QScrollArea* merchantScrollArea = new QScrollArea(m_mainStack);
+    merchantScrollArea->setObjectName("merchantScrollArea");
+    merchantScrollArea->setWidgetResizable(true);
+    merchantScrollArea->setFrameShape(QFrame::NoFrame);
+    merchantScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    merchantScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    
+    m_merchantView = new QWidget(merchantScrollArea);
+    m_merchantView->setObjectName("merchantView");
+    merchantScrollArea->setWidget(m_merchantView);
+    m_mainStack->addWidget(merchantScrollArea);
     
     // Setup individual views
     setupCustomerView();
@@ -106,6 +138,9 @@ void MainWindow::setupUI() {
     // Set initial role to Customer
     m_roleComboBox->setCurrentIndex(0);
     onRoleChanged(0);
+    
+    // Set minimum size for the window
+    setMinimumSize(1000, 700);
 }
 
 void MainWindow::setupCustomerView() {
@@ -126,8 +161,43 @@ void MainWindow::setupCustomerView() {
     m_customerDetailsLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     m_customerDetailsLabel->setMinimumHeight(60);
     
+    // Balance display
+    m_balanceLabel = new QLabel(customerGroup);
+    m_balanceLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+    m_balanceLabel->setMinimumHeight(40);
+    m_balanceLabel->setStyleSheet("font-weight: bold; color: #006400;");
+    
+    // Check balance button
+    m_checkBalanceButton = new QPushButton("Check Balance", customerGroup);
+    
     customerLayout->addLayout(customerSelectionLayout);
     customerLayout->addWidget(m_customerDetailsLabel);
+    customerLayout->addWidget(m_balanceLabel);
+    customerLayout->addWidget(m_checkBalanceButton);
+    
+    // Deposit functionality
+    m_depositGroup = new QGroupBox("Deposit Funds", m_customerView);
+    QVBoxLayout* depositLayout = new QVBoxLayout(m_depositGroup);
+    
+    QFormLayout* depositFormLayout = new QFormLayout();
+    
+    m_depositMethodComboBox = new QComboBox(m_depositGroup);
+    m_depositMethodComboBox->addItem("Credit Card");
+    m_depositMethodComboBox->addItem("Debit Card");
+    m_depositMethodComboBox->addItem("Digital Wallet");
+    
+    m_depositAmountEdit = new QLineEdit(m_depositGroup);
+    m_depositAmountEdit->setValidator(new QDoubleValidator(0.01, 10000.00, 2, m_depositGroup));
+    m_depositAmountEdit->setPlaceholderText("Enter deposit amount (e.g., 100.00)");
+    
+    depositFormLayout->addRow("Payment Method:", m_depositMethodComboBox);
+    depositFormLayout->addRow("Amount ($):", m_depositAmountEdit);
+    
+    m_depositButton = new QPushButton("Deposit Funds", m_depositGroup);
+    m_depositButton->setMinimumHeight(40);
+    
+    depositLayout->addLayout(depositFormLayout);
+    depositLayout->addWidget(m_depositButton);
     
     // Payment information section
     QGroupBox* paymentGroup = new QGroupBox("Payment Information", m_customerView);
@@ -259,6 +329,7 @@ void MainWindow::setupCustomerView() {
     
     // Add all sections to main layout
     mainLayout->addWidget(customerGroup);
+    mainLayout->addWidget(m_depositGroup);
     mainLayout->addWidget(paymentGroup);
     mainLayout->addLayout(transactionLayout);
     
@@ -273,6 +344,10 @@ void MainWindow::setupCustomerView() {
             this, &MainWindow::onSubmitClicked);
     connect(m_exportCustomerReportButton, &QPushButton::clicked,
             this, &MainWindow::onExportCustomerReportClicked);
+    connect(m_depositButton, &QPushButton::clicked,
+            this, &MainWindow::onDepositClicked);
+    connect(m_checkBalanceButton, &QPushButton::clicked,
+            this, &MainWindow::onCheckBalanceClicked);
 }
 
 void MainWindow::setupMerchantView() {
@@ -369,14 +444,51 @@ void MainWindow::onRoleChanged(int index) {
     
     switch (role) {
         case UserRole::CUSTOMER:
-            m_mainStack->setCurrentWidget(m_customerView);
+            m_mainStack->setCurrentIndex(0); // Customer view
             statusBar()->showMessage("Customer Mode");
+            std::cout << "Switched to Customer Mode" << std::endl;
+            
+            // Update customer view
+            updateCustomerDetails();
+            updateBalanceDisplay();
+            updateCustomerTransactionHistory();
+            
+            // Ensure the view is visible and properly sized
+            m_customerView->show();
+            m_customerView->raise();
+            m_customerView->update();
             break;
+            
         case UserRole::MERCHANT:
-            m_mainStack->setCurrentWidget(m_merchantView);
+            m_mainStack->setCurrentIndex(1); // Merchant view
             statusBar()->showMessage("Merchant Mode");
+            std::cout << "Switched to Merchant Mode" << std::endl;
+            
+            // Update merchant view
+            updateMerchantDetails();
+            updateMerchantTransactionHistory();
+            updateRefundHistory();
+            updateFraudAlerts();
+            
+            // Ensure the view is visible and properly sized
+            m_merchantView->show();
+            m_merchantView->raise();
+            m_merchantView->update();
             break;
     }
+    
+    // Force layout update and repaint
+    if (QLayout* layout = centralWidget()->layout()) {
+        layout->invalidate();
+        layout->activate();
+    }
+    
+    // Update the UI
+    update();
+    
+    // Update the entire window
+    update();
+    repaint();
 }
 
 void MainWindow::updateCustomerDetails() {
@@ -410,39 +522,37 @@ void MainWindow::updateMerchantDetails() {
 void MainWindow::updatePaymentMethodFields() {
     QString paymentMethod = m_paymentMethodComboBox->currentText();
     
-    std::cout << "Selected payment method: " << paymentMethod.toUtf8().constData() << std::endl;
-    
     if (paymentMethod == "Credit Card" || paymentMethod == "Debit Card") {
-        std::cout << "Showing card fields, hiding wallet fields" << std::endl;
+        m_cardFieldsGroup->setVisible(true);
+        m_walletFieldsGroup->setVisible(false);
         
         m_cardFieldsGroup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         m_walletFieldsGroup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
         
         m_cardFieldsGroup->setFixedHeight(150);
         m_walletFieldsGroup->setFixedHeight(0);
-        
-        m_cardFieldsGroup->setVisible(true);
-        m_walletFieldsGroup->setVisible(false);
     } else if (paymentMethod == "Digital Wallet") {
-        std::cout << "Hiding card fields, showing wallet fields" << std::endl;
+        m_cardFieldsGroup->setVisible(false);
+        m_walletFieldsGroup->setVisible(true);
         
         m_cardFieldsGroup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
         m_walletFieldsGroup->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         
         m_cardFieldsGroup->setFixedHeight(0);
         m_walletFieldsGroup->setFixedHeight(100);
-        
-        m_cardFieldsGroup->setVisible(false);
-        m_walletFieldsGroup->setVisible(true);
     }
     
+    // Update layouts
     if (QLayout* layout = centralWidget()->layout()) {
         layout->invalidate();
         layout->activate();
     }
     
+    // Update the UI
     update();
-    updateGeometry();
+    
+    // Update the widget
+    update();
     repaint();
 }
 
@@ -461,6 +571,15 @@ void MainWindow::updateCustomerTransactionHistory() {
         m_customerTransactionTable->setItem(row, 3, new QTableWidgetItem(QString::fromUtf8(transaction->getPaymentMethod().getType().c_str())));
         m_customerTransactionTable->setItem(row, 4, new QTableWidgetItem(QString::fromUtf8(Transaction::statusToString(transaction->getStatus()).c_str())));
     }
+    
+    // Resize columns to content
+    m_customerTransactionTable->resizeColumnsToContents();
+    
+    // Update the table
+    m_customerTransactionTable->update();
+    
+    // Update the UI
+    update();
 }
 
 void MainWindow::updateMerchantTransactionHistory() {
@@ -479,6 +598,15 @@ void MainWindow::updateMerchantTransactionHistory() {
         m_merchantTransactionTable->setItem(row, 4, new QTableWidgetItem(QString::fromUtf8(transaction->getPaymentMethod().getType().c_str())));
         m_merchantTransactionTable->setItem(row, 5, new QTableWidgetItem(QString::fromUtf8(Transaction::statusToString(transaction->getStatus()).c_str())));
     }
+    
+    // Resize columns to content
+    m_merchantTransactionTable->resizeColumnsToContents();
+    
+    // Update the table
+    m_merchantTransactionTable->update();
+    
+    // Update the UI
+    update();
 }
 
 void MainWindow::updateRefundHistory() {
@@ -495,6 +623,98 @@ void MainWindow::updateFraudAlerts() {
 
 void MainWindow::onCustomerSelected(int index) {
     updateCustomerDetails();
+    updateBalanceDisplay();
+}
+
+void MainWindow::onDepositClicked() {
+    int customerIndex = m_customerComboBox->currentIndex();
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+        QMessageBox::warning(this, "Validation Error", "Please select a customer.");
+        return;
+    }
+    
+    bool amountValid;
+    double amount = m_depositAmountEdit->text().toDouble(&amountValid);
+    
+    if (!amountValid || amount <= 0) {
+        QMessageBox::warning(this, "Validation Error", "Please enter a valid amount.");
+        m_depositAmountEdit->setFocus();
+        return;
+    }
+    
+    Customer& customer = m_appController->getCustomersMutable()[customerIndex];
+    QString paymentMethodType = m_depositMethodComboBox->currentText();
+    
+    // Get current balance
+    double currentBalance = customer.getBalance(paymentMethodType.toUtf8().constData());
+    
+    // Add deposit amount to current balance
+    customer.setBalance(paymentMethodType.toUtf8().constData(), currentBalance + amount);
+    
+    // Update balance display
+    updateBalanceDisplay();
+    
+    // Clear deposit amount
+    m_depositAmountEdit->clear();
+    
+    // Show success message
+    QMessageBox::information(this, "Deposit Successful", 
+                            QString("Successfully deposited $%1 to %2.\nNew balance: $%3")
+                            .arg(amount, 0, 'f', 2)
+                            .arg(paymentMethodType)
+                            .arg(customer.getBalance(paymentMethodType.toUtf8().constData()), 0, 'f', 2));
+}
+
+void MainWindow::onCheckBalanceClicked() {
+    updateBalanceDisplay();
+    
+    int customerIndex = m_customerComboBox->currentIndex();
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+        QMessageBox::warning(this, "Validation Error", "Please select a customer.");
+        return;
+    }
+    
+    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    
+    QString balanceInfo = "Current Balances:\n\n";
+    
+    const auto& balances = customer.getAllBalances();
+    for (const auto& [method, balance] : balances) {
+        balanceInfo += QString("%1: $%2\n")
+                      .arg(QString::fromUtf8(method.c_str()))
+                      .arg(balance, 0, 'f', 2);
+    }
+    
+    QMessageBox::information(this, "Account Balances", balanceInfo);
+}
+
+void MainWindow::updateBalanceDisplay() {
+    int customerIndex = m_customerComboBox->currentIndex();
+    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+        m_balanceLabel->setText("No customer selected");
+        return;
+    }
+    
+    const Customer& customer = m_appController->getCustomers()[customerIndex];
+    
+    QString balanceText = "Balances: ";
+    
+    const auto& balances = customer.getAllBalances();
+    bool first = true;
+    for (const auto& [method, balance] : balances) {
+        if (!first) {
+            balanceText += " | ";
+        }
+        balanceText += QString("%1: $%2")
+                      .arg(QString::fromUtf8(method.c_str()))
+                      .arg(balance, 0, 'f', 2);
+        first = false;
+    }
+    
+    m_balanceLabel->setText(balanceText);
+    
+    // Update the UI
+    update();
 }
 
 void MainWindow::onMerchantSelected(int index) {
@@ -665,6 +885,9 @@ void MainWindow::onSubmitClicked() {
         m_resultLabel->setText(resultText);
         m_resultLabel->setStyleSheet("font-size: 16pt; " + resultStyle);
         
+        // Update balance display after transaction
+        updateBalanceDisplay();
+        
         statusBar()->showMessage("Transaction processed: " + QString::fromUtf8(transactionId.c_str()));
     } else {
         QMessageBox::critical(this, "Error", "Failed to create transaction.");
@@ -703,6 +926,9 @@ void MainWindow::onProcessRefundClicked() {
         updateCustomerTransactionHistory();
         updateMerchantTransactionHistory();
         updateRefundHistory();
+        
+        // Update balance display after refund
+        updateBalanceDisplay();
     }
 }
 
@@ -719,6 +945,7 @@ void MainWindow::onExportMerchantReportClicked() {
 void MainWindow::onTransactionUpdated(const Transaction& transaction) {
     updateCustomerTransactionHistory();
     updateMerchantTransactionHistory();
+    updateBalanceDisplay();
     
     statusBar()->showMessage("Transaction updated: " + QString::fromUtf8(transaction.getTransactionId().c_str()));
 }

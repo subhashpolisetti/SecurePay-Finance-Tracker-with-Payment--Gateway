@@ -170,6 +170,13 @@ public:
     virtual void addRefundedAmount(double amount);
     
     /**
+     * @brief Deduct funds from the customer's account
+     * @param customer The customer to deduct funds from
+     * @return True if successful, false if insufficient funds
+     */
+    virtual bool deductFundsFromCustomer(Customer& customer);
+    
+    /**
      * @brief Convert a transaction status to a string
      * @param status The transaction status
      * @return The status as a string

@@ -151,6 +151,12 @@ public:
      */
     std::vector<const Refund*> getRefundsForTransaction(const std::string& transactionId) const;
     
+    /**
+     * @brief Set the customers vector reference
+     * @param customers Reference to the vector of customers
+     */
+    void setCustomers(std::vector<Customer>* customers);
+    
 private:
     /**
      * @brief Private constructor for singleton
@@ -165,6 +171,7 @@ private:
     bool processRefundCommand(std::unique_ptr<RefundCommand> command);
     
     std::vector<std::unique_ptr<Refund>> m_refunds;
+    std::vector<Customer>* m_customers;
 };
 
 #endif // REFUNDMANAGER_H

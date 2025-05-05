@@ -24,12 +24,15 @@ void PaymentGateway::processTransaction(std::unique_ptr<Transaction> transaction
     switch (authResult) {
         case AuthorizationResult::APPROVED:
             transaction->setState(std::make_unique<ApprovedState>());
+            std::cout << "Transaction approved" << std::endl;
             break;
         case AuthorizationResult::DECLINED:
             transaction->setState(std::make_unique<DeclinedState>());
+            std::cout << "Transaction declined by bank" << std::endl;
             break;
         case AuthorizationResult::REVIEW_REQUIRED:
             transaction->setState(std::make_unique<FlaggedState>());
+            std::cout << "Transaction flagged for review" << std::endl;
             break;
     }
     

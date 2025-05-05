@@ -13,6 +13,8 @@
 #include <QStatusBar>
 #include <QTabWidget>
 #include <QStackedWidget>
+#include <QTimer>
+#include <QScrollArea>
 #include <memory>
 #include "../core/appcontroller.h"
 #include "../core/transaction.h"
@@ -47,6 +49,7 @@ private:
     QComboBox* m_customerComboBox;
     QPushButton* m_addCustomerButton;
     QLabel* m_customerDetailsLabel;
+    QLabel* m_balanceLabel;
     QLineEdit* m_amountEdit;
     QComboBox* m_paymentMethodComboBox;
     QLineEdit* m_cardNumberEdit;
@@ -61,6 +64,13 @@ private:
     QLabel* m_resultLabel;
     QTableWidget* m_customerTransactionTable;
     QPushButton* m_exportCustomerReportButton;
+    
+    // Deposit functionality
+    QGroupBox* m_depositGroup;
+    QComboBox* m_depositMethodComboBox;
+    QLineEdit* m_depositAmountEdit;
+    QPushButton* m_depositButton;
+    QPushButton* m_checkBalanceButton;
     
     // Merchant view widgets
     QWidget* m_merchantView;
@@ -98,6 +108,9 @@ private slots:
     void onPaymentMethodSelected(int index);
     void onSubmitClicked();
     void onExportCustomerReportClicked();
+    void onDepositClicked();
+    void onCheckBalanceClicked();
+    void updateBalanceDisplay();
     
     // Merchant view slots
     void onMerchantSelected(int index);

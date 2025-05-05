@@ -3,6 +3,7 @@
 
 #include "transaction.h"
 #include "fraudsystem.h"
+#include "customer.h"
 
 // Enum for authorization result
 enum class AuthorizationResult {
