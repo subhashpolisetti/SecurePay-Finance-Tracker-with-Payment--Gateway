@@ -38,6 +38,12 @@ public:
     void processTransaction(std::unique_ptr<Transaction> transaction);
     
     /**
+     * @brief Store a transaction without processing it
+     * @param transaction The transaction to store
+     */
+    void storeTransaction(std::unique_ptr<Transaction> transaction);
+    
+    /**
      * @brief Process a transaction with an idempotency key
      * @param transaction The transaction to process
      * @param idempotencyKey The idempotency key

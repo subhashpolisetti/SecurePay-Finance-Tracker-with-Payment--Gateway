@@ -26,10 +26,10 @@ void AddCardDialog::initUI() {
     
     // Card number field
     m_cardNumberEdit = new QLineEdit();
-    m_cardNumberEdit->setPlaceholderText("1234 5678 9012");
+    m_cardNumberEdit->setPlaceholderText("1234 5678 9012 3456");
     
-    // Only allow digits and spaces for exactly 12 digits
-    QRegularExpression cardRegex("[0-9 ]{0,15}"); // Allow up to 15 chars with spaces for 12 digits
+    // Only allow digits and spaces for exactly 16 digits
+    QRegularExpression cardRegex("[0-9 ]{0,19}"); // Allow up to 19 chars with spaces for 16 digits
     QRegularExpressionValidator* cardValidator = new QRegularExpressionValidator(cardRegex, this);
     m_cardNumberEdit->setValidator(cardValidator);
     
@@ -53,18 +53,18 @@ void AddCardDialog::initUI() {
     // Expiry date field
     m_expiryDateEdit = new QLineEdit();
     m_expiryDateEdit->setPlaceholderText("MM/YY");
-    m_expiryDateEdit->setInputMask("99/99");
+    m_expiryDateEdit->setInputMask("99/99;_"); // Add ;_ to prevent space at beginning
     
-    formLayout->addRow("Expiry Date:", m_expiryDateEdit);
+    formLayout->addRow("Expiry Date (MM/YY):", m_expiryDateEdit);
     
     // CVV field
     m_cvvEdit = new QLineEdit();
     m_cvvEdit->setPlaceholderText("123");
-    m_cvvEdit->setMaxLength(4);
+    m_cvvEdit->setMaxLength(3);  // Limit to exactly 3 digits
     m_cvvEdit->setEchoMode(QLineEdit::Password);
     
-    // Only allow digits
-    QRegularExpression cvvRegex("[0-9]{3,4}");
+    // Only allow exactly 3 digits
+    QRegularExpression cvvRegex("[0-9]{3}");
     QRegularExpressionValidator* cvvValidator = new QRegularExpressionValidator(cvvRegex, this);
     m_cvvEdit->setValidator(cvvValidator);
     
@@ -117,25 +117,69 @@ void AddCardDialog::onCancelClicked() {
 }
 
 void AddCardDialog::onCardNumberChanged(const QString& text) {
-    // Format the card number
-    QString formattedNumber = formatCardNumber(text);
+    // Disconnect the signal temporarily to prevent recursion
+    disconnect(m_cardNumberEdit, &QLineEdit::textChanged, this, &AddCardDialog::onCardNumberChanged);
     
-    // Only update if the formatting changed the text
-    if (formattedNumber != text) {
-        int cursorPos = m_cardNumberEdit->cursorPosition();
-        m_cardNumberEdit->setText(formattedNumber);
-        m_cardNumberEdit->setCursorPosition(cursorPos);
+    // Get the current cursor position
+    int cursorPos = m_cardNumberEdit->cursorPosition();
+    
+    // Remove all spaces from the text
+    QString cleanText = text;
+    cleanText.remove(' ');
+    
+    // Calculate how many digits are before the cursor
+    int digitsBeforeCursor = 0;
+    for (int i = 0; i < cursorPos && i < text.length(); ++i) {
+        if (text[i] != ' ') {
+            digitsBeforeCursor++;
+        }
     }
+    
+    // Format the clean text with spaces
+    QString formattedText;
+    for (int i = 0; i < cleanText.length(); ++i) {
+        // Add a space after every 4th digit (but not at the beginning)
+        if (i > 0 && i % 4 == 0) {
+            formattedText += ' ';
+        }
+        formattedText += cleanText[i];
+    }
+    
+    // Calculate the new cursor position
+    int newCursorPos = 0;
+    int digitCount = 0;
+    for (int i = 0; i < formattedText.length(); ++i) {
+        if (digitCount == digitsBeforeCursor) {
+            newCursorPos = i;
+            break;
+        }
+        
+        if (formattedText[i] != ' ') {
+            digitCount++;
+        }
+    }
+    
+    // If we reached the end, set cursor at the end
+    if (digitCount == digitsBeforeCursor) {
+        newCursorPos = formattedText.length();
+    }
+    
+    // Set the formatted text and cursor position
+    m_cardNumberEdit->setText(formattedText);
+    m_cardNumberEdit->setCursorPosition(newCursorPos);
     
     // Update the card type label
     updateCardTypeLabel();
+    
+    // Reconnect the signal
+    connect(m_cardNumberEdit, &QLineEdit::textChanged, this, &AddCardDialog::onCardNumberChanged);
 }
 
 bool AddCardDialog::validateForm() {
     // Check card number
     QString cardNumber = m_cardNumberEdit->text().remove(' ');
-    if (cardNumber.length() != 12) {
-        QMessageBox::warning(this, "Invalid Card", "Please enter a valid 12-digit card number.");
+    if (cardNumber.length() != 16) {
+        QMessageBox::warning(this, "Invalid Card", "Please enter a valid 16-digit card number.");
         return false;
     }
     

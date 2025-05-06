@@ -82,8 +82,6 @@ private:
     QLabel* m_productPriceLabel;
     
     // Customer information
-    QComboBox* m_customerComboBox;
-    QLineEdit* m_emailEdit;
     QTextEdit* m_shippingAddressEdit;
     
     // Payment method

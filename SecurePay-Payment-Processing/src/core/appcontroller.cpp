@@ -139,9 +139,10 @@ bool AppController::loadAllData() {
     if (transactions.empty()) {
         success = false;
     } else {
-        // Add transactions to the payment gateway
+        // Add transactions to the payment gateway without processing them again
         for (auto& transaction : transactions) {
-            m_paymentGateway->processTransaction(std::move(transaction));
+            // Store the transaction directly without processing
+            m_paymentGateway->storeTransaction(std::move(transaction));
         }
     }
     

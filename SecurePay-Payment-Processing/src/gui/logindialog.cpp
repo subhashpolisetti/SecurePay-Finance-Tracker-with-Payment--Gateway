@@ -222,6 +222,8 @@ void LoginDialog::onLoginClicked() {
     }
     
     if (authenticated) {
+        // Set the authenticated customer in the AppController
+        m_appController->setAuthenticatedCustomer(m_authenticatedCustomer);
         QMessageBox::information(this, "Login Successful", "You have successfully logged in.");
         accept(); // Close dialog with accept result
     } else {
@@ -279,6 +281,9 @@ void LoginDialog::onCreateAccountClicked() {
             break;
         }
     }
+    
+    // Set the authenticated customer in the AppController
+    m_appController->setAuthenticatedCustomer(m_authenticatedCustomer);
     
     QMessageBox::information(this, "Registration Successful", "Your account has been created successfully.");
     accept(); // Close dialog with accept result

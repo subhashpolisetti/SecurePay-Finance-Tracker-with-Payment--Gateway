@@ -41,6 +41,12 @@ void PaymentGateway::processTransaction(std::unique_ptr<Transaction> transaction
     m_transactions.push_back(std::move(transaction));
 }
 
+void PaymentGateway::storeTransaction(std::unique_ptr<Transaction> transaction) {
+    // Simply store the transaction without processing it
+    // This is used when loading transactions from the database
+    m_transactions.push_back(std::move(transaction));
+}
+
 std::string PaymentGateway::processTransactionWithIdempotencyKey(
     std::unique_ptr<Transaction> transaction,
     const std::string& idempotencyKey) {

@@ -183,6 +183,7 @@ void CustomerView::initUI() {
     // Submit button
     m_submitButton = new QPushButton("Submit Payment", paymentGroup);
     m_submitButton->setMinimumHeight(40);
+    m_submitButton->setEnabled(false); // Disabled by default, enabled only after e-commerce shopping
     
     // Payment fields container
     QWidget* paymentFieldsContainer = new QWidget(paymentGroup);
@@ -404,7 +405,7 @@ void CustomerView::updateAuthenticationStatus() {
     // Enable/disable customer-specific functionality
     m_depositGroup->setEnabled(isAuthenticated);
     m_checkBalanceButton->setEnabled(isAuthenticated);
-    m_submitButton->setEnabled(isAuthenticated);
+    // Do not enable submit button here - it should only be enabled after e-commerce shopping
     
     // Update customer details
     updateCustomerDetails();
@@ -497,6 +498,12 @@ void CustomerView::onAddCustomerClicked() {
 
 void CustomerView::onPaymentMethodSelected(int index) {
     updatePaymentMethodFields();
+    
+    // Auto-populate card details if a saved card is selected
+    int savedCardIndex = m_savedCardsComboBox->currentIndex();
+    if (savedCardIndex > 0) { // If a saved card is selected (not "Add New Card")
+        onSavedCardSelected(savedCardIndex);
+    }
 }
 
 void CustomerView::onSavedCardSelected(int index) {
@@ -899,6 +906,9 @@ void CustomerView::receiveCheckoutPayload(const CheckoutPayload& payload) {
         m_walletIdEdit->setText("wallet_" + QString::fromStdString(payload.customerId));
         m_walletEmailEdit->setText(QString::fromStdString(payload.customerId) + "@example.com");
     }
+    
+    // Enable the submit button when coming from e-commerce shopping
+    m_submitButton->setEnabled(true);
     
     // Focus on the submit button
     m_submitButton->setFocus();

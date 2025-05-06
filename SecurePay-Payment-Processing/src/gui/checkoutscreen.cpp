@@ -18,8 +18,6 @@ CheckoutScreen::CheckoutScreen(AppController* appController, QWidget* parent)
     // Connect signals and slots
     connect(m_productComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &CheckoutScreen::onProductSelected);
-    connect(m_customerComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &CheckoutScreen::onCustomerSelected);
     connect(m_payNowButton, &QPushButton::clicked,
             this, &CheckoutScreen::onPayNowClicked);
     connect(m_cancelButton, &QPushButton::clicked,
@@ -28,11 +26,6 @@ CheckoutScreen::CheckoutScreen(AppController* appController, QWidget* parent)
     // Initialize with first product
     if (m_productComboBox->count() > 0) {
         onProductSelected(0);
-    }
-    
-    // Initialize with first customer
-    if (m_customerComboBox->count() > 0) {
-        onCustomerSelected(0);
     }
 }
 
@@ -70,20 +63,25 @@ void CheckoutScreen::initUI() {
     QGroupBox* customerGroup = new QGroupBox("Customer Information", this);
     QFormLayout* customerLayout = new QFormLayout(customerGroup);
     
-    m_customerComboBox = new QComboBox(customerGroup);
-    for (const auto& customer : m_appController->getCustomers()) {
-        m_customerComboBox->addItem(QString::fromUtf8(customer.getName().c_str()));
-    }
+    // Get the authenticated customer
+    const Customer* authenticatedCustomer = m_appController->getAuthenticatedCustomer();
+    QString customerName = authenticatedCustomer ? 
+                          QString::fromUtf8(authenticatedCustomer->getName().c_str()) : 
+                          "No customer logged in";
     
-    m_emailEdit = new QLineEdit(customerGroup);
-    m_emailEdit->setPlaceholderText("Enter email for receipt");
+    QLabel* customerLabel = new QLabel(customerName, customerGroup);
+    customerLabel->setStyleSheet("font-weight: bold;");
     
     m_shippingAddressEdit = new QTextEdit(customerGroup);
     m_shippingAddressEdit->setPlaceholderText("Enter shipping address");
     m_shippingAddressEdit->setMaximumHeight(80);
     
-    customerLayout->addRow("Customer:", m_customerComboBox);
-    customerLayout->addRow("Email:", m_emailEdit);
+    // Pre-fill shipping address if customer is authenticated
+    if (authenticatedCustomer) {
+        m_shippingAddressEdit->setText(QString::fromUtf8(authenticatedCustomer->getBillingAddress().c_str()));
+    }
+    
+    customerLayout->addRow("Customer:", customerLabel);
     customerLayout->addRow("Shipping Address:", m_shippingAddressEdit);
     
     mainLayout->addWidget(customerGroup);
@@ -115,11 +113,6 @@ void CheckoutScreen::initUI() {
     buttonLayout->addWidget(m_payNowButton);
     
     mainLayout->addLayout(buttonLayout);
-    
-    // Load customer data for the first customer
-    if (m_customerComboBox->count() > 0) {
-        onCustomerSelected(0);
-    }
 }
 
 void CheckoutScreen::initProductData() {
@@ -135,19 +128,8 @@ void CheckoutScreen::initProductData() {
 }
 
 void CheckoutScreen::loadSavedCards() {
-    // Get the selected customer
-    int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
-        return;
-    }
-    
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
-    
-    // Set email from customer data
-    m_emailEdit->setText(QString::fromStdString(customer.getEmail()));
-    
-    // Set shipping address from customer data
-    m_shippingAddressEdit->setText(QString::fromStdString(customer.getBillingAddress()));
+    // This method is now a no-op since we're using the authenticated customer directly
+    // It's kept for compatibility with existing code
 }
 
 void CheckoutScreen::updateProductPrice() {
@@ -172,17 +154,10 @@ bool CheckoutScreen::validateForm() {
         return false;
     }
     
-    // Validate customer selection
-    int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
-        QMessageBox::warning(this, "Validation Error", "Please select a customer.");
-        return false;
-    }
-    
-    // Validate email
-    if (m_emailEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Validation Error", "Please enter an email address.");
-        m_emailEdit->setFocus();
+    // Validate authenticated customer
+    const Customer* authenticatedCustomer = m_appController->getAuthenticatedCustomer();
+    if (!authenticatedCustomer) {
+        QMessageBox::warning(this, "Validation Error", "No customer is logged in. Please log in first.");
         return false;
     }
     
@@ -207,7 +182,8 @@ void CheckoutScreen::onProductSelected(int index) {
 }
 
 void CheckoutScreen::onCustomerSelected(int index) {
-    loadSavedCards();
+    // This method is now a no-op since we've removed the customer selection
+    // It's kept for compatibility with existing code
 }
 
 void CheckoutScreen::onPaymentMethodSelected(int index) {
@@ -226,16 +202,15 @@ void CheckoutScreen::onPayNowClicked() {
         return;
     }
     
-    // Get selected customer
-    int customerIndex = m_customerComboBox->currentIndex();
-    if (customerIndex < 0 || customerIndex >= static_cast<int>(m_appController->getCustomers().size())) {
+    // Get authenticated customer
+    const Customer* authenticatedCustomer = m_appController->getAuthenticatedCustomer();
+    if (!authenticatedCustomer) {
+        QMessageBox::warning(this, "Validation Error", "No customer is logged in. Please log in first.");
         return;
     }
     
-    const Customer& customer = m_appController->getCustomers()[customerIndex];
-    
     // Populate the checkout payload with basic information
-    m_checkoutPayload.customerId = customer.getName();
+    m_checkoutPayload.customerId = authenticatedCustomer->getName();
     m_checkoutPayload.productName = m_productComboBox->currentText().toUtf8().constData();
     m_checkoutPayload.amount = m_products[productIndex].price;
     m_checkoutPayload.shippingAddress = m_shippingAddressEdit->toPlainText().toUtf8().constData();
