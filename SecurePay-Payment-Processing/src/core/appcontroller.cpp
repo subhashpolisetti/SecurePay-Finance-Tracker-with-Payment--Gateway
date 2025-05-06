@@ -1,5 +1,6 @@
 #include "appcontroller.h"
 #include "refundmanager.h"
+#include "reportmanager.h"
 #include "bank.h"
 #include "fraudsystem.h"
 #include <iostream>
@@ -23,6 +24,9 @@ AppController::AppController()
     // Initialize the data manager
     std::string dbPath = "securepay.db"; // Database file path
     m_dataManager = std::make_unique<SQLiteDataManager>(dbPath);
+    
+    // Initialize the report manager with the payment gateway
+    ReportManager::getInstance().setPaymentGateway(m_paymentGateway.get());
     
     if (m_dataManager->initialize()) {
         // Try to load data from the database

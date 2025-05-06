@@ -61,8 +61,12 @@ std::string TransactionHistoryReport::generateReport(
     }
     
     ss << "\n";
-    ss << "ID,Date,Customer,Merchant,Amount,Payment Method,Status\n";
     
+    // Create a table with proper spacing and row numbers
+    ss << "   ID                      Customer                 Amount                  Payment Method          Status\n";
+    ss << "   ----------------------  ----------------------   ----------------------  ----------------------  ----------------------\n";
+    
+    int rowNumber = 1;
     for (const auto& transaction : transactions) {
         // Apply filters
         if (!customerId.empty() && transaction->getCustomer().getName() != customerId) {
@@ -75,13 +79,18 @@ std::string TransactionHistoryReport::generateReport(
         
         // TODO: Implement date filtering
         
-        ss << transaction->getTransactionId() << ","
-           << transaction->getTimestamp() << ","
-           << transaction->getCustomer().getName() << ","
-           << transaction->getMerchant().getName() << ","
-           << transaction->getAmount() << ","
-           << transaction->getPaymentMethod().getType() << ","
-           << Transaction::statusToString(transaction->getStatus()) << "\n";
+        // Format the amount with dollar sign
+        std::stringstream amountStream;
+        amountStream << "$" << std::fixed << std::setprecision(2) << transaction->getAmount();
+        
+        ss << rowNumber << "  " 
+           << std::left << std::setw(22) << transaction->getTransactionId() << "  "
+           << std::left << std::setw(22) << transaction->getCustomer().getName() << "  "
+           << std::left << std::setw(22) << amountStream.str() << "  "
+           << std::left << std::setw(22) << transaction->getPaymentMethod().getType() << "  "
+           << std::left << std::setw(22) << Transaction::statusToString(transaction->getStatus()) << "\n";
+        
+        rowNumber++;
     }
     
     return ss.str();
@@ -130,7 +139,7 @@ std::string RefundHistoryReport::generateReport(
     }
     
     ss << "\n";
-    ss << "ID,Date,Transaction ID,Customer,Merchant,Amount,Reason\n";
+    ss << "ID\tDate\tTransaction ID\tCustomer\tMerchant\tAmount\tReason\n";
     
     for (const auto& refund : refunds) {
         const Transaction& transaction = refund->getTransaction();
@@ -146,12 +155,12 @@ std::string RefundHistoryReport::generateReport(
         
         // TODO: Implement date filtering
         
-        ss << refund->getRefundId() << ","
-           << refund->getTimestamp() << ","
-           << transaction.getTransactionId() << ","
-           << transaction.getCustomer().getName() << ","
-           << transaction.getMerchant().getName() << ","
-           << refund->getAmount() << ","
+        ss << refund->getRefundId() << "\t"
+           << refund->getTimestamp() << "\t"
+           << transaction.getTransactionId() << "\t"
+           << transaction.getCustomer().getName() << "\t"
+           << transaction.getMerchant().getName() << "\t"
+           << refund->getAmount() << "\t"
            << refund->getReason() << "\n";
     }
     
@@ -201,7 +210,7 @@ std::string FraudAlertReport::generateReport(
     }
     
     ss << "\n";
-    ss << "ID,Date,Transaction ID,Customer,Merchant,Amount,Risk Level,Description,Reviewed\n";
+    ss << "ID\tDate\tTransaction ID\tCustomer\tMerchant\tAmount\tRisk Level\tDescription\tReviewed\n";
     
     for (const auto& alert : fraudAlerts) {
         const Transaction& transaction = alert->getTransaction();
@@ -223,14 +232,14 @@ std::string FraudAlertReport::generateReport(
         
         // TODO: Implement date filtering
         
-        ss << alert->getAlertId() << ","
-           << alert->getTimestamp() << ","
-           << transaction.getTransactionId() << ","
-           << transaction.getCustomer().getName() << ","
-           << transaction.getMerchant().getName() << ","
-           << transaction.getAmount() << ","
-           << FraudSystem::riskLevelToString(alert->getRiskLevel()) << ","
-           << alert->getDescription() << ","
+        ss << alert->getAlertId() << "\t"
+           << alert->getTimestamp() << "\t"
+           << transaction.getTransactionId() << "\t"
+           << transaction.getCustomer().getName() << "\t"
+           << transaction.getMerchant().getName() << "\t"
+           << transaction.getAmount() << "\t"
+           << FraudSystem::riskLevelToString(alert->getRiskLevel()) << "\t"
+           << alert->getDescription() << "\t"
            << (alert->isReviewed() ? "Yes" : "No") << "\n";
     }
     
@@ -297,12 +306,46 @@ std::string CustomerSpendingReport::generateReport(
     }
     
     // Output customer spending summary
-    ss << "Customer,Total Spending,Transaction Count\n";
+    ss << "   ID                      Customer                 Amount                  Payment Method          Status\n";
+    ss << "   ----------------------  ----------------------   ----------------------  ----------------------  ----------------------\n";
     
-    for (const auto& pair : customerTotals) {
-        ss << pair.first << ","
-           << pair.second << ","
-           << customerTransactions[pair.first].size() << "\n";
+    // If a specific customer ID is provided, show their transactions
+    if (!customerId.empty()) {
+        int rowNumber = 1;
+        for (const auto& transaction : customerTransactions[customerId]) {
+            // Format the amount with dollar sign
+            std::stringstream amountStream;
+            amountStream << "$" << std::fixed << std::setprecision(2) << transaction->getAmount();
+            
+            ss << rowNumber << "  " 
+               << std::left << std::setw(22) << transaction->getTransactionId() << "  "
+               << std::left << std::setw(22) << transaction->getCustomer().getName() << "  "
+               << std::left << std::setw(22) << amountStream.str() << "  "
+               << std::left << std::setw(22) << transaction->getPaymentMethod().getType() << "  "
+               << std::left << std::setw(22) << Transaction::statusToString(transaction->getStatus()) << "\n";
+            
+            rowNumber++;
+        }
+    } else {
+        // If no specific customer, show a summary for each customer
+        int rowNumber = 1;
+        for (const auto& pair : customerTotals) {
+            std::string customerName = pair.first;
+            double totalSpending = pair.second;
+            
+            // Format the amount with dollar sign
+            std::stringstream amountStream;
+            amountStream << "$" << std::fixed << std::setprecision(2) << totalSpending;
+            
+            ss << rowNumber << "  " 
+               << std::left << std::setw(22) << "SUMMARY" << "  "
+               << std::left << std::setw(22) << customerName << "  "
+               << std::left << std::setw(22) << amountStream.str() << "  "
+               << std::left << std::setw(22) << "All Methods" << "  "
+               << std::left << std::setw(22) << "Total: " + std::to_string(customerTransactions[customerName].size()) + " transactions" << "\n";
+            
+            rowNumber++;
+        }
     }
     
     return ss.str();
@@ -384,7 +427,7 @@ std::string MerchantEarningsReport::generateReport(
     }
     
     // Output merchant earnings summary
-    ss << "Merchant,Gross Earnings,Refunds,Net Earnings,Transaction Count\n";
+    ss << "Merchant\tGross Earnings\tRefunds\tNet Earnings\tTransaction Count\n";
     
     for (const auto& pair : merchantTotals) {
         std::string merchantName = pair.first;
@@ -392,10 +435,10 @@ std::string MerchantEarningsReport::generateReport(
         double refunds = merchantRefunds[merchantName];
         double netEarnings = grossEarnings - refunds;
         
-        ss << merchantName << ","
-           << grossEarnings << ","
-           << refunds << ","
-           << netEarnings << ","
+        ss << merchantName << "\t"
+           << grossEarnings << "\t"
+           << refunds << "\t"
+           << netEarnings << "\t"
            << merchantTransactions[merchantName].size() << "\n";
     }
     
@@ -496,7 +539,7 @@ std::string DailySummaryReport::generateReport(
     }
     
     // Output daily summary
-    ss << "Date,Transaction Count,Gross Amount,Refunds,Net Amount,Fraud Alerts\n";
+    ss << "Date\tTransaction Count\tGross Amount\tRefunds\tNet Amount\tFraud Alerts\n";
     
     for (const auto& pair : dateTransactions) {
         std::string dateStr = pair.first;
@@ -505,11 +548,11 @@ std::string DailySummaryReport::generateReport(
         double netAmount = grossAmount - refundAmount;
         int fraudAlertCount = dateFraudAlerts[dateStr];
         
-        ss << dateStr << ","
-           << pair.second.size() << ","
-           << grossAmount << ","
-           << refundAmount << ","
-           << netAmount << ","
+        ss << dateStr << "\t"
+           << pair.second.size() << "\t"
+           << grossAmount << "\t"
+           << refundAmount << "\t"
+           << netAmount << "\t"
            << fraudAlertCount << "\n";
     }
     
@@ -629,7 +672,7 @@ std::string MonthlySummaryReport::generateReport(
     }
     
     // Output monthly summary
-    ss << "Month,Transaction Count,Gross Amount,Refunds,Net Amount,Fraud Alerts\n";
+    ss << "Month\tTransaction Count\tGross Amount\tRefunds\tNet Amount\tFraud Alerts\n";
     
     for (const auto& pair : monthTransactions) {
         std::string monthStr = pair.first;
@@ -638,11 +681,11 @@ std::string MonthlySummaryReport::generateReport(
         double netAmount = grossAmount - refundAmount;
         int fraudAlertCount = monthFraudAlerts[monthStr];
         
-        ss << monthStr << ","
-           << pair.second.size() << ","
-           << grossAmount << ","
-           << refundAmount << ","
-           << netAmount << ","
+        ss << monthStr << "\t"
+           << pair.second.size() << "\t"
+           << grossAmount << "\t"
+           << refundAmount << "\t"
+           << netAmount << "\t"
            << fraudAlertCount << "\n";
     }
     
@@ -657,7 +700,77 @@ bool CSVExport::exportToFile(const std::string& reportData, const std::string& f
         return false;
     }
     
-    file << reportData;
+    // For CSV export, we'll create a simple table with the transaction data
+    std::stringstream outputSS;
+    
+    // Write the header row for Excel
+    outputSS << "ID\tCustomer\tAmount\tPayment Method\tStatus\n";
+    
+    // Parse the report data to extract transaction information
+    std::istringstream iss(reportData);
+    std::string line;
+    
+    // Skip header lines until we find the table header with row numbers
+    while (std::getline(iss, line)) {
+        if (line.find("ID") != std::string::npos && 
+            line.find("Customer") != std::string::npos && 
+            line.find("Amount") != std::string::npos) {
+            break;
+        }
+    }
+    
+    // Skip the separator line
+    std::getline(iss, line);
+    
+    // Process data rows
+    while (std::getline(iss, line)) {
+        // Skip empty lines
+        if (line.empty()) {
+            continue;
+        }
+        
+        // Check if this is a data line (starts with a number)
+        if (std::isdigit(line[0])) {
+            // Extract the row number
+            size_t pos = line.find_first_of(" \t");
+            std::string rowNum = line.substr(0, pos);
+            line = line.substr(pos + 1);
+            
+            // Split the remaining line by double spaces
+            std::vector<std::string> fields;
+            size_t start = 0;
+            size_t end = 0;
+            
+            while ((end = line.find("  ", start)) != std::string::npos) {
+                std::string field = line.substr(start, end - start);
+                if (!field.empty()) {
+                    fields.push_back(field);
+                }
+                start = end + 2;
+                
+                // Skip additional spaces
+                while (start < line.length() && line[start] == ' ') {
+                    start++;
+                }
+            }
+            
+            // Add the last field
+            if (start < line.length()) {
+                fields.push_back(line.substr(start));
+            }
+            
+            // If we have all the fields, write them to the output
+            if (fields.size() >= 5) {
+                outputSS << fields[0] << "\t"  // ID
+                         << fields[1] << "\t"  // Customer
+                         << fields[2] << "\t"  // Amount
+                         << fields[3] << "\t"  // Payment Method
+                         << fields[4] << "\n"; // Status
+            }
+        }
+    }
+    
+    file << outputSS.str();
     file.close();
     
     std::cout << "Report exported to CSV file: " << filePath << std::endl;
@@ -673,29 +786,74 @@ bool JSONExport::exportToFile(const std::string& reportData, const std::string& 
         return false;
     }
     
-    std::istringstream iss(reportData);
-    std::string line;
-    std::vector<std::string> headers;
+    // For JSON export, we'll create a JSON array of transaction objects
+    std::vector<std::string> headers = {"ID", "Customer", "Amount", "Payment Method", "Status"};
     std::vector<std::vector<std::string>> rows;
     
-    // Parse the CSV data
-    if (std::getline(iss, line)) {
-        std::istringstream headerStream(line);
-        std::string header;
-        while (std::getline(headerStream, header, ',')) {
-            headers.push_back(header);
+    // Parse the report data to extract transaction information
+    std::istringstream iss(reportData);
+    std::string line;
+    
+    // Skip header lines until we find the table header with row numbers
+    while (std::getline(iss, line)) {
+        if (line.find("ID") != std::string::npos && 
+            line.find("Customer") != std::string::npos && 
+            line.find("Amount") != std::string::npos) {
+            break;
         }
     }
     
+    // Skip the separator line
+    std::getline(iss, line);
+    
+    // Process data rows
     while (std::getline(iss, line)) {
-        std::istringstream rowStream(line);
-        std::string cell;
-        std::vector<std::string> row;
-        while (std::getline(rowStream, cell, ',')) {
-            row.push_back(cell);
+        // Skip empty lines
+        if (line.empty()) {
+            continue;
         }
-        if (!row.empty()) {
-            rows.push_back(row);
+        
+        // Check if this is a data line (starts with a number)
+        if (std::isdigit(line[0])) {
+            // Extract the row number
+            size_t pos = line.find_first_of(" \t");
+            std::string rowNum = line.substr(0, pos);
+            line = line.substr(pos + 1);
+            
+            // Split the remaining line by double spaces
+            std::vector<std::string> fields;
+            size_t start = 0;
+            size_t end = 0;
+            
+            while ((end = line.find("  ", start)) != std::string::npos) {
+                std::string field = line.substr(start, end - start);
+                if (!field.empty()) {
+                    fields.push_back(field);
+                }
+                start = end + 2;
+                
+                // Skip additional spaces
+                while (start < line.length() && line[start] == ' ') {
+                    start++;
+                }
+            }
+            
+            // Add the last field
+            if (start < line.length()) {
+                fields.push_back(line.substr(start));
+            }
+            
+            // If we have all the fields, add them to the rows
+            if (fields.size() >= 5) {
+                std::vector<std::string> row = {
+                    fields[0],  // ID
+                    fields[1],  // Customer
+                    fields[2],  // Amount
+                    fields[3],  // Payment Method
+                    fields[4]   // Status
+                };
+                rows.push_back(row);
+            }
         }
     }
     

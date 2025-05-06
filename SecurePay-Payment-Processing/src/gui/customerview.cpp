@@ -346,7 +346,20 @@ void CustomerView::updateTransactionHistory() {
     
     m_transactionTable->setRowCount(0);
     
+    // Get the current customer
+    if (m_currentCustomerIndex < 0 || m_currentCustomerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
+        // No customer selected, don't show any transactions
+        return;
+    }
+    
+    const Customer& currentCustomer = m_appController.getCustomers()[m_currentCustomerIndex];
+    
     for (const auto& transaction : transactions) {
+        // Only show transactions for the current customer
+        if (transaction->getCustomer().getName() != currentCustomer.getName()) {
+            continue;
+        }
+        
         int row = m_transactionTable->rowCount();
         m_transactionTable->insertRow(row);
         
@@ -468,6 +481,9 @@ void CustomerView::showLoginDialog() {
                     
                     // Update authentication status
                     updateAuthenticationStatus();
+                    
+                    // Update transaction history
+                    updateTransactionHistory();
                     break;
                 }
             }
@@ -712,6 +728,9 @@ void CustomerView::onSubmitClicked() {
         // Update balance display after transaction
         updateBalanceDisplay();
         
+        // Save the customer's updated balances to the database
+        m_appController.saveAllData();
+        
         // Emit transaction updated signal
         for (const auto& tx : transactions) {
             if (tx->getTransactionId() == transactionId) {
@@ -725,7 +744,85 @@ void CustomerView::onSubmitClicked() {
 }
 
 void CustomerView::onExportCustomerReportClicked() {
-    ExportReportDialog dialog(ReportManager::getInstance(), this);
+    // Get the current customer
+    if (m_currentCustomerIndex < 0 || m_currentCustomerIndex >= static_cast<int>(m_appController.getCustomers().size())) {
+        QMessageBox::warning(this, "Error", "Please select a customer first.");
+        return;
+    }
+    
+    const Customer& currentCustomer = m_appController.getCustomers()[m_currentCustomerIndex];
+    
+    // Create a map with the customer ID filter
+    std::map<std::string, std::string> filterCriteria;
+    filterCriteria["customerId"] = currentCustomer.getName();
+    
+    // Create a custom export dialog for customer transactions
+    class CustomerExportDialog : public ExportReportDialog {
+    public:
+        CustomerExportDialog(ReportManager& reportManager, const std::string& customerId, QWidget* parent = nullptr)
+            : ExportReportDialog(reportManager, parent), m_customerId(customerId) {
+            // Force Transaction History report type and disable changing it
+            m_reportTypeComboBox->setCurrentIndex(0); // Transaction History
+            m_reportTypeComboBox->setEnabled(false);
+            
+            // Hide filter options
+            if (QGroupBox* filterGroup = findChild<QGroupBox*>("filterGroup")) {
+                filterGroup->setVisible(false);
+            }
+        }
+        
+    protected:
+        // Override exportReport to ensure only the current customer's transactions are included
+        void exportReport() override {
+            // Get report type (always TRANSACTION_HISTORY for this dialog)
+            ReportType reportType = static_cast<ReportType>(m_reportTypeComboBox->currentData().toInt());
+            
+            // Get export format
+            ExportFormat format = m_csvRadio->isChecked() ? ExportFormat::CSV : ExportFormat::JSON;
+            
+            // Get file path
+            QString filePath = m_filePathEdit->text();
+            if (filePath.isEmpty()) {
+                QMessageBox::warning(this, "Error", "Please specify an output file path");
+                return;
+            }
+            
+            // Add extension if missing
+            if (format == ExportFormat::CSV && !filePath.endsWith(".csv", Qt::CaseInsensitive)) {
+                filePath += ".csv";
+                m_filePathEdit->setText(filePath);
+            } else if (format == ExportFormat::JSON && !filePath.endsWith(".json", Qt::CaseInsensitive)) {
+                filePath += ".json";
+                m_filePathEdit->setText(filePath);
+            }
+            
+            // Build filter criteria - always include the customer ID
+            std::map<std::string, std::string> filterCriteria;
+            filterCriteria["customerId"] = m_customerId;
+            
+            // Generate and export the report
+            bool success = m_reportManager.generateAndExportReport(
+                reportType,
+                filePath.toUtf8().constData(),
+                format,
+                filterCriteria
+            );
+            
+            if (success) {
+                QMessageBox::information(this, "Success", "Report exported successfully");
+                accept();
+            } else {
+                QMessageBox::critical(this, "Error", "Failed to export report");
+            }
+        }
+        
+    private:
+        std::string m_customerId;
+    };
+    
+    // Create and show the custom export dialog with the filter criteria
+    CustomerExportDialog dialog(ReportManager::getInstance(), currentCustomer.getName(), this);
+    dialog.setFilterCriteria(filterCriteria);
     dialog.exec();
 }
 
@@ -809,6 +906,9 @@ void CustomerView::onDepositClicked() {
     // Add to digital wallet
     customer.setBalance("Digital Wallet", walletBalance + amount);
     
+    // Save the customer's updated balances to the database
+    m_appController.saveAllData();
+    
     // Update balance display
     updateBalanceDisplay();
     
@@ -853,6 +953,9 @@ void CustomerView::onCheckBalanceClicked() {
 
 void CustomerView::onLoginClicked() {
     showLoginDialog();
+    
+    // Update transaction history after login
+    updateTransactionHistory();
 }
 
 void CustomerView::onLogoutClicked() {
@@ -861,6 +964,9 @@ void CustomerView::onLogoutClicked() {
     
     // Update authentication status
     updateAuthenticationStatus();
+    
+    // Clear transaction history after logout
+    m_transactionTable->setRowCount(0);
 }
 
 void CustomerView::onOpenCheckoutClicked() {

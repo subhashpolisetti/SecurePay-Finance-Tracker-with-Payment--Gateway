@@ -9,6 +9,10 @@ PaymentGateway::PaymentGateway() {
 void PaymentGateway::processTransaction(std::unique_ptr<Transaction> transaction) {
     std::cout << "Processing transaction " << transaction->getTransactionId() << std::endl;
     
+    // First, ensure the transaction is processed through its state machine
+    // This will move it from PENDING to APPROVED state
+    transaction->process();
+    
     encryptTransactionData(*transaction);
     
     FraudSystem& fraudSystem = FraudSystem::getInstance();

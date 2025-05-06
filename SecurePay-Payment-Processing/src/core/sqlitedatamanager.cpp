@@ -32,8 +32,24 @@ bool SQLiteDataManager::createTables() {
     std::string sql = "CREATE TABLE IF NOT EXISTS customers ("
                       "name TEXT PRIMARY KEY, "
                       "email TEXT, "
-                      "billing_address TEXT"
+                      "billing_address TEXT, "
+                      "user_id TEXT, "
+                      "username TEXT, "
+                      "pin TEXT"
                       ");";
+    
+    if (!executeSQL(sql)) {
+        return false;
+    }
+    
+    // Create customer_balances table
+    sql = "CREATE TABLE IF NOT EXISTS customer_balances ("
+          "customer_name TEXT, "
+          "payment_method TEXT, "
+          "balance REAL, "
+          "PRIMARY KEY (customer_name, payment_method), "
+          "FOREIGN KEY (customer_name) REFERENCES customers (name)"
+          ");";
     
     if (!executeSQL(sql)) {
         return false;
@@ -161,25 +177,81 @@ bool SQLiteDataManager::loadAll() {
 }
 
 bool SQLiteDataManager::saveCustomer(const Customer& customer) {
+    // First, save the customer's basic information
     std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO customers (name, email, billing_address) VALUES ("
+    ss << "INSERT OR REPLACE INTO customers (name, email, billing_address, user_id, username, pin) VALUES ("
        << "'" << customer.getName() << "', "
        << "'" << customer.getEmail() << "', "
-       << "'" << customer.getBillingAddress() << "'"
+       << "'" << customer.getBillingAddress() << "', "
+       << "'" << customer.getUserId() << "', "
+       << "'" << customer.getUsername() << "', "
+       << "'1234'" // Default PIN for now
        << ");";
     
-    return executeSQL(ss.str());
+    if (!executeSQL(ss.str())) {
+        return false;
+    }
+    
+    // Then, save the customer's balances
+    const auto& balances = customer.getAllBalances();
+    for (const auto& [method, balance] : balances) {
+        std::stringstream balanceSS;
+        balanceSS << "INSERT OR REPLACE INTO customer_balances (customer_name, payment_method, balance) VALUES ("
+                  << "'" << customer.getName() << "', "
+                  << "'" << method << "', "
+                  << balance
+                  << ");";
+        
+        if (!executeSQL(balanceSS.str())) {
+            return false;
+        }
+    }
+    
+    return true;
 }
+
+// Structure to hold customer data during loading
+struct CustomerData {
+    std::vector<Customer>* customers;
+    SQLiteDataManager* manager;
+};
 
 // Callback function for loadCustomers
 static int customerCallback(void* data, int argc, char** argv, char** azColName) {
-    std::vector<Customer>* customers = static_cast<std::vector<Customer>*>(data);
+    CustomerData* customerData = static_cast<CustomerData*>(data);
     
     std::string name = argv[0] ? argv[0] : "";
     std::string email = argv[1] ? argv[1] : "";
     std::string billingAddress = argv[2] ? argv[2] : "";
+    std::string userId = argv[3] ? argv[3] : "";
+    std::string username = argv[4] ? argv[4] : "";
+    std::string pin = argv[5] ? argv[5] : "";
     
-    customers->emplace_back(name, email, billingAddress);
+    // Create the customer
+    Customer customer(name, email, username, pin, billingAddress);
+    
+    // Add the customer to the vector
+    customerData->customers->push_back(customer);
+    
+    return 0;
+}
+
+// Callback function for loading customer balances
+static int customerBalanceCallback(void* data, int argc, char** argv, char** azColName) {
+    CustomerData* customerData = static_cast<CustomerData*>(data);
+    
+    std::string customerName = argv[0] ? argv[0] : "";
+    std::string paymentMethod = argv[1] ? argv[1] : "";
+    double balance = argv[2] ? std::stod(argv[2]) : 0.0;
+    
+    // Find the customer by name
+    for (auto& customer : *customerData->customers) {
+        if (customer.getName() == customerName) {
+            // Set the balance for the payment method
+            customer.setBalance(paymentMethod, balance);
+            break;
+        }
+    }
     
     return 0;
 }
@@ -187,10 +259,22 @@ static int customerCallback(void* data, int argc, char** argv, char** azColName)
 std::vector<Customer> SQLiteDataManager::loadCustomers() {
     std::vector<Customer> customers;
     
-    std::string sql = "SELECT name, email, billing_address FROM customers;";
+    CustomerData data;
+    data.customers = &customers;
+    data.manager = this;
     
-    if (!executeQuery(sql, customerCallback, &customers)) {
+    // Load customer basic information
+    std::string sql = "SELECT name, email, billing_address, user_id, username, pin FROM customers;";
+    
+    if (!executeQuery(sql, customerCallback, &data)) {
         std::cerr << "Failed to load customers" << std::endl;
+    }
+    
+    // Load customer balances
+    sql = "SELECT customer_name, payment_method, balance FROM customer_balances;";
+    
+    if (!executeQuery(sql, customerBalanceCallback, &data)) {
+        std::cerr << "Failed to load customer balances" << std::endl;
     }
     
     return customers;

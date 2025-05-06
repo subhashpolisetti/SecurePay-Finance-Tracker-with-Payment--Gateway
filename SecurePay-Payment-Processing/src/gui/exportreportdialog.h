@@ -31,7 +31,13 @@ public:
      */
     ExportReportDialog(ReportManager& reportManager, QWidget* parent = nullptr);
     
-private:
+    /**
+     * @brief Set filter criteria for the report
+     * @param criteria Map of filter criteria
+     */
+    void setFilterCriteria(const std::map<std::string, std::string>& criteria);
+    
+protected:
     /**
      * @brief Report type combo box
      */
@@ -93,10 +99,11 @@ private slots:
      */
     void onBrowseClicked();
     
+protected:
     /**
      * @brief Export the report
      */
-    void exportReport();
+    virtual void exportReport();
 };
 
 #endif // EXPORTREPORTDIALOG_H

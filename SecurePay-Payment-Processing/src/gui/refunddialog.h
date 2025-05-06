@@ -35,6 +35,18 @@ public:
                  RefundManager& refundManager,
                  QWidget* parent = nullptr);
     
+    /**
+     * @brief Constructor with preselected transaction
+     * @param transactions Vector of transactions to choose from
+     * @param refundManager Reference to the refund manager
+     * @param selectedTransactionId ID of the transaction to preselect
+     * @param parent Parent widget
+     */
+    RefundDialog(const std::vector<std::unique_ptr<Transaction>>& transactions,
+                 RefundManager& refundManager,
+                 const std::string& selectedTransactionId,
+                 QWidget* parent = nullptr);
+    
 private:
     /**
      * @brief Transaction selection combo box

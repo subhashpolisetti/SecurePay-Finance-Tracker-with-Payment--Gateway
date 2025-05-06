@@ -163,7 +163,10 @@ bool PendingState::process(Transaction& transaction) {
     
     // In a real implementation, this would call the payment processor
     // For now, we'll just transition to approved state
+    
+    // Force transition to approved state to fix the "pending" status issue
     transaction.setState(std::make_unique<ApprovedState>());
+    std::cout << "Transaction " << transaction.getTransactionId() << " moved to APPROVED state" << std::endl;
     
     return true;
 }

@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include <QButtonGroup>
 #include <QGroupBox>
+#include <iostream>
 
 RefundDialog::RefundDialog(const std::vector<std::unique_ptr<Transaction>>& transactions,
                            RefundManager& refundManager,
@@ -12,6 +13,16 @@ RefundDialog::RefundDialog(const std::vector<std::unique_ptr<Transaction>>& tran
     setMinimumWidth(500);
     
     setupUI();
+    
+    // Debug: Print all transactions and their statuses
+    std::cout << "All transactions:" << std::endl;
+    for (const auto& transaction : m_transactions) {
+        std::cout << "Transaction ID: " << transaction->getTransactionId()
+                  << ", Status: " << Transaction::statusToString(transaction->getStatus())
+                  << ", Customer: " << transaction->getCustomer().getName()
+                  << ", Amount: " << transaction->getAmount()
+                  << std::endl;
+    }
     
     // Populate transaction combo box
     for (const auto& transaction : m_transactions) {
@@ -25,12 +36,71 @@ RefundDialog::RefundDialog(const std::vector<std::unique_ptr<Transaction>>& tran
                 .arg(transaction->getAmount(), 0, 'f', 2);
             
             m_transactionComboBox->addItem(text);
+            
+            // Debug: Print refundable transaction
+            std::cout << "Refundable transaction: " << transaction->getTransactionId() << std::endl;
         }
     }
     
     if (m_transactionComboBox->count() > 0) {
         m_transactionComboBox->setCurrentIndex(0);
         onTransactionSelected(0);
+    } else {
+        m_transactionDetailsLabel->setText("No refundable transactions available");
+        m_fullRefundRadio->setEnabled(false);
+        m_partialRefundRadio->setEnabled(false);
+        m_amountEdit->setEnabled(false);
+        m_reasonEdit->setEnabled(false);
+        m_processButton->setEnabled(false);
+    }
+}
+
+RefundDialog::RefundDialog(const std::vector<std::unique_ptr<Transaction>>& transactions,
+                           RefundManager& refundManager,
+                           const std::string& selectedTransactionId,
+                           QWidget* parent)
+    : QDialog(parent), m_transactions(transactions), m_refundManager(refundManager) {
+    
+    setWindowTitle("Process Refund");
+    setMinimumWidth(500);
+    
+    setupUI();
+    
+    // Populate transaction combo box and find the selected transaction
+    int selectedIndex = -1;
+    int currentIndex = 0;
+    
+    for (const auto& transaction : m_transactions) {
+        // Only show approved or partially refunded transactions
+        if (transaction->getStatus() == TransactionStatus::APPROVED ||
+            transaction->getStatus() == TransactionStatus::PARTIALLY_REFUNDED) {
+            
+            QString text = QString("%1 - %2 - $%3")
+                .arg(QString::fromStdString(transaction->getTransactionId()))
+                .arg(QString::fromStdString(transaction->getCustomer().getName()))
+                .arg(transaction->getAmount(), 0, 'f', 2);
+            
+            m_transactionComboBox->addItem(text);
+            
+            // Check if this is the selected transaction
+            if (transaction->getTransactionId() == selectedTransactionId) {
+                selectedIndex = currentIndex;
+            }
+            
+            currentIndex++;
+        }
+    }
+    
+    if (m_transactionComboBox->count() > 0) {
+        // If we found the selected transaction, select it
+        if (selectedIndex >= 0) {
+            m_transactionComboBox->setCurrentIndex(selectedIndex);
+            onTransactionSelected(selectedIndex);
+        } else {
+            // Otherwise, select the first transaction
+            m_transactionComboBox->setCurrentIndex(0);
+            onTransactionSelected(0);
+        }
     } else {
         m_transactionDetailsLabel->setText("No refundable transactions available");
         m_fullRefundRadio->setEnabled(false);
@@ -113,27 +183,30 @@ void RefundDialog::setupUI() {
 }
 
 void RefundDialog::onTransactionSelected(int index) {
-    if (index < 0 || index >= static_cast<int>(m_transactions.size())) {
+    if (index < 0) {
         m_transactionDetailsLabel->setText("No transaction selected");
         return;
     }
     
     // Find the selected transaction
-    int refundableIndex = 0;
-    const Transaction* selectedTransaction = nullptr;
+    std::vector<const Transaction*> refundableTransactions;
     
+    // First, collect all refundable transactions
     for (const auto& transaction : m_transactions) {
         if (transaction->getStatus() == TransactionStatus::APPROVED ||
             transaction->getStatus() == TransactionStatus::PARTIALLY_REFUNDED) {
-            
-            if (refundableIndex == index) {
-                selectedTransaction = transaction.get();
-                break;
-            }
-            
-            refundableIndex++;
+            refundableTransactions.push_back(transaction.get());
         }
     }
+    
+    // Check if the index is valid
+    if (index >= static_cast<int>(refundableTransactions.size())) {
+        m_transactionDetailsLabel->setText("Transaction not found");
+        return;
+    }
+    
+    // Get the selected transaction
+    const Transaction* selectedTransaction = refundableTransactions[index];
     
     if (!selectedTransaction) {
         m_transactionDetailsLabel->setText("Transaction not found");
@@ -170,26 +243,29 @@ void RefundDialog::onRefundTypeSelected(bool checked) {
 }
 
 void RefundDialog::updateRefundAmount() {
-    if (m_transactionComboBox->currentIndex() < 0) {
+    int index = m_transactionComboBox->currentIndex();
+    if (index < 0) {
         return;
     }
     
     // Find the selected transaction
-    int refundableIndex = 0;
-    const Transaction* selectedTransaction = nullptr;
+    std::vector<const Transaction*> refundableTransactions;
     
+    // First, collect all refundable transactions
     for (const auto& transaction : m_transactions) {
         if (transaction->getStatus() == TransactionStatus::APPROVED ||
             transaction->getStatus() == TransactionStatus::PARTIALLY_REFUNDED) {
-            
-            if (refundableIndex == m_transactionComboBox->currentIndex()) {
-                selectedTransaction = transaction.get();
-                break;
-            }
-            
-            refundableIndex++;
+            refundableTransactions.push_back(transaction.get());
         }
     }
+    
+    // Check if the index is valid
+    if (index >= static_cast<int>(refundableTransactions.size())) {
+        return;
+    }
+    
+    // Get the selected transaction
+    const Transaction* selectedTransaction = refundableTransactions[index];
     
     if (!selectedTransaction) {
         return;
@@ -202,27 +278,31 @@ void RefundDialog::updateRefundAmount() {
 }
 
 void RefundDialog::processRefund() {
-    if (m_transactionComboBox->currentIndex() < 0) {
+    int index = m_transactionComboBox->currentIndex();
+    if (index < 0) {
         QMessageBox::warning(this, "Error", "No transaction selected");
         return;
     }
     
     // Find the selected transaction
-    int refundableIndex = 0;
-    Transaction* selectedTransaction = nullptr;
+    std::vector<Transaction*> refundableTransactions;
     
+    // First, collect all refundable transactions
     for (auto& transaction : m_transactions) {
         if (transaction->getStatus() == TransactionStatus::APPROVED ||
             transaction->getStatus() == TransactionStatus::PARTIALLY_REFUNDED) {
-            
-            if (refundableIndex == m_transactionComboBox->currentIndex()) {
-                selectedTransaction = transaction.get();
-                break;
-            }
-            
-            refundableIndex++;
+            refundableTransactions.push_back(transaction.get());
         }
     }
+    
+    // Check if the index is valid
+    if (index >= static_cast<int>(refundableTransactions.size())) {
+        QMessageBox::warning(this, "Error", "Transaction not found");
+        return;
+    }
+    
+    // Get the selected transaction
+    Transaction* selectedTransaction = refundableTransactions[index];
     
     if (!selectedTransaction) {
         QMessageBox::warning(this, "Error", "Transaction not found");

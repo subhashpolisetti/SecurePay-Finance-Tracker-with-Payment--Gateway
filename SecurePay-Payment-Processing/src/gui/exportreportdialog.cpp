@@ -15,6 +15,39 @@ ExportReportDialog::ExportReportDialog(ReportManager& reportManager, QWidget* pa
     setupUI();
 }
 
+void ExportReportDialog::setFilterCriteria(const std::map<std::string, std::string>& criteria) {
+    // Set the filter criteria in the UI
+    auto it = criteria.find("customerId");
+    if (it != criteria.end()) {
+        m_customerIdEdit->setText(QString::fromStdString(it->second));
+        m_customerIdEdit->setEnabled(false); // Disable editing
+    }
+    
+    it = criteria.find("merchantId");
+    if (it != criteria.end()) {
+        m_merchantIdEdit->setText(QString::fromStdString(it->second));
+        m_merchantIdEdit->setEnabled(false); // Disable editing
+    }
+    
+    it = criteria.find("startDate");
+    if (it != criteria.end()) {
+        QDate date = QDate::fromString(QString::fromStdString(it->second), "yyyy-MM-dd");
+        if (date.isValid()) {
+            m_startDateEdit->setDate(date);
+            m_startDateEdit->setEnabled(false); // Disable editing
+        }
+    }
+    
+    it = criteria.find("endDate");
+    if (it != criteria.end()) {
+        QDate date = QDate::fromString(QString::fromStdString(it->second), "yyyy-MM-dd");
+        if (date.isValid()) {
+            m_endDateEdit->setDate(date);
+            m_endDateEdit->setEnabled(false); // Disable editing
+        }
+    }
+}
+
 void ExportReportDialog::setupUI() {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     
@@ -50,6 +83,7 @@ void ExportReportDialog::setupUI() {
     
     // Filter options
     QGroupBox* filterGroup = new QGroupBox("Filter Options", this);
+    filterGroup->setObjectName("filterGroup");
     QFormLayout* filterLayout = new QFormLayout(filterGroup);
     
     m_customerIdEdit = new QLineEdit(filterGroup);

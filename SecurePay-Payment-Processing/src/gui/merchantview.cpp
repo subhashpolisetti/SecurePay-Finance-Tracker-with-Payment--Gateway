@@ -16,20 +16,11 @@ MerchantView::MerchantView(AppController& appController, QWidget* parent)
     // Initialize UI
     initUI();
     
-    // Populate merchant combo box
-    for (const auto& merchant : m_appController.getMerchants()) {
-        m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
-    }
-    
-    // Select first merchant if available
-    if (m_merchantComboBox->count() > 0) {
-        onMerchantSelected(0);
-    }
-    
     // Update tables
     updateTransactionHistory();
     updateRefundHistory();
     updateFraudAlerts();
+    updateAnalytics();
 }
 
 MerchantView::~MerchantView() {
@@ -43,18 +34,14 @@ void MerchantView::initUI() {
     QGroupBox* merchantGroup = new QGroupBox("Merchant Information", this);
     QVBoxLayout* merchantLayout = new QVBoxLayout(merchantGroup);
     
-    QHBoxLayout* merchantSelectionLayout = new QHBoxLayout();
-    m_merchantComboBox = new QComboBox(merchantGroup);
-    m_addMerchantButton = new QPushButton("Add Merchant", merchantGroup);
-    merchantSelectionLayout->addWidget(new QLabel("Select Merchant:"));
-    merchantSelectionLayout->addWidget(m_merchantComboBox, 1);
-    merchantSelectionLayout->addWidget(m_addMerchantButton);
-    
     m_merchantDetailsLabel = new QLabel(merchantGroup);
     m_merchantDetailsLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
     m_merchantDetailsLabel->setMinimumHeight(60);
     
-    merchantLayout->addLayout(merchantSelectionLayout);
+    // Set fixed merchant details - using one of the sample merchants from AppController
+    QString details = QString("<b>Name:</b> Acme Store<br><b>Email:</b> acme@example.com<br><b>Address:</b> 789 Market St, San Francisco, CA");
+    m_merchantDetailsLabel->setText(details);
+    
     merchantLayout->addWidget(m_merchantDetailsLabel);
     
     // Analytics section
@@ -132,29 +119,13 @@ void MerchantView::initUI() {
     mainLayout->addWidget(m_exportReportButton);
     
     // Connect signals
-    connect(m_merchantComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &MerchantView::onMerchantSelected);
-    connect(m_addMerchantButton, &QPushButton::clicked,
-            this, &MerchantView::onAddMerchantClicked);
     connect(m_processRefundButton, &QPushButton::clicked,
             this, &MerchantView::onProcessRefundClicked);
     connect(m_exportReportButton, &QPushButton::clicked,
             this, &MerchantView::onExportMerchantReportClicked);
 }
 
-void MerchantView::updateMerchantDetails() {
-    int index = m_merchantComboBox->currentIndex();
-    if (index >= 0 && index < static_cast<int>(m_appController.getMerchants().size())) {
-        const Merchant& merchant = m_appController.getMerchants()[index];
-        QString details = QString("<b>Name:</b> %1<br><b>Email:</b> %2<br><b>Address:</b> %3")
-            .arg(QString::fromUtf8(merchant.getName().c_str()))
-            .arg(QString::fromUtf8(merchant.getEmail().c_str()))
-            .arg(QString::fromUtf8(merchant.getBusinessAddress().c_str()));
-        m_merchantDetailsLabel->setText(details);
-    } else {
-        m_merchantDetailsLabel->setText("No merchant selected");
-    }
-}
+// Merchant details are now fixed in initUI
 
 void MerchantView::updateTransactionHistory() {
     const auto& transactions = m_appController.getTransactionHistory();
@@ -204,23 +175,21 @@ void MerchantView::updateAnalytics() {
     int flaggedTransactions = 0;
     int refundedTransactions = 0;
     
+    // Fixed merchant name - using one of the sample merchants from AppController
+    std::string merchantName = "Acme Store";
+    
     for (const auto& transaction : transactions) {
-        // Only count transactions for the selected merchant
-        int merchantIndex = m_merchantComboBox->currentIndex();
-        if (merchantIndex >= 0 && merchantIndex < static_cast<int>(m_appController.getMerchants().size())) {
-            const Merchant& selectedMerchant = m_appController.getMerchants()[merchantIndex];
+        // Only count transactions for our fixed merchant
+        if (transaction->getMerchant().getName() == merchantName) {
+            totalTransactions++;
+            totalVolume += transaction->getAmount();
             
-            if (transaction->getMerchant().getName() == selectedMerchant.getName()) {
-                totalTransactions++;
-                totalVolume += transaction->getAmount();
-                
-                if (transaction->getStatus() == TransactionStatus::FLAGGED_FOR_REVIEW) {
-                    flaggedTransactions++;
-                }
-                
-                if (transaction->getRefundedAmount() > 0) {
-                    refundedTransactions++;
-                }
+            if (transaction->getStatus() == TransactionStatus::FLAGGED_FOR_REVIEW) {
+                flaggedTransactions++;
+            }
+            
+            if (transaction->getRefundedAmount() > 0) {
+                refundedTransactions++;
             }
         }
     }
@@ -246,22 +215,7 @@ void MerchantView::onTransactionUpdated(const Transaction& transaction) {
     updateAnalytics();
 }
 
-void MerchantView::onMerchantSelected(int index) {
-    updateMerchantDetails();
-    updateAnalytics();
-}
-
-void MerchantView::onAddMerchantClicked() {
-    AddMerchantDialog dialog(this);
-    if (dialog.exec() == QDialog::Accepted) {
-        Merchant merchant = dialog.getMerchant();
-        m_appController.addMerchant(merchant);
-        
-        m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
-        
-        m_merchantComboBox->setCurrentIndex(m_merchantComboBox->count() - 1);
-    }
-}
+// These methods are no longer needed since we have a fixed merchant
 
 void MerchantView::onProcessRefundClicked() {
     // Get selected transaction
@@ -288,13 +242,24 @@ void MerchantView::onProcessRefundClicked() {
         return;
     }
     
-    // Open refund dialog
-    RefundDialog dialog(m_appController.getTransactionHistory(), *m_refundManager, this);
+    // Make sure the RefundManager has access to the customers
+    m_refundManager->setCustomers(&m_appController.getCustomersMutable());
+    
+    // Open refund dialog with the selected transaction
+    RefundDialog dialog(m_appController.getTransactionHistory(), *m_refundManager, 
+                        transactionId.toUtf8().constData(), this);
     if (dialog.exec() == QDialog::Accepted) {
         // Update transaction history
         updateTransactionHistory();
         updateRefundHistory();
         updateAnalytics();
+        
+        // Save all data to ensure customer balances are persisted
+        m_appController.saveAllData();
+        
+        // Show confirmation message
+        QMessageBox::information(this, "Refund Processed", 
+            "Refund has been processed successfully. The amount has been added to the customer's wallet.");
     }
 }
 

@@ -40,10 +40,7 @@ public:
      */
     ~MerchantView();
     
-    /**
-     * @brief Update the merchant details display
-     */
-    void updateMerchantDetails();
+    // Merchant details are now fixed in initUI
     
     /**
      * @brief Update the transaction history table
@@ -74,17 +71,6 @@ public slots:
     
 private slots:
     /**
-     * @brief Handle merchant selection change
-     * @param index The selected index
-     */
-    void onMerchantSelected(int index);
-    
-    /**
-     * @brief Handle add merchant button click
-     */
-    void onAddMerchantClicked();
-    
-    /**
      * @brief Handle process refund button click
      */
     void onProcessRefundClicked();
@@ -106,8 +92,6 @@ private:
     ReportManager* m_reportManager;
     
     // Merchant information
-    QComboBox* m_merchantComboBox;
-    QPushButton* m_addMerchantButton;
     QLabel* m_merchantDetailsLabel;
     
     // Merchant tabs
