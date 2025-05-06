@@ -21,6 +21,10 @@ std::string CreditCard::getDetails() const {
     return maskedNumber + " (" + m_cardholderName + ")";
 }
 
+std::string CreditCard::getCVV() const {
+    return m_cvv;
+}
+
 PaymentMethod* CreditCard::clone() const {
     return new CreditCard(m_cardNumber, m_cardholderName, m_expiryDate, m_cvv);
 }
@@ -45,6 +49,10 @@ std::string DebitCard::getDetails() const {
     return maskedNumber + " (" + m_cardholderName + ")";
 }
 
+std::string DebitCard::getCVV() const {
+    return m_cvv;
+}
+
 PaymentMethod* DebitCard::clone() const {
     return new DebitCard(m_cardNumber, m_cardholderName, m_expiryDate, m_cvv);
 }
@@ -64,6 +72,11 @@ std::string DigitalWallet::getType() const {
 
 std::string DigitalWallet::getDetails() const {
     return m_walletId + " (" + m_email + ")";
+}
+
+std::string DigitalWallet::getCVV() const {
+    // Digital wallets don't have CVVs, so return an empty string
+    return "";
 }
 
 PaymentMethod* DigitalWallet::clone() const {

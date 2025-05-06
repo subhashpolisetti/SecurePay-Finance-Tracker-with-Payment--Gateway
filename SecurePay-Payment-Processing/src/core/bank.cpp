@@ -37,6 +37,30 @@ AuthorizationResult Bank::authorizeTransaction(const Transaction& transaction,
 }
 
 bool Bank::isCardValid(const PaymentMethod& paymentMethod) const {
+    // Check if the payment method is a credit or debit card
+    if (paymentMethod.getType() == "Credit Card" || paymentMethod.getType() == "Debit Card") {
+        // Get the CVV from the payment method (this is the entered CVV)
+        const std::string& enteredCVV = paymentMethod.getCVV();
+        
+        // In a real implementation, we would retrieve the stored CVV from a secure database
+        // For this example, we'll simulate a stored CVV for demonstration purposes
+        std::string storedCVV = "123"; // This would come from a secure database in a real system
+        
+        // Check if the entered CVV matches the stored CVV
+        if (enteredCVV != storedCVV) {
+            std::cout << "CVV validation failed: entered CVV does not match stored CVV" << std::endl;
+            return false;
+        }
+        
+        // For credit/debit cards, we would also check:
+        // 1. Card number validity (Luhn algorithm)
+        // 2. Expiration date validity
+        
+        std::cout << "Card validation successful" << std::endl;
+        return true;
+    }
+    
+    // For other payment methods (like digital wallets), different validation would apply
     return true;
 }
 

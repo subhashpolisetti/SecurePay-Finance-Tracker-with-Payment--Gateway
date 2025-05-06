@@ -272,22 +272,39 @@ std::unique_ptr<Transaction> AppController::createTransaction(
 
 void AppController::processTransaction(std::unique_ptr<Transaction> transaction) {
     if (m_paymentGateway && transaction) {
-        // Store the customer name for later lookup
+        // Store the customer name and payment method type for later lookup
         std::string customerName = transaction->getCustomer().getName();
+        std::string paymentMethodType = transaction->getPaymentMethod().getType();
+        double amount = transaction->getAmount();
+        std::string transactionId = transaction->getTransactionId();
         
         // Process the transaction
         m_paymentGateway->processTransaction(std::move(transaction));
         
-        // If the transaction was approved, find the customer and deduct funds
+        // Find the customer by name
         for (auto& customer : m_customers) {
             if (customer.getName() == customerName) {
-                // The transaction is now in m_paymentGateway->getTransactions()
-                // Find the transaction with the matching customer name
+                // Find the processed transaction
                 for (const auto& tx : m_paymentGateway->getTransactions()) {
-                    if (tx->getCustomer().getName() == customerName && 
-                        tx->getStatus() == TransactionStatus::APPROVED) {
-                        // Deduct funds from the customer's account
-                        customer.deduct(tx->getPaymentMethod().getType(), tx->getAmount());
+                    if (tx->getTransactionId() == transactionId) {
+                        // If the transaction was approved, deduct funds from the customer's account
+                        if (tx->getStatus() == TransactionStatus::APPROVED) {
+                            // Check if customer has sufficient funds
+                            if (customer.getBalance(paymentMethodType) >= amount) {
+                                // Deduct funds from the customer's account
+                                bool deducted = customer.deduct(paymentMethodType, amount);
+                                
+                                if (deducted) {
+                                    std::cout << "Successfully deducted $" << amount 
+                                              << " from " << customerName << "'s " 
+                                              << paymentMethodType << " account" << std::endl;
+                                } else {
+                                    std::cerr << "Failed to deduct funds from customer account" << std::endl;
+                                }
+                            } else {
+                                std::cerr << "Insufficient funds in customer account" << std::endl;
+                            }
+                        }
                         
                         // Save the transaction and updated customer to the database
                         if (m_dataManager) {
@@ -308,21 +325,41 @@ std::string AppController::processTransactionWithIdempotencyKey(
     const std::string& idempotencyKey) {
     
     if (m_paymentGateway && transaction) {
-        // Store the customer name for later lookup
+        // Store the customer name and payment method type for later lookup
         std::string customerName = transaction->getCustomer().getName();
+        std::string paymentMethodType = transaction->getPaymentMethod().getType();
+        double amount = transaction->getAmount();
         
         // Process the transaction with idempotency key
         std::string transactionId = m_paymentGateway->processTransactionWithIdempotencyKey(
             std::move(transaction), idempotencyKey);
         
-        // If the transaction was approved, find the customer and deduct funds
+        // Find the customer by name
         for (auto& customer : m_customers) {
             if (customer.getName() == customerName) {
                 // Find the transaction with the matching ID
                 Transaction* tx = findTransaction(transactionId);
                 if (tx && tx->getStatus() == TransactionStatus::APPROVED) {
-                    // Deduct funds from the customer's account
-                    customer.deduct(tx->getPaymentMethod().getType(), tx->getAmount());
+                    // Check if customer has sufficient funds
+                    if (customer.getBalance(paymentMethodType) >= amount) {
+                        // Deduct funds from the customer's account
+                        bool deducted = customer.deduct(paymentMethodType, amount);
+                        
+                        if (deducted) {
+                            std::cout << "Successfully deducted $" << amount 
+                                      << " from " << customerName << "'s " 
+                                      << paymentMethodType << " account" << std::endl;
+                        } else {
+                            std::cerr << "Failed to deduct funds from customer account" << std::endl;
+                        }
+                    } else {
+                        std::cerr << "Insufficient funds in customer account" << std::endl;
+                    }
+                    
+                    // Save the updated customer to the database
+                    if (m_dataManager) {
+                        m_dataManager->saveCustomer(customer);
+                    }
                 }
                 break;
             }

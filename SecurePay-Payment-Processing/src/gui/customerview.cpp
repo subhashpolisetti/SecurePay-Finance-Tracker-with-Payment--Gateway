@@ -78,7 +78,7 @@ void CustomerView::initUI() {
     m_depositMethodComboBox = new QComboBox(m_depositGroup);
     m_depositMethodComboBox->addItem("Credit Card");
     m_depositMethodComboBox->addItem("Debit Card");
-    m_depositMethodComboBox->addItem("Digital Wallet");
+    // Digital Wallet removed as a deposit method as funds are always deposited to the wallet
     
     // Card selection for deposit
     QHBoxLayout* depositCardLayout = new QHBoxLayout();
@@ -775,18 +775,32 @@ void CustomerView::onDepositClicked() {
             
             cardInfo = QString::fromStdString(cardToken->getDisplayName());
         }
-    } else if (paymentMethodType != "Digital Wallet") {
-        // No card selected but trying to deposit to a card
+    } else {
+        // No card selected
         QMessageBox::warning(this, "Validation Error", 
-            "Please select a card or add a new one for " + paymentMethodType + " deposits.");
+            "Please select a card or add a new one for deposit.");
         return;
     }
     
-    // Get current balance
-    double currentBalance = customer.getBalance(paymentMethodType.toUtf8().constData());
+    // Get current balances
+    double sourceBalance = customer.getBalance(paymentMethodType.toUtf8().constData());
+    double walletBalance = customer.getBalance("Digital Wallet");
     
-    // Add deposit amount to current balance
-    customer.setBalance(paymentMethodType.toUtf8().constData(), currentBalance + amount);
+    // Check if the source account has sufficient funds
+    if (sourceBalance < amount) {
+        QMessageBox::warning(this, "Insufficient Funds", 
+            QString("Your %1 balance of $%2 is insufficient for a deposit of $%3.")
+                .arg(paymentMethodType)
+                .arg(sourceBalance, 0, 'f', 2)
+                .arg(amount, 0, 'f', 2));
+        return;
+    }
+    
+    // Deduct from source account (credit/debit card)
+    customer.setBalance(paymentMethodType.toUtf8().constData(), sourceBalance - amount);
+    
+    // Add to digital wallet
+    customer.setBalance("Digital Wallet", walletBalance + amount);
     
     // Update balance display
     updateBalanceDisplay();
@@ -795,19 +809,15 @@ void CustomerView::onDepositClicked() {
     m_depositAmountEdit->clear();
     
     // Show success message
-    QString successMessage;
-    if (!cardInfo.isEmpty()) {
-        successMessage = QString("Successfully deposited $%1 to %2 using %3.\nNew balance: $%4")
-            .arg(amount, 0, 'f', 2)
-            .arg(paymentMethodType)
-            .arg(cardInfo)
-            .arg(customer.getBalance(paymentMethodType.toUtf8().constData()), 0, 'f', 2);
-    } else {
-        successMessage = QString("Successfully deposited $%1 to %2.\nNew balance: $%3")
-            .arg(amount, 0, 'f', 2)
-            .arg(paymentMethodType)
-            .arg(customer.getBalance(paymentMethodType.toUtf8().constData()), 0, 'f', 2);
-    }
+    QString successMessage = QString("Successfully deposited $%1 to Digital Wallet using %2.\n\n"
+                                    "New balances:\n"
+                                    "%3: $%4\n"
+                                    "Digital Wallet: $%5")
+        .arg(amount, 0, 'f', 2)
+        .arg(cardInfo)
+        .arg(paymentMethodType)
+        .arg(customer.getBalance(paymentMethodType.toUtf8().constData()), 0, 'f', 2)
+        .arg(customer.getBalance("Digital Wallet"), 0, 'f', 2);
     
     QMessageBox::information(this, "Deposit Successful", successMessage);
 }

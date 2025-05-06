@@ -35,6 +35,12 @@ public:
     virtual std::string getDetails() const = 0;
     
     /**
+     * @brief Get the CVV (Card Verification Value)
+     * @return The CVV
+     */
+    virtual std::string getCVV() const = 0;
+    
+    /**
      * @brief Create a clone of this payment method
      * @return A unique pointer to the cloned payment method
      */
@@ -54,6 +60,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    std::string getCVV() const override;
     PaymentMethod* clone() const override;
     
 private:
@@ -76,6 +83,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    std::string getCVV() const override;
     PaymentMethod* clone() const override;
     
 private:
@@ -97,6 +105,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    std::string getCVV() const override;
     PaymentMethod* clone() const override;
     
 private:
