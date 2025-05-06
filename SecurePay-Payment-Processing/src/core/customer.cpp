@@ -45,35 +45,17 @@ Customer::Customer(const std::string& name, const std::string& email, const std:
 }
 
 std::string Customer::generateUserId() const {
-    // Generate a random UUID-like string for the user ID
+    // Generate a 4-digit user ID
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 15);
+    std::uniform_int_distribution<> dis(1000, 9999);
     
+    // Generate a 4-digit number
+    int userId = dis(gen);
+    
+    // Convert to string with leading zeros if needed
     std::stringstream ss;
-    ss << std::hex;
-    
-    for (int i = 0; i < 8; i++) {
-        ss << dis(gen);
-    }
-    ss << "-";
-    for (int i = 0; i < 4; i++) {
-        ss << dis(gen);
-    }
-    ss << "-4"; // Version 4 UUID
-    for (int i = 0; i < 3; i++) {
-        ss << dis(gen);
-    }
-    ss << "-";
-    ss << dis(gen);
-    ss << (8 + (dis(gen) % 4)); // Variant bits
-    for (int i = 0; i < 2; i++) {
-        ss << dis(gen);
-    }
-    ss << "-";
-    for (int i = 0; i < 12; i++) {
-        ss << dis(gen);
-    }
+    ss << std::setw(4) << std::setfill('0') << userId;
     
     return ss.str();
 }

@@ -6,8 +6,9 @@
 #include <algorithm>
 
 CardToken::CardToken(const std::string& cardNumber, const std::string& cardholderName,
-                    const std::string& expiryDate, const std::string& customerId)
-    : m_cardholderName(cardholderName), m_customerId(customerId) {
+                    const std::string& expiryDate, const std::string& customerId,
+                    CardCategory category)
+    : m_cardholderName(cardholderName), m_customerId(customerId), m_cardCategory(category) {
     
     // Extract last four digits
     if (cardNumber.length() >= 4) {
@@ -59,7 +60,32 @@ std::string CardToken::getCardholderName() const {
 }
 
 std::string CardToken::getDisplayName() const {
-    return m_cardType + " **** " + m_lastFourDigits;
+    std::string categoryStr;
+    switch (m_cardCategory) {
+        case CardCategory::CREDIT:
+            categoryStr = "Credit";
+            break;
+        case CardCategory::DEBIT:
+            categoryStr = "Debit";
+            break;
+        default:
+            categoryStr = "";
+            break;
+    }
+    
+    if (!categoryStr.empty()) {
+        return categoryStr + " " + m_cardType + " **** " + m_lastFourDigits;
+    } else {
+        return m_cardType + " **** " + m_lastFourDigits;
+    }
+}
+
+CardCategory CardToken::getCardCategory() const {
+    return m_cardCategory;
+}
+
+void CardToken::setCardCategory(CardCategory category) {
+    m_cardCategory = category;
 }
 
 std::string CardToken::generateToken(const std::string& cardNumber, const std::string& customerId) {
@@ -140,8 +166,9 @@ bool CardToken::parseExpiryDate(const std::string& expiryDate, std::string& mont
 
 std::unique_ptr<CardToken> CardTokenFactory::createCardToken(
     const std::string& cardNumber, const std::string& cardholderName,
-    const std::string& expiryDate, const std::string& customerId) {
-    return std::make_unique<CardToken>(cardNumber, cardholderName, expiryDate, customerId);
+    const std::string& expiryDate, const std::string& customerId,
+    CardCategory category) {
+    return std::make_unique<CardToken>(cardNumber, cardholderName, expiryDate, customerId, category);
 }
 
 // This constructor is used when loading from the database
@@ -150,8 +177,9 @@ public:
     DatabaseCardToken(const std::string& token, const std::string& lastFourDigits,
                      const std::string& cardType, const std::string& expiryMonth,
                      const std::string& expiryYear, const std::string& customerId,
-                     const std::string& cardholderName)
-        : CardToken("0000000000000000", cardholderName, "01/00", customerId) {
+                     const std::string& cardholderName,
+                     CardCategory category = CardCategory::UNKNOWN)
+        : CardToken("0000000000000000", cardholderName, "01/00", customerId, category) {
         // Override the values with the ones from the database
         m_token = token;
         m_lastFourDigits = lastFourDigits;
@@ -167,9 +195,9 @@ std::unique_ptr<CardToken> CardTokenFactory::createCardTokenFromDatabase(
     const std::string& token, const std::string& lastFourDigits,
     const std::string& cardType, const std::string& expiryMonth,
     const std::string& expiryYear, const std::string& customerId,
-    const std::string& cardholderName) {
+    const std::string& cardholderName, CardCategory category) {
     return std::make_unique<DatabaseCardToken>(
-        token, lastFourDigits, cardType, expiryMonth, expiryYear, customerId, cardholderName);
+        token, lastFourDigits, cardType, expiryMonth, expiryYear, customerId, cardholderName, category);
 }
 
 CardManager& CardManager::getInstance() {

@@ -3,7 +3,7 @@
 *.db-journal
 
 # Build directory
-build/
+build/ 
 
 # CMake generated files
 CMakeFiles/

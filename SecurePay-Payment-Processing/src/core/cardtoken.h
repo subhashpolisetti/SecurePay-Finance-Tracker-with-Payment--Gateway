@@ -7,6 +7,16 @@
 #include <random>
 
 /**
+ * @enum CardCategory
+ * @brief Enumeration for card categories
+ */
+enum class CardCategory {
+    CREDIT,
+    DEBIT,
+    UNKNOWN
+};
+
+/**
  * @class CardToken
  * @brief Represents a tokenized payment card
  * 
@@ -21,9 +31,11 @@ public:
      * @param cardholderName The cardholder's name
      * @param expiryDate The card expiry date (MM/YY)
      * @param customerId The customer ID
+     * @param category The card category (credit or debit)
      */
     CardToken(const std::string& cardNumber, const std::string& cardholderName,
-              const std::string& expiryDate, const std::string& customerId);
+              const std::string& expiryDate, const std::string& customerId,
+              CardCategory category = CardCategory::UNKNOWN);
     
     /**
      * @brief Get the token
@@ -73,6 +85,18 @@ public:
      */
     std::string getDisplayName() const;
     
+    /**
+     * @brief Get the card category
+     * @return The card category (credit or debit)
+     */
+    CardCategory getCardCategory() const;
+    
+    /**
+     * @brief Set the card category
+     * @param category The card category
+     */
+    void setCardCategory(CardCategory category);
+    
 protected:
     std::string m_token;
     std::string m_lastFourDigits;
@@ -81,6 +105,7 @@ protected:
     std::string m_expiryYear;
     std::string m_customerId;
     std::string m_cardholderName;
+    CardCategory m_cardCategory;
     
 private:
     
@@ -121,11 +146,13 @@ public:
      * @param cardholderName The cardholder's name
      * @param expiryDate The card expiry date (MM/YY)
      * @param customerId The customer ID
+     * @param category The card category (credit or debit)
      * @return A unique pointer to the created card token
      */
     static std::unique_ptr<CardToken> createCardToken(
         const std::string& cardNumber, const std::string& cardholderName,
-        const std::string& expiryDate, const std::string& customerId);
+        const std::string& expiryDate, const std::string& customerId,
+        CardCategory category = CardCategory::UNKNOWN);
     
     /**
      * @brief Create a card token from database data
@@ -136,13 +163,14 @@ public:
      * @param expiryYear The expiry year
      * @param customerId The customer ID
      * @param cardholderName The cardholder's name
+     * @param category The card category (credit or debit)
      * @return A unique pointer to the created card token
      */
     static std::unique_ptr<CardToken> createCardTokenFromDatabase(
         const std::string& token, const std::string& lastFourDigits,
         const std::string& cardType, const std::string& expiryMonth,
         const std::string& expiryYear, const std::string& customerId,
-        const std::string& cardholderName);
+        const std::string& cardholderName, CardCategory category = CardCategory::UNKNOWN);
 };
 
 /**

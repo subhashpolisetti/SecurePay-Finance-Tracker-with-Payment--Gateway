@@ -81,7 +81,7 @@ private:
     QPushButton* m_cancelButton;
     
     std::string m_customerId;
-    std::vector<const CardToken*> m_cards;
+    std::vector<std::string> m_cardTokens; // Store token strings instead of pointers
     const CardToken* m_selectedCard;
 };
 

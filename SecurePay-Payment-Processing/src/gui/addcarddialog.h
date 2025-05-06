@@ -90,6 +90,7 @@ private:
     QLineEdit* m_expiryDateEdit;
     QLineEdit* m_cvvEdit;
     QLabel* m_cardTypeLabel;
+    QComboBox* m_cardCategoryComboBox;
     QPushButton* m_okButton;
     QPushButton* m_cancelButton;
     

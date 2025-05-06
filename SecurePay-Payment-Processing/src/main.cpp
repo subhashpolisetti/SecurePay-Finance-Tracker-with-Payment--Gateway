@@ -11,8 +11,6 @@ int main(int argc, char *argv[]) {
         QApplication::setApplicationVersion("1.0");
         QApplication::setOrganizationName("CMPE 202");
         
-        std::cout << "Starting SecurePay Payment Processing Application" << std::endl;
-        
         MainWindow mainWindow;
         mainWindow.show();
         

@@ -8,7 +8,6 @@
 AppController::AppController() 
     : m_authenticatedCustomer(nullptr),
       m_paymentGateway(std::make_unique<PaymentGateway>()) {
-    std::cout << "AppController initialized" << std::endl;
     
     // Initialize the payment gateway facade
     Bank& bank = Bank::getInstance();
@@ -26,13 +25,11 @@ AppController::AppController()
     m_dataManager = std::make_unique<SQLiteDataManager>(dbPath);
     
     if (m_dataManager->initialize()) {
-        std::cout << "Database initialized successfully" << std::endl;
-        
         // Try to load data from the database
         if (loadAllData()) {
-            std::cout << "Data loaded from database" << std::endl;
+            // Data loaded successfully
         } else {
-            std::cout << "No data found in database, using sample data" << std::endl;
+            // No data found, use sample data
             
             // Add sample customers
             addCustomer(Customer("Alice Smith", "alice@example.com", "123 Main St, San Francisco, CA"));
@@ -128,21 +125,18 @@ bool AppController::loadAllData() {
     // Load customers
     m_customers = m_dataManager->loadCustomers();
     if (m_customers.empty()) {
-        std::cout << "No customers found in database" << std::endl;
         success = false;
     }
     
     // Load merchants
     m_merchants = m_dataManager->loadMerchants();
     if (m_merchants.empty()) {
-        std::cout << "No merchants found in database" << std::endl;
         success = false;
     }
     
     // Load transactions
     auto transactions = m_dataManager->loadTransactions(m_customers, m_merchants);
     if (transactions.empty()) {
-        std::cout << "No transactions found in database" << std::endl;
         success = false;
     } else {
         // Add transactions to the payment gateway
@@ -154,7 +148,6 @@ bool AppController::loadAllData() {
     // Load card tokens
     auto cardTokens = m_dataManager->loadCardTokens();
     if (cardTokens.empty()) {
-        std::cout << "No card tokens found in database" << std::endl;
         success = false;
     } else {
         // Add card tokens to the card manager
@@ -169,7 +162,6 @@ bool AppController::loadAllData() {
 
 const Customer& AppController::addCustomer(const Customer& customer) {
     m_customers.push_back(customer);
-    std::cout << "Added customer: " << customer.getName() << " with ID: " << customer.getUserId() << std::endl;
     
     // Save the customer to the database
     if (m_dataManager) {
@@ -208,12 +200,10 @@ const Customer* AppController::authenticateCustomer(const std::string& usernameO
     for (const auto& customer : m_customers) {
         if (customer.authenticate(usernameOrEmail, pin)) {
             m_authenticatedCustomer = &customer;
-            std::cout << "Customer authenticated: " << customer.getName() << std::endl;
             return m_authenticatedCustomer;
         }
     }
     
-    std::cout << "Authentication failed for: " << usernameOrEmail << std::endl;
     return nullptr;
 }
 
@@ -227,7 +217,6 @@ void AppController::setAuthenticatedCustomer(const Customer* customer) {
 
 void AppController::logoutCustomer() {
     m_authenticatedCustomer = nullptr;
-    std::cout << "Customer logged out" << std::endl;
 }
 
 bool AppController::isCustomerAuthenticated() const {
@@ -244,7 +233,6 @@ std::vector<Customer>& AppController::getCustomersMutable() {
 
 void AppController::addMerchant(const Merchant& merchant) {
     m_merchants.push_back(merchant);
-    std::cout << "Added merchant: " << merchant.getName() << std::endl;
     
     // Save the merchant to the database
     if (m_dataManager) {
@@ -409,10 +397,6 @@ const std::vector<std::unique_ptr<Transaction>>& AppController::getTransactionHi
 }
 
 void AppController::onTransactionUpdated(const Transaction& transaction) {
-    std::cout << "Transaction updated: " << transaction.getTransactionId() 
-              << " - Status: " << Transaction::statusToString(transaction.getStatus()) 
-              << std::endl;
-    
     // Save the updated transaction to the database
     if (m_dataManager) {
         m_dataManager->saveTransaction(transaction);

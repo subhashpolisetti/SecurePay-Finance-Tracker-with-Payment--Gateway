@@ -1,6 +1,7 @@
 #include "addcarddialog.h"
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
+#include <QDate>
 
 AddCardDialog::AddCardDialog(const std::string& customerId, QWidget* parent)
     : QDialog(parent), m_customerId(customerId), m_cardToken(nullptr) {
@@ -25,10 +26,10 @@ void AddCardDialog::initUI() {
     
     // Card number field
     m_cardNumberEdit = new QLineEdit();
-    m_cardNumberEdit->setPlaceholderText("1234 5678 9012 3456");
+    m_cardNumberEdit->setPlaceholderText("1234 5678 9012");
     
-    // Only allow digits and spaces
-    QRegularExpression cardRegex("[0-9 ]{0,19}");
+    // Only allow digits and spaces for exactly 12 digits
+    QRegularExpression cardRegex("[0-9 ]{0,15}"); // Allow up to 15 chars with spaces for 12 digits
     QRegularExpressionValidator* cardValidator = new QRegularExpressionValidator(cardRegex, this);
     m_cardNumberEdit->setValidator(cardValidator);
     
@@ -38,6 +39,12 @@ void AddCardDialog::initUI() {
     m_cardTypeLabel = new QLabel("Card Type: Unknown");
     formLayout->addRow("", m_cardTypeLabel);
     
+    // Card category combo box
+    m_cardCategoryComboBox = new QComboBox();
+    m_cardCategoryComboBox->addItem("Credit Card", static_cast<int>(CardCategory::CREDIT));
+    m_cardCategoryComboBox->addItem("Debit Card", static_cast<int>(CardCategory::DEBIT));
+    formLayout->addRow("Card Category:", m_cardCategoryComboBox);
+    
     // Cardholder name field
     m_cardholderNameEdit = new QLineEdit();
     m_cardholderNameEdit->setPlaceholderText("John Doe");
@@ -46,11 +53,7 @@ void AddCardDialog::initUI() {
     // Expiry date field
     m_expiryDateEdit = new QLineEdit();
     m_expiryDateEdit->setPlaceholderText("MM/YY");
-    
-    // Only allow MM/YY format
-    QRegularExpression expiryRegex("(0[1-9]|1[0-2])/[0-9]{2}");
-    QRegularExpressionValidator* expiryValidator = new QRegularExpressionValidator(expiryRegex, this);
-    m_expiryDateEdit->setValidator(expiryValidator);
+    m_expiryDateEdit->setInputMask("99/99");
     
     formLayout->addRow("Expiry Date:", m_expiryDateEdit);
     
@@ -94,12 +97,17 @@ void AddCardDialog::onOkClicked() {
     QString cardholderName = m_cardholderNameEdit->text();
     QString expiryDate = m_expiryDateEdit->text();
     
+    // Get the selected card category
+    CardCategory category = static_cast<CardCategory>(
+        m_cardCategoryComboBox->currentData().toInt());
+    
     // Create a card token
-    m_cardToken = CardTokenFactory::createCardToken(
+    m_cardToken = std::make_unique<CardToken>(
         cardNumber.toUtf8().constData(),
         cardholderName.toUtf8().constData(),
         expiryDate.toUtf8().constData(),
-        m_customerId);
+        m_customerId,
+        category);
     
     accept();
 }
@@ -126,8 +134,8 @@ void AddCardDialog::onCardNumberChanged(const QString& text) {
 bool AddCardDialog::validateForm() {
     // Check card number
     QString cardNumber = m_cardNumberEdit->text().remove(' ');
-    if (cardNumber.length() < 13 || cardNumber.length() > 19) {
-        QMessageBox::warning(this, "Invalid Card", "Please enter a valid card number.");
+    if (cardNumber.length() != 12) {
+        QMessageBox::warning(this, "Invalid Card", "Please enter a valid 12-digit card number.");
         return false;
     }
     
@@ -143,10 +151,42 @@ bool AddCardDialog::validateForm() {
         return false;
     }
     
+    // Validate expiry date is in the future
+    QStringList expiryParts = m_expiryDateEdit->text().split('/');
+    if (expiryParts.size() == 2) {
+        int month = expiryParts[0].toInt();
+        int year = 2000 + expiryParts[1].toInt(); // Convert YY to YYYY
+        
+        QDate expiryDate(year, month, 1);
+        QDate currentDate = QDate::currentDate();
+        
+        if (expiryDate <= currentDate) {
+            QMessageBox::warning(this, "Invalid Expiry Date", "The card has expired. Please enter a valid future date.");
+            return false;
+        }
+    }
+    
     // Check CVV
-    if (!m_cvvEdit->hasAcceptableInput()) {
-        QMessageBox::warning(this, "Invalid CVV", "Please enter a valid CVV code.");
+    QString cvv = m_cvvEdit->text();
+    if (cvv.length() != 3) {
+        QMessageBox::warning(this, "Invalid CVV", "Please enter a valid 3-digit CVV code.");
         return false;
+    }
+    
+    // Check for duplicate cards
+    CardManager& cardManager = CardManager::getInstance();
+    auto existingCards = cardManager.getCardTokensForCustomer(m_customerId);
+    
+    for (const auto* card : existingCards) {
+        // Check if the last 4 digits match
+        if (cardNumber.right(4) == QString::fromStdString(card->getLastFourDigits())) {
+            // Check if the cardholder name matches
+            if (m_cardholderNameEdit->text().toUtf8().constData() == card->getCardholderName()) {
+                QMessageBox::warning(this, "Duplicate Card", 
+                    "This card appears to be already saved. Please use the existing card or enter a different one.");
+                return false;
+            }
+        }
     }
     
     return true;

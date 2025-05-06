@@ -110,6 +110,7 @@ bool SQLiteDataManager::createTables() {
           "expiry_month TEXT, "
           "expiry_year TEXT, "
           "cardholder_name TEXT, "
+          "card_category INTEGER DEFAULT 2, "
           "FOREIGN KEY (customer_id) REFERENCES customers (name)"
           ");";
     
@@ -470,7 +471,7 @@ std::vector<std::unique_ptr<FraudAlert>> SQLiteDataManager::loadFraudAlerts(
 bool SQLiteDataManager::saveCardToken(const CardToken& cardToken) {
     std::stringstream ss;
     ss << "INSERT OR REPLACE INTO card_tokens ("
-       << "token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name"
+       << "token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name, card_category"
        << ") VALUES ("
        << "'" << cardToken.getToken() << "', "
        << "'" << cardToken.getCustomerId() << "', "
@@ -478,7 +479,8 @@ bool SQLiteDataManager::saveCardToken(const CardToken& cardToken) {
        << "'" << cardToken.getCardType() << "', "
        << "'" << cardToken.getExpiryMonth() << "', "
        << "'" << cardToken.getExpiryYear() << "', "
-       << "'" << cardToken.getCardholderName() << "'"
+       << "'" << cardToken.getCardholderName() << "', "
+       << static_cast<int>(cardToken.getCardCategory())
        << ");";
     
     return executeSQL(ss.str());
@@ -495,10 +497,25 @@ static int cardTokenCallback(void* data, int argc, char** argv, char** azColName
     std::string expiryMonth = argv[4] ? argv[4] : "";
     std::string expiryYear = argv[5] ? argv[5] : "";
     std::string cardholderName = argv[6] ? argv[6] : "";
+    CardCategory category = CardCategory::UNKNOWN;
+    
+    // Check if we have a card category field
+    if (argc > 7 && argv[7]) {
+        try {
+            int categoryInt = std::stoi(argv[7]);
+            if (categoryInt >= 0 && categoryInt <= 2) {
+                category = static_cast<CardCategory>(categoryInt);
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Error converting card category: " << e.what() << std::endl;
+            // Default to UNKNOWN if conversion fails
+            category = CardCategory::UNKNOWN;
+        }
+    }
     
     // Create the card token
     auto cardToken = CardTokenFactory::createCardTokenFromDatabase(
-        token, lastFour, cardType, expiryMonth, expiryYear, customerId, cardholderName);
+        token, lastFour, cardType, expiryMonth, expiryYear, customerId, cardholderName, category);
     
     cardTokens->push_back(std::move(cardToken));
     
@@ -508,7 +525,7 @@ static int cardTokenCallback(void* data, int argc, char** argv, char** azColName
 std::vector<std::unique_ptr<CardToken>> SQLiteDataManager::loadCardTokens() {
     std::vector<std::unique_ptr<CardToken>> cardTokens;
     
-    std::string sql = "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name FROM card_tokens;";
+    std::string sql = "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name, card_category FROM card_tokens;";
     
     if (!executeQuery(sql, cardTokenCallback, &cardTokens)) {
         std::cerr << "Failed to load card tokens" << std::endl;
@@ -528,7 +545,7 @@ std::vector<std::unique_ptr<CardToken>> SQLiteDataManager::loadCardTokensForCust
     std::vector<std::unique_ptr<CardToken>> cardTokens;
     
     std::stringstream ss;
-    ss << "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name "
+    ss << "SELECT token, customer_id, last_four, card_type, expiry_month, expiry_year, cardholder_name, card_category "
        << "FROM card_tokens WHERE customer_id = '" << customerId << "';";
     
     if (!executeQuery(ss.str(), cardTokenCallback, &cardTokens)) {

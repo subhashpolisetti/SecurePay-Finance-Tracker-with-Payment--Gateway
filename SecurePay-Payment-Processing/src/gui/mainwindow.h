@@ -3,32 +3,14 @@
 
 #include <QMainWindow>
 #include <QComboBox>
-#include <QLineEdit>
-#include <QPushButton>
-#include <QLabel>
-#include <QGroupBox>
-#include <QVBoxLayout>
-#include <QFormLayout>
-#include <QTableWidget>
 #include <QStatusBar>
-#include <QTabWidget>
 #include <QStackedWidget>
-#include <QTimer>
 #include <QScrollArea>
 #include <memory>
 #include "../core/appcontroller.h"
 #include "../core/transaction.h"
-#include "../core/refundmanager.h"
-#include "../core/reportmanager.h"
-#include "../core/enhancedfraudsystem.h"
-#include "../core/cardtoken.h"
-#include "managecardsdialog.h"
-#include "addcarddialog.h"
-#include "checkoutscreen.h"
-#include "logindialog.h"
-
-// Forward declaration
-struct CheckoutPayload;
+#include "customerview.h"
+#include "merchantview.h"
 
 // Enum for user roles
 enum class UserRole {
@@ -36,137 +18,57 @@ enum class UserRole {
     MERCHANT
 };
 
+/**
+ * @class MainWindow
+ * @brief Main window of the application
+ * 
+ * This class is the main window of the application. It contains
+ * a stacked widget with customer and merchant views.
+ */
 class MainWindow : public QMainWindow {
     Q_OBJECT
     
 public:
+    /**
+     * @brief Constructor
+     * @param parent Parent widget
+     */
     MainWindow(QWidget* parent = nullptr);
+    
+    /**
+     * @brief Destructor
+     */
     ~MainWindow();
     
 private:
+    /**
+     * @brief Initialize the UI components
+     */
+    void setupUI();
+    
     // Core components
     AppController& m_appController;
-    RefundManager* m_refundManager;
-    ReportManager* m_reportManager;
     
     // Role selection
     QComboBox* m_roleComboBox;
     QStackedWidget* m_mainStack;
     
-    // Customer view widgets
-    QWidget* m_customerView;
-    QLabel* m_customerNameLabel;
-    QComboBox* m_customerComboBox;
-    QPushButton* m_addCustomerButton;
-    QPushButton* m_loginButton;
-    QPushButton* m_logoutButton;
-    QLabel* m_customerDetailsLabel;
-    QLabel* m_balanceLabel;
-    QLineEdit* m_amountEdit;
-    QComboBox* m_paymentMethodComboBox;
-    // Card management
-    QComboBox* m_savedCardsComboBox;
-    QPushButton* m_manageCardsButton;
-    QLineEdit* m_cardNumberEdit;
-    QLineEdit* m_cardholderNameEdit;
-    QLineEdit* m_expiryDateEdit;
-    QLineEdit* m_cvvEdit;
-    QLineEdit* m_walletIdEdit;
-    QLineEdit* m_walletEmailEdit;
-    QGroupBox* m_cardFieldsGroup;
-    QGroupBox* m_walletFieldsGroup;
-    QPushButton* m_submitButton;
-    QLabel* m_resultLabel;
-    QTableWidget* m_customerTransactionTable;
-    QPushButton* m_exportCustomerReportButton;
-    
-    // Deposit functionality
-    QGroupBox* m_depositGroup;
-    QComboBox* m_depositMethodComboBox;
-    QLineEdit* m_depositAmountEdit;
-    QPushButton* m_depositButton;
-    QPushButton* m_checkBalanceButton;
-    
-    // Merchant view widgets
-    QWidget* m_merchantView;
-    QComboBox* m_merchantComboBox;
-    QPushButton* m_addMerchantButton;
-    QLabel* m_merchantDetailsLabel;
-    QTabWidget* m_merchantTabs;
-    // Transaction tables
-    QTableWidget* m_merchantTransactionTable;
-    QTableWidget* m_refundTable;
-    QTableWidget* m_fraudAlertTable;
-    
-    // Analytics and reporting
-    QGroupBox* m_analyticsGroup;
-    QLabel* m_totalTransactionsLabel;
-    QLabel* m_totalVolumeLabel;
-    QLabel* m_avgTransactionLabel;
-    QLabel* m_fraudRateLabel;
-    QLabel* m_refundRateLabel;
-    QPushButton* m_processRefundButton;
-    QPushButton* m_exportMerchantReportButton;
-    
-    // UI setup methods
-    void setupUI();
-    void setupCustomerView();
-    void setupMerchantView();
-    
-    // Update methods
-    void updateCustomerDetails();
-    void updateMerchantDetails();
-    void updatePaymentMethodFields();
-    void updateCustomerTransactionHistory();
-    void updateMerchantTransactionHistory();
-    void updateRefundHistory();
-    void updateFraudAlerts();
-    
-    // Authentication methods
-    void showLoginDialog();
-    void updateAuthenticationStatus();
+    // Views
+    CustomerView* m_customerView;
+    MerchantView* m_merchantView;
     
 private slots:
-    // Role selection
+    /**
+     * @brief Handle role selection change
+     * @param index The selected index
+     */
     void onRoleChanged(int index);
     
-    // Authentication slots
-    void onLoginClicked();
-    void onLogoutClicked();
-    
-    // Customer view slots
-    void onCustomerSelected(int index);
-    void onAddCustomerClicked();
-    void onPaymentMethodSelected(int index);
-    void onSavedCardSelected(int index);
-    void onManageCardsClicked();
-    void onSubmitClicked();
-    void onExportCustomerReportClicked();
-    void onDepositClicked();
-    void onCheckBalanceClicked();
-    void updateBalanceDisplay();
-    
-    // Merchant view slots
-    void onMerchantSelected(int index);
-    void onAddMerchantClicked();
-    void onProcessRefundClicked();
-    void onExportMerchantReportClicked();
-    void updateAnalytics();
-    
-    // Common slots
-    void onTransactionUpdated(const Transaction& transaction);
-    
-    // E-commerce checkout
-    void onOpenCheckoutClicked();
-    
     /**
-     * @brief Receive checkout payload from CheckoutScreen
-     * @param payload The checkout payload
-     * 
-     * This method receives the checkout payload from the CheckoutScreen
-     * and pre-fills the payment form with the data.
+     * @brief Handle transaction update
+     * @param transaction The updated transaction
      */
-    void receiveCheckoutPayload(const CheckoutPayload& payload);
+    void onTransactionUpdated(const Transaction& transaction);
 };
 
-#endif
+#endif // MAINWINDOW_H

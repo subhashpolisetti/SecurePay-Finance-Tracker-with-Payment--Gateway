@@ -55,7 +55,7 @@ void ManageCardsDialog::initUI() {
 void ManageCardsDialog::loadCards() {
     // Clear the list widget and cards vector
     m_cardListWidget->clear();
-    m_cards.clear();
+    m_cardTokens.clear();
     
     // Get saved cards for the customer
     CardManager& cardManager = CardManager::getInstance();
@@ -63,17 +63,19 @@ void ManageCardsDialog::loadCards() {
     
     // Add cards to the list widget
     for (const auto& card : cards) {
-        m_cards.push_back(card);
+        m_cardTokens.push_back(card->getToken());
         
         QString displayText = QString::fromStdString(card->getDisplayName());
         displayText += " (Expires: " + QString::fromStdString(card->getExpiryMonth()) + 
                       "/" + QString::fromStdString(card->getExpiryYear()) + ")";
         
-        m_cardListWidget->addItem(displayText);
+        QListWidgetItem* item = new QListWidgetItem(displayText);
+        item->setData(Qt::UserRole, QString::fromStdString(card->getToken()));
+        m_cardListWidget->addItem(item);
     }
     
     // Add a message if no cards are found
-    if (m_cards.empty()) {
+    if (m_cardTokens.empty()) {
         m_cardListWidget->addItem("No saved cards found. Click 'Add Card' to add a new card.");
     }
 }
@@ -98,8 +100,26 @@ void ManageCardsDialog::onAddCardClicked() {
 void ManageCardsDialog::onDeleteCardClicked() {
     // Get the selected card
     int currentRow = m_cardListWidget->currentRow();
-    if (currentRow >= 0 && currentRow < static_cast<int>(m_cards.size())) {
-        const CardToken* card = m_cards[currentRow];
+    if (currentRow >= 0 && currentRow < static_cast<int>(m_cardTokens.size())) {
+        // Get the token string
+        QString tokenString = m_cardListWidget->item(currentRow)->data(Qt::UserRole).toString();
+        std::string token = tokenString.toUtf8().constData();
+        
+        // Find the card token with this token string
+        CardManager& cardManager = CardManager::getInstance();
+        const CardToken* card = nullptr;
+        auto cards = cardManager.getCardTokensForCustomer(m_customerId);
+        for (const auto* c : cards) {
+            if (c->getToken() == token) {
+                card = c;
+                break;
+            }
+        }
+        
+        if (!card) {
+            QMessageBox::warning(this, "Error", "Card not found.");
+            return;
+        }
         
         // Confirm deletion
         QMessageBox::StandardButton reply = QMessageBox::question(
@@ -109,8 +129,7 @@ void ManageCardsDialog::onDeleteCardClicked() {
         
         if (reply == QMessageBox::Yes) {
             // Delete the card
-            CardManager& cardManager = CardManager::getInstance();
-            cardManager.deleteCardToken(card->getToken());
+            cardManager.deleteCardToken(token);
             
             // Reload the cards
             loadCards();
@@ -127,9 +146,26 @@ void ManageCardsDialog::onDeleteCardClicked() {
 void ManageCardsDialog::onOkClicked() {
     // Get the selected card
     int currentRow = m_cardListWidget->currentRow();
-    if (currentRow >= 0 && currentRow < static_cast<int>(m_cards.size())) {
-        m_selectedCard = m_cards[currentRow];
-        accept();
+    if (currentRow >= 0 && currentRow < static_cast<int>(m_cardTokens.size())) {
+        // Get the token string
+        QString tokenString = m_cardListWidget->item(currentRow)->data(Qt::UserRole).toString();
+        std::string token = tokenString.toUtf8().constData();
+        
+        // Find the card token with this token string
+        CardManager& cardManager = CardManager::getInstance();
+        auto cards = cardManager.getCardTokensForCustomer(m_customerId);
+        for (const auto* c : cards) {
+            if (c->getToken() == token) {
+                m_selectedCard = c;
+                break;
+            }
+        }
+        
+        if (m_selectedCard) {
+            accept();
+        } else {
+            QMessageBox::warning(this, "Error", "Card not found.");
+        }
     } else {
         QMessageBox::warning(this, "No Card Selected", "Please select a card or add a new one.");
     }
@@ -141,5 +177,5 @@ void ManageCardsDialog::onCancelClicked() {
 
 void ManageCardsDialog::onCardSelectionChanged(int currentRow) {
     // Enable or disable the delete button based on selection
-    m_deleteCardButton->setEnabled(currentRow >= 0 && currentRow < static_cast<int>(m_cards.size()));
+    m_deleteCardButton->setEnabled(currentRow >= 0 && currentRow < static_cast<int>(m_cardTokens.size()));
 }
