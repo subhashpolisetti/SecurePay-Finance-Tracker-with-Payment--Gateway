@@ -1,5 +1,0 @@
-/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles/SecurePay.dir
-/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles/edit_cache.dir
-/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles/rebuild_cache.dir
-/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles/SecurePay_autogen_timestamp_deps.dir
-/Users/subhashpolisetti/Documents/Software System Engineering/project/SecurePay-Payment-Processing/build/CMakeFiles/SecurePay_autogen.dir
