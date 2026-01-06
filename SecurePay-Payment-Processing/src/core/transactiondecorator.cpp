@@ -1,6 +1,7 @@
 #include "transactiondecorator.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <chrono>
 #include <iomanip>
 
