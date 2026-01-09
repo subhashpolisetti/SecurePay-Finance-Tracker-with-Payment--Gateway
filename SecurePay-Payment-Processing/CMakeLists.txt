@@ -3,17 +3,13 @@ project(SecurePay VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
 # Find required packages
 find_package(Qt6 COMPONENTS Core Gui Widgets Charts REQUIRED)
 find_package(SQLite3 REQUIRED)
 
-set(SOURCES
-    src/main.cpp
-    # Core classes
+# Core payment logic: plain C++17 + SQLite, no Qt dependency
+set(CORE_SOURCES
     src/core/customer.cpp
     src/core/merchant.cpp
     src/core/transaction.cpp
@@ -30,16 +26,9 @@ set(SOURCES
     src/core/transactiondecorator.cpp
     src/core/paymentgatewayfacade.cpp
     src/core/lazyreport.cpp
-    # GUI classes
-    src/gui/mainwindow.cpp
-    src/gui/addcustomerdialog.cpp
-    src/gui/addmerchantdialog.cpp
-    src/gui/refunddialog.cpp
-    src/gui/exportreportdialog.cpp
 )
 
-set(HEADERS
-    # Core classes
+set(CORE_HEADERS
     src/core/customer.h
     src/core/merchant.h
     src/core/transaction.h
@@ -57,7 +46,28 @@ set(HEADERS
     src/core/transactiondecorator.h
     src/core/paymentgatewayfacade.h
     src/core/lazyreport.h
-    # GUI classes
+)
+
+add_library(securepay_core STATIC ${CORE_SOURCES} ${CORE_HEADERS})
+
+target_include_directories(securepay_core PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+)
+
+target_link_libraries(securepay_core PUBLIC SQLite::SQLite3)
+
+# Qt desktop application
+set(GUI_SOURCES
+    src/main.cpp
+    src/gui/mainwindow.cpp
+    src/gui/addcustomerdialog.cpp
+    src/gui/addmerchantdialog.cpp
+    src/gui/refunddialog.cpp
+    src/gui/exportreportdialog.cpp
+)
+
+set(GUI_HEADERS
     src/gui/mainwindow.h
     src/gui/addcustomerdialog.h
     src/gui/addmerchantdialog.h
@@ -65,18 +75,20 @@ set(HEADERS
     src/gui/exportreportdialog.h
 )
 
-add_executable(SecurePay ${SOURCES} ${HEADERS})
+add_executable(SecurePay ${GUI_SOURCES} ${GUI_HEADERS})
 
-target_include_directories(SecurePay PRIVATE
-    ${SQLite3_INCLUDE_DIRS}
+set_target_properties(SecurePay PROPERTIES
+    AUTOMOC ON
+    AUTORCC ON
+    AUTOUIC ON
 )
 
 target_link_libraries(SecurePay PRIVATE
+    securepay_core
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
     Qt6::Charts
-    ${SQLite3_LIBRARIES}
 )
 
 # Install SQLite3 DLL on Windows
