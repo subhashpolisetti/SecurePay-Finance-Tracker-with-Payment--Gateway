@@ -98,3 +98,9 @@ if(WIN32)
         ${SQLite3_LIBRARIES} $<TARGET_FILE_DIR:SecurePay>
     )
 endif()
+
+# Unit tests (Qt Test + CTest)
+include(CTest)
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
