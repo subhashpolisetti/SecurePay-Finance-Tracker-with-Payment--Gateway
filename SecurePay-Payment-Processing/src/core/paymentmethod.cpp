@@ -1,6 +1,18 @@
 #include "paymentmethod.h"
 #include <iostream>
 
+namespace {
+
+// Show only the last four digits; never index past the start of a short number
+std::string maskCardNumber(const std::string& cardNumber) {
+    if (cardNumber.length() < 4) {
+        return "XXXX-XXXX-XXXX-XXXX";
+    }
+    return "XXXX-XXXX-XXXX-" + cardNumber.substr(cardNumber.length() - 4);
+}
+
+} // namespace
+
 CreditCard::CreditCard(const std::string& cardNumber, const std::string& cardholderName, 
                        const std::string& expiryDate, const std::string& cvv)
     : m_cardNumber(cardNumber), m_cardholderName(cardholderName), 
@@ -17,8 +29,7 @@ std::string CreditCard::getType() const {
 }
 
 std::string CreditCard::getDetails() const {
-    std::string maskedNumber = "XXXX-XXXX-XXXX-" + m_cardNumber.substr(m_cardNumber.length() - 4);
-    return maskedNumber + " (" + m_cardholderName + ")";
+    return maskCardNumber(m_cardNumber) + " (" + m_cardholderName + ")";
 }
 
 PaymentMethod* CreditCard::clone() const {
@@ -41,8 +52,7 @@ std::string DebitCard::getType() const {
 }
 
 std::string DebitCard::getDetails() const {
-    std::string maskedNumber = "XXXX-XXXX-XXXX-" + m_cardNumber.substr(m_cardNumber.length() - 4);
-    return maskedNumber + " (" + m_cardholderName + ")";
+    return maskCardNumber(m_cardNumber) + " (" + m_cardholderName + ")";
 }
 
 PaymentMethod* DebitCard::clone() const {

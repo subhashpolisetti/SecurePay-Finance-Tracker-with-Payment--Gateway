@@ -23,6 +23,14 @@ private slots:
         QVERIFY(card->getDetails().find("123") == std::string::npos);
     }
 
+    void shortOrEmptyCardNumberIsFullyMasked() {
+        auto empty = PaymentMethodFactory::createCreditCard("", "Alice Smith", "12/30", "123");
+        QCOMPARE(empty->getDetails(), std::string("XXXX-XXXX-XXXX-XXXX (Alice Smith)"));
+
+        auto shortNumber = PaymentMethodFactory::createDebitCard("123", "Bob Johnson", "12/30", "123");
+        QCOMPARE(shortNumber->getDetails(), std::string("XXXX-XXXX-XXXX-XXXX (Bob Johnson)"));
+    }
+
     void digitalWalletReportsIdAndEmail() {
         auto wallet = PaymentMethodFactory::createDigitalWallet("wallet-42", "alice@example.com");
         QCOMPARE(wallet->getType(), std::string("Digital Wallet"));
