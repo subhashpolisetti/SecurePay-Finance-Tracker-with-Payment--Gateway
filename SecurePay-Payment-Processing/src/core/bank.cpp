@@ -37,7 +37,7 @@ AuthorizationResult Bank::authorizeTransaction(const Transaction& transaction,
 }
 
 bool Bank::isCardValid(const PaymentMethod& paymentMethod) const {
-    return true;
+    return paymentMethod.isValid();
 }
 
 bool Bank::hasSufficientFunds(const Transaction& transaction) const {

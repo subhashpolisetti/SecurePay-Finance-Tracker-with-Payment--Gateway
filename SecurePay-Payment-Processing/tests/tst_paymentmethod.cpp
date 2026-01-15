@@ -50,6 +50,34 @@ private slots:
         QVERIFY(!wallet->process(2000.0));
     }
 
+    void luhnAcceptsKnownTestCardNumbers() {
+        QVERIFY(passesLuhnCheck("4111111111111111"));   // Visa
+        QVERIFY(passesLuhnCheck("5500000000000004"));   // Mastercard
+        QVERIFY(passesLuhnCheck("378282246310005"));    // Amex, 15 digits
+        QVERIFY(passesLuhnCheck("6011111111111117"));   // Discover
+    }
+
+    void luhnRejectsBadChecksumLengthOrCharacters() {
+        QVERIFY(!passesLuhnCheck("4111111111111112"));  // last digit changed
+        QVERIFY(!passesLuhnCheck("411111111111"));      // 12 digits, too short
+        QVERIFY(!passesLuhnCheck("41111111111111111111")); // 20 digits, too long
+        QVERIFY(!passesLuhnCheck("4111-1111-1111-1111"));
+        QVERIFY(!passesLuhnCheck(""));
+    }
+
+    void cardValidityRequiresLuhnAndCardholder() {
+        QVERIFY(PaymentMethodFactory::createCreditCard("4111111111111111", "Alice", "12/30", "123")->isValid());
+        QVERIFY(!PaymentMethodFactory::createCreditCard("4111111111111112", "Alice", "12/30", "123")->isValid());
+        QVERIFY(!PaymentMethodFactory::createDebitCard("5500000000000004", "", "12/30", "123")->isValid());
+    }
+
+    void walletValidityRequiresIdAndEmail() {
+        QVERIFY(PaymentMethodFactory::createDigitalWallet("wallet-42", "alice@example.com")->isValid());
+        QVERIFY(!PaymentMethodFactory::createDigitalWallet("", "alice@example.com")->isValid());
+        QVERIFY(!PaymentMethodFactory::createDigitalWallet("wallet-42", "alice.example.com")->isValid());
+        QVERIFY(!PaymentMethodFactory::createDigitalWallet("wallet-42", "@example.com")->isValid());
+    }
+
     void cloneProducesEquivalentPaymentMethod() {
         auto card = PaymentMethodFactory::createCreditCard("4111111111111111", "Alice Smith", "12/30", "123");
         std::unique_ptr<PaymentMethod> copy(card->clone());

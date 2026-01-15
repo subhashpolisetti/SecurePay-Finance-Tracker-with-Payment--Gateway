@@ -13,6 +13,31 @@ std::string maskCardNumber(const std::string& cardNumber) {
 
 } // namespace
 
+bool passesLuhnCheck(const std::string& cardNumber) {
+    if (cardNumber.length() < 13 || cardNumber.length() > 19) {
+        return false;
+    }
+    
+    int sum = 0;
+    bool doubleDigit = false;
+    for (auto it = cardNumber.rbegin(); it != cardNumber.rend(); ++it) {
+        if (*it < '0' || *it > '9') {
+            return false;
+        }
+        int digit = *it - '0';
+        if (doubleDigit) {
+            digit *= 2;
+            if (digit > 9) {
+                digit -= 9;
+            }
+        }
+        sum += digit;
+        doubleDigit = !doubleDigit;
+    }
+    
+    return sum % 10 == 0;
+}
+
 CreditCard::CreditCard(const std::string& cardNumber, const std::string& cardholderName, 
                        const std::string& expiryDate, const std::string& cvv)
     : m_cardNumber(cardNumber), m_cardholderName(cardholderName), 
@@ -30,6 +55,10 @@ std::string CreditCard::getType() const {
 
 std::string CreditCard::getDetails() const {
     return maskCardNumber(m_cardNumber) + " (" + m_cardholderName + ")";
+}
+
+bool CreditCard::isValid() const {
+    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty();
 }
 
 PaymentMethod* CreditCard::clone() const {
@@ -55,6 +84,10 @@ std::string DebitCard::getDetails() const {
     return maskCardNumber(m_cardNumber) + " (" + m_cardholderName + ")";
 }
 
+bool DebitCard::isValid() const {
+    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty();
+}
+
 PaymentMethod* DebitCard::clone() const {
     return new DebitCard(m_cardNumber, m_cardholderName, m_expiryDate, m_cvv);
 }
@@ -74,6 +107,11 @@ std::string DigitalWallet::getType() const {
 
 std::string DigitalWallet::getDetails() const {
     return m_walletId + " (" + m_email + ")";
+}
+
+bool DigitalWallet::isValid() const {
+    auto at = m_email.find('@');
+    return !m_walletId.empty() && at != std::string::npos && at > 0 && at + 1 < m_email.length();
 }
 
 PaymentMethod* DigitalWallet::clone() const {

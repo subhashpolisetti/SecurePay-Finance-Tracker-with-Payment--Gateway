@@ -5,6 +5,13 @@
 #include <memory>
 
 /**
+ * @brief Luhn (mod 10) checksum used by card networks to catch mistyped numbers
+ * @param cardNumber Digits only, 13-19 characters
+ * @return True if the number has a valid length, contains only digits and passes the checksum
+ */
+bool passesLuhnCheck(const std::string& cardNumber);
+
+/**
  * @class PaymentMethod
  * @brief Abstract base class for payment methods (Strategy pattern)
  * 
@@ -35,6 +42,12 @@ public:
     virtual std::string getDetails() const = 0;
     
     /**
+     * @brief Check that the payment details are well-formed before authorization
+     * @return True if the details can be sent for authorization
+     */
+    virtual bool isValid() const = 0;
+    
+    /**
      * @brief Create a clone of this payment method
      * @return A unique pointer to the cloned payment method
      */
@@ -54,6 +67,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    bool isValid() const override;
     PaymentMethod* clone() const override;
     
 private:
@@ -76,6 +90,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    bool isValid() const override;
     PaymentMethod* clone() const override;
     
 private:
@@ -97,6 +112,7 @@ public:
     bool process(double amount) const override;
     std::string getType() const override;
     std::string getDetails() const override;
+    bool isValid() const override;
     PaymentMethod* clone() const override;
     
 private:
