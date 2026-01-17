@@ -1,4 +1,7 @@
 #include "paymentmethod.h"
+#include <algorithm>
+#include <cctype>
+#include <ctime>
 #include <iostream>
 
 namespace {
@@ -9,6 +12,11 @@ std::string maskCardNumber(const std::string& cardNumber) {
         return "XXXX-XXXX-XXXX-XXXX";
     }
     return "XXXX-XXXX-XXXX-" + cardNumber.substr(cardNumber.length() - 4);
+}
+
+bool isAllDigits(const std::string& value) {
+    return !value.empty() && std::all_of(value.begin(), value.end(),
+                                         [](unsigned char c) { return std::isdigit(c); });
 }
 
 } // namespace
@@ -57,8 +65,42 @@ std::string CreditCard::getDetails() const {
     return maskCardNumber(m_cardNumber) + " (" + m_cardholderName + ")";
 }
 
+bool isExpiryDateValid(const std::string& expiryDate, int currentYear, int currentMonth) {
+    std::string digits = expiryDate;
+    if (digits.length() == 5 && digits[2] == '/') {
+        digits.erase(2, 1);
+    }
+    if (digits.length() != 4 || !isAllDigits(digits)) {
+        return false;
+    }
+    
+    int month = std::stoi(digits.substr(0, 2));
+    int year = 2000 + std::stoi(digits.substr(2, 2));
+    if (month < 1 || month > 12) {
+        return false;
+    }
+    
+    return year > currentYear || (year == currentYear && month >= currentMonth);
+}
+
+bool isExpiryDateValid(const std::string& expiryDate) {
+    std::time_t now = std::time(nullptr);
+    std::tm local{};
+#ifdef _WIN32
+    localtime_s(&local, &now);
+#else
+    localtime_r(&now, &local);
+#endif
+    return isExpiryDateValid(expiryDate, local.tm_year + 1900, local.tm_mon + 1);
+}
+
+bool isCvvValid(const std::string& cvv) {
+    return (cvv.length() == 3 || cvv.length() == 4) && isAllDigits(cvv);
+}
+
 bool CreditCard::isValid() const {
-    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty();
+    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty() &&
+           isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
 PaymentMethod* CreditCard::clone() const {
@@ -85,7 +127,8 @@ std::string DebitCard::getDetails() const {
 }
 
 bool DebitCard::isValid() const {
-    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty();
+    return passesLuhnCheck(m_cardNumber) && !m_cardholderName.empty() &&
+           isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
 PaymentMethod* DebitCard::clone() const {

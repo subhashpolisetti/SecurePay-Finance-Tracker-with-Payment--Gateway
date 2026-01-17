@@ -71,6 +71,35 @@ private slots:
         QVERIFY(!PaymentMethodFactory::createDebitCard("5500000000000004", "", "12/30", "123")->isValid());
     }
 
+    void expiryDateAcceptsCurrentAndFutureMonths() {
+        QVERIFY(isExpiryDateValid("01/26", 2026, 1));   // valid through end of expiry month
+        QVERIFY(isExpiryDateValid("12/26", 2026, 1));
+        QVERIFY(isExpiryDateValid("0327", 2026, 1));    // MMYY form
+    }
+
+    void expiryDateRejectsPastOrMalformedDates() {
+        QVERIFY(!isExpiryDateValid("12/25", 2026, 1));
+        QVERIFY(!isExpiryDateValid("01/26", 2026, 2));
+        QVERIFY(!isExpiryDateValid("13/27", 2026, 1));  // no month 13
+        QVERIFY(!isExpiryDateValid("00/27", 2026, 1));
+        QVERIFY(!isExpiryDateValid("1/27", 2026, 1));
+        QVERIFY(!isExpiryDateValid("ab/cd", 2026, 1));
+        QVERIFY(!isExpiryDateValid("", 2026, 1));
+    }
+
+    void cvvMustBeThreeOrFourDigits() {
+        QVERIFY(isCvvValid("123"));
+        QVERIFY(isCvvValid("1234"));
+        QVERIFY(!isCvvValid("12"));
+        QVERIFY(!isCvvValid("12345"));
+        QVERIFY(!isCvvValid("12a"));
+    }
+
+    void expiredCardOrBadCvvIsInvalid() {
+        QVERIFY(!PaymentMethodFactory::createCreditCard("4111111111111111", "Alice", "01/20", "123")->isValid());
+        QVERIFY(!PaymentMethodFactory::createDebitCard("5500000000000004", "Bob", "12/30", "12")->isValid());
+    }
+
     void walletValidityRequiresIdAndEmail() {
         QVERIFY(PaymentMethodFactory::createDigitalWallet("wallet-42", "alice@example.com")->isValid());
         QVERIFY(!PaymentMethodFactory::createDigitalWallet("", "alice@example.com")->isValid());

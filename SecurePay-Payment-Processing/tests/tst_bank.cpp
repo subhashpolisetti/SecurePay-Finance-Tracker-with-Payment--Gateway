@@ -4,11 +4,12 @@
 
 namespace {
 
-std::unique_ptr<Transaction> makeCardTransaction(const std::string& cardNumber, double amount) {
+std::unique_ptr<Transaction> makeCardTransaction(const std::string& cardNumber, double amount,
+                                                 const std::string& expiry = "12/30") {
     return TransactionFactory::createTransaction(
         Customer("Alice Smith", "alice@example.com", "123 Main St"),
         Merchant("Acme Store", "acme@example.com", "789 Market St"),
-        PaymentMethodFactory::createCreditCard(cardNumber, "Alice Smith", "12/30", "123"),
+        PaymentMethodFactory::createCreditCard(cardNumber, "Alice Smith", expiry, "123"),
         amount);
 }
 
@@ -26,6 +27,12 @@ private slots:
 
     void declinesCardThatFailsLuhnCheck() {
         auto tx = makeCardTransaction("4111111111111112", 50.0);
+        QCOMPARE(Bank::getInstance().authorizeTransaction(*tx, FraudRiskLevel::LOW),
+                 AuthorizationResult::DECLINED);
+    }
+
+    void declinesExpiredCard() {
+        auto tx = makeCardTransaction("4111111111111111", 50.0, "01/20");
         QCOMPARE(Bank::getInstance().authorizeTransaction(*tx, FraudRiskLevel::LOW),
                  AuthorizationResult::DECLINED);
     }

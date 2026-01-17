@@ -12,6 +12,27 @@
 bool passesLuhnCheck(const std::string& cardNumber);
 
 /**
+ * @brief Check a card expiry date ("MM/YY" or "MMYY") against a given month
+ *
+ * Cards remain valid through the last day of their expiry month.
+ * @param expiryDate The expiry date as entered on the card
+ * @param currentYear Four-digit year to compare against
+ * @param currentMonth Month (1-12) to compare against
+ * @return True if the date is well-formed and not in the past
+ */
+bool isExpiryDateValid(const std::string& expiryDate, int currentYear, int currentMonth);
+
+/**
+ * @brief Check a card expiry date against today's date
+ */
+bool isExpiryDateValid(const std::string& expiryDate);
+
+/**
+ * @brief Check that a CVV is three or four digits
+ */
+bool isCvvValid(const std::string& cvv);
+
+/**
  * @class PaymentMethod
  * @brief Abstract base class for payment methods (Strategy pattern)
  * 
