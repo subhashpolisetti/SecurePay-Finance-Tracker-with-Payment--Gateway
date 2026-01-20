@@ -103,8 +103,8 @@ bool CreditCard::isValid() const {
            isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
-PaymentMethod* CreditCard::clone() const {
-    return new CreditCard(m_cardNumber, m_cardholderName, m_expiryDate, m_cvv);
+std::unique_ptr<PaymentMethod> CreditCard::clone() const {
+    return std::make_unique<CreditCard>(*this);
 }
 
 DebitCard::DebitCard(const std::string& cardNumber, const std::string& cardholderName, 
@@ -131,8 +131,8 @@ bool DebitCard::isValid() const {
            isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
-PaymentMethod* DebitCard::clone() const {
-    return new DebitCard(m_cardNumber, m_cardholderName, m_expiryDate, m_cvv);
+std::unique_ptr<PaymentMethod> DebitCard::clone() const {
+    return std::make_unique<DebitCard>(*this);
 }
 
 DigitalWallet::DigitalWallet(const std::string& walletId, const std::string& email)
@@ -157,8 +157,8 @@ bool DigitalWallet::isValid() const {
     return !m_walletId.empty() && at != std::string::npos && at > 0 && at + 1 < m_email.length();
 }
 
-PaymentMethod* DigitalWallet::clone() const {
-    return new DigitalWallet(m_walletId, m_email);
+std::unique_ptr<PaymentMethod> DigitalWallet::clone() const {
+    return std::make_unique<DigitalWallet>(*this);
 }
 
 std::unique_ptr<PaymentMethod> PaymentMethodFactory::createCreditCard(

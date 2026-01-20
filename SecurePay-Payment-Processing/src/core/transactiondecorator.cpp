@@ -8,7 +8,7 @@
 // TransactionDecorator implementation
 TransactionDecorator::TransactionDecorator(std::unique_ptr<Transaction> transaction)
     : Transaction(transaction->getCustomer(), transaction->getMerchant(), 
-                 std::unique_ptr<PaymentMethod>(transaction->getPaymentMethod().clone()), 
+                 transaction->getPaymentMethod().clone(),
                  transaction->getAmount()),
       m_transaction(std::move(transaction)) {
 }

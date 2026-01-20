@@ -109,7 +109,7 @@ private slots:
 
     void cloneProducesEquivalentPaymentMethod() {
         auto card = PaymentMethodFactory::createCreditCard("4111111111111111", "Alice Smith", "12/30", "123");
-        std::unique_ptr<PaymentMethod> copy(card->clone());
+        std::unique_ptr<PaymentMethod> copy = card->clone();
         QCOMPARE(copy->getType(), card->getType());
         QCOMPARE(copy->getDetails(), card->getDetails());
     }

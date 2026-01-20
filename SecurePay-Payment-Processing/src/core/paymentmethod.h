@@ -72,7 +72,7 @@ public:
      * @brief Create a clone of this payment method
      * @return A unique pointer to the cloned payment method
      */
-    virtual PaymentMethod* clone() const = 0;
+    virtual std::unique_ptr<PaymentMethod> clone() const = 0;
 };
 
 
@@ -89,7 +89,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
-    PaymentMethod* clone() const override;
+    std::unique_ptr<PaymentMethod> clone() const override;
     
 private:
     std::string m_cardNumber;
@@ -112,7 +112,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
-    PaymentMethod* clone() const override;
+    std::unique_ptr<PaymentMethod> clone() const override;
     
 private:
     std::string m_cardNumber;
@@ -134,7 +134,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
-    PaymentMethod* clone() const override;
+    std::unique_ptr<PaymentMethod> clone() const override;
     
 private:
     std::string m_walletId;
