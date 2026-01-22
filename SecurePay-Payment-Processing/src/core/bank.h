@@ -33,6 +33,7 @@ private:
     Bank();
     
   
+    bool isAmountValid(double amount) const;
     bool hasSufficientFunds(const Transaction& transaction) const;
     bool isCardValid(const PaymentMethod& paymentMethod) const;
 };

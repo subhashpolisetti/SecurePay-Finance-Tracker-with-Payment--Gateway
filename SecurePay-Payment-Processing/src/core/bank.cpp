@@ -1,4 +1,5 @@
 #include "bank.h"
+#include <cmath>
 #include <iostream>
 
 Bank& Bank::getInstance() {
@@ -13,6 +14,11 @@ Bank::Bank() {
 AuthorizationResult Bank::authorizeTransaction(const Transaction& transaction, 
                                               FraudRiskLevel fraudRiskLevel) {
     std::cout << "Authorizing transaction " << transaction.getTransactionId() << std::endl;
+    
+    if (!isAmountValid(transaction.getAmount())) {
+        std::cout << "Invalid amount" << std::endl;
+        return AuthorizationResult::DECLINED;
+    }
     
     if (!isCardValid(transaction.getPaymentMethod())) {
         std::cout << "Card validation failed" << std::endl;
@@ -34,6 +40,10 @@ AuthorizationResult Bank::authorizeTransaction(const Transaction& transaction,
     
     std::cout << "Transaction approved" << std::endl;
     return AuthorizationResult::APPROVED;
+}
+
+bool Bank::isAmountValid(double amount) const {
+    return std::isfinite(amount) && amount > 0.0;
 }
 
 bool Bank::isCardValid(const PaymentMethod& paymentMethod) const {

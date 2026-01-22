@@ -1,4 +1,5 @@
 #include <QtTest>
+#include <limits>
 #include "bank.h"
 #include "transaction.h"
 
@@ -41,6 +42,17 @@ private slots:
         auto tx = makeCardTransaction("4111111111111111", 5000.0);
         QCOMPARE(Bank::getInstance().authorizeTransaction(*tx, FraudRiskLevel::LOW),
                  AuthorizationResult::DECLINED);
+    }
+
+    void declinesZeroNegativeAndNonFiniteAmounts() {
+        const double amounts[] = {0.0, -25.0,
+                                  std::numeric_limits<double>::quiet_NaN(),
+                                  std::numeric_limits<double>::infinity()};
+        for (double amount : amounts) {
+            auto tx = makeCardTransaction("4111111111111111", amount);
+            QCOMPARE(Bank::getInstance().authorizeTransaction(*tx, FraudRiskLevel::LOW),
+                     AuthorizationResult::DECLINED);
+        }
     }
 
     void sendsHighRiskTransactionsToReview() {
