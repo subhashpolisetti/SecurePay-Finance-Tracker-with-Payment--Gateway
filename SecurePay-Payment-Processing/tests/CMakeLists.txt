@@ -10,3 +10,4 @@ endfunction()
 
 securepay_add_test(tst_paymentmethod)
 securepay_add_test(tst_bank)
+securepay_add_test(tst_fraudsystem)

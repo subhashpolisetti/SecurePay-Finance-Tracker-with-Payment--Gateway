@@ -39,7 +39,7 @@ FraudRiskLevel FraudSystem::evaluateTransaction(const Transaction& transaction) 
 }
 
 bool FraudSystem::isAmountSuspicious(double amount) const {
-    return amount > 1000.0;
+    return amount > FraudRules::kLargeAmountThreshold;
 }
 
 bool FraudSystem::isLocationSuspicious(const std::string& billingAddress) const {
@@ -47,12 +47,16 @@ bool FraudSystem::isLocationSuspicious(const std::string& billingAddress) const 
     std::transform(lowerAddress.begin(), lowerAddress.end(), lowerAddress.begin(),
                    [](unsigned char c) { return std::tolower(c); });
     
-    return lowerAddress.find("unknown") != std::string::npos ||
-           lowerAddress.find("test") != std::string::npos;
+    for (const char* keyword : FraudRules::kSuspiciousAddressKeywords) {
+        if (lowerAddress.find(keyword) != std::string::npos) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool FraudSystem::isPaymentMethodSuspicious(const PaymentMethod& paymentMethod) const {
-    return paymentMethod.getType() == "Digital Wallet";
+    return paymentMethod.getType() == FraudRules::kHighRiskPaymentMethod;
 }
 
 std::string FraudSystem::riskLevelToString(FraudRiskLevel riskLevel) {
