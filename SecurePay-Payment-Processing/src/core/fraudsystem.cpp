@@ -12,6 +12,11 @@ FraudSystem::FraudSystem() {
 }
 
 FraudRiskLevel FraudSystem::evaluateTransaction(const Transaction& transaction) {
+    return evaluateTransaction(transaction, std::chrono::system_clock::now());
+}
+
+FraudRiskLevel FraudSystem::evaluateTransaction(const Transaction& transaction,
+                                                std::chrono::system_clock::time_point now) {
     std::cout << "Evaluating transaction " << transaction.getTransactionId() 
               << " for fraud risk" << std::endl;
     
@@ -26,6 +31,10 @@ FraudRiskLevel FraudSystem::evaluateTransaction(const Transaction& transaction) 
     }
     
     if (isPaymentMethodSuspicious(transaction.getPaymentMethod())) {
+        suspiciousFactors++;
+    }
+    
+    if (isVelocitySuspicious(transaction.getCustomer(), now)) {
         suspiciousFactors++;
     }
     
@@ -57,6 +66,20 @@ bool FraudSystem::isLocationSuspicious(const std::string& billingAddress) const 
 
 bool FraudSystem::isPaymentMethodSuspicious(const PaymentMethod& paymentMethod) const {
     return paymentMethod.getType() == FraudRules::kHighRiskPaymentMethod;
+}
+
+bool FraudSystem::isVelocitySuspicious(const Customer& customer,
+                                       std::chrono::system_clock::time_point now) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    
+    auto& history = m_recentPayments[customer.getEmail() + "|" + customer.getName()];
+    while (!history.empty() && now - history.front() > FraudRules::kVelocityWindow) {
+        history.pop_front();
+    }
+    
+    bool suspicious = static_cast<int>(history.size()) >= FraudRules::kVelocityMaxTransactions;
+    history.push_back(now);
+    return suspicious;
 }
 
 std::string FraudSystem::riskLevelToString(FraudRiskLevel riskLevel) {

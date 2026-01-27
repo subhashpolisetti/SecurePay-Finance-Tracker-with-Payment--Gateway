@@ -4,13 +4,17 @@
 
 namespace {
 
+// Each call uses a fresh customer so the velocity rule does not leak between tests
 std::unique_ptr<Transaction> makeTransaction(const std::string& billingAddress, double amount,
-                                             bool useWallet = false) {
+                                             bool useWallet = false,
+                                             const std::string& customerName = "") {
+    static int nextCustomer = 0;
+    std::string name = customerName.empty() ? "Customer " + std::to_string(++nextCustomer) : customerName;
     auto method = useWallet
         ? PaymentMethodFactory::createDigitalWallet("wallet-1", "alice@example.com")
         : PaymentMethodFactory::createCreditCard("4111111111111111", "Alice Smith", "12/30", "123");
     return TransactionFactory::createTransaction(
-        Customer("Alice Smith", "alice@example.com", billingAddress),
+        Customer(name, "customer@example.com", billingAddress),
         Merchant("Acme Store", "acme@example.com", "789 Market St"),
         std::move(method), amount);
 }
@@ -53,6 +57,27 @@ private slots:
     void twoOrMoreFactorsAreHighRisk() {
         auto tx = makeTransaction("test address", 2500.0, true);
         QCOMPARE(evaluate(*tx), FraudRiskLevel::HIGH);
+    }
+
+    void rapidRepeatPaymentsRaiseRisk() {
+        auto start = std::chrono::system_clock::now();
+        for (int i = 0; i < FraudRules::kVelocityMaxTransactions; ++i) {
+            auto tx = makeTransaction("123 Main St", 20.0, false, "Velocity Customer");
+            QCOMPARE(FraudSystem::getInstance().evaluateTransaction(*tx, start + std::chrono::seconds(i)),
+                     FraudRiskLevel::LOW);
+        }
+        auto burst = makeTransaction("123 Main St", 20.0, false, "Velocity Customer");
+        QCOMPARE(FraudSystem::getInstance().evaluateTransaction(*burst, start + std::chrono::seconds(5)),
+                 FraudRiskLevel::MEDIUM);
+    }
+
+    void paymentsSpreadOutsideWindowStayLowRisk() {
+        auto start = std::chrono::system_clock::now();
+        for (int i = 0; i < FraudRules::kVelocityMaxTransactions + 2; ++i) {
+            auto tx = makeTransaction("123 Main St", 20.0, false, "Patient Customer");
+            auto when = start + i * (FraudRules::kVelocityWindow + std::chrono::seconds(1));
+            QCOMPARE(FraudSystem::getInstance().evaluateTransaction(*tx, when), FraudRiskLevel::LOW);
+        }
     }
 
     void riskLevelsHaveReadableNames() {
