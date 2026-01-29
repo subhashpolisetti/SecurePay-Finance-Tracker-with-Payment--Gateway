@@ -6,6 +6,7 @@
 #include <functional>
 #include "transaction.h"
 #include "fraudsystem.h"
+#include "fraudalert.h"
 #include "bank.h"
 
 // Observer interface for transaction updates (Observer pattern)
@@ -26,6 +27,9 @@ public:
 
     const std::vector<std::unique_ptr<Transaction>>& getTransactions() const;
     
+    // Alerts raised for medium and high risk payments, oldest first
+    const std::vector<std::unique_ptr<FraudAlert>>& getFraudAlerts() const;
+    
    
     void addObserver(TransactionObserver* observer);
     
@@ -36,11 +40,16 @@ private:
   
     std::vector<std::unique_ptr<Transaction>> m_transactions;
     
+    std::vector<std::unique_ptr<FraudAlert>> m_fraudAlerts;
+    
    
     std::vector<TransactionObserver*> m_observers;
     
    
     void notifyObservers(const Transaction& transaction);
+    
+    void recordFraudAlert(const Transaction& transaction, FraudRiskLevel riskLevel,
+                          AuthorizationResult authResult);
     
     
     void encryptTransactionData(const Transaction& transaction);

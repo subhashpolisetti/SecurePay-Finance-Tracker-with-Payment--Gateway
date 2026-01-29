@@ -805,7 +805,11 @@ std::vector<const Refund*> ReportManager::getAllRefunds() const {
 std::vector<const FraudAlert*> ReportManager::getAllFraudAlerts() const {
     std::vector<const FraudAlert*> result;
     
-    // TODO: Implement once FraudSystem is updated to store alerts
+    if (m_paymentGateway) {
+        for (const auto& alert : m_paymentGateway->getFraudAlerts()) {
+            result.push_back(alert.get());
+        }
+    }
     
     return result;
 }

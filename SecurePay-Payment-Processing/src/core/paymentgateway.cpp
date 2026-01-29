@@ -33,13 +33,31 @@ void PaymentGateway::processTransaction(std::unique_ptr<Transaction> transaction
             break;
     }
     
+    recordFraudAlert(*transaction, riskLevel, authResult);
+    
     notifyObservers(*transaction);
     
     m_transactions.push_back(std::move(transaction));
 }
 
+void PaymentGateway::recordFraudAlert(const Transaction& transaction, FraudRiskLevel riskLevel,
+                                      AuthorizationResult authResult) {
+    if (riskLevel == FraudRiskLevel::LOW) {
+        return;
+    }
+    
+    // The alert refers to the heap-allocated transaction, which keeps its address once stored
+    std::string description = FraudSystem::riskLevelToString(riskLevel) + " fraud risk; bank result: " +
+                              Bank::resultToString(authResult);
+    m_fraudAlerts.push_back(FraudAlertFactory::createFraudAlert(transaction, riskLevel, description));
+}
+
 const std::vector<std::unique_ptr<Transaction>>& PaymentGateway::getTransactions() const {
     return m_transactions;
+}
+
+const std::vector<std::unique_ptr<FraudAlert>>& PaymentGateway::getFraudAlerts() const {
+    return m_fraudAlerts;
 }
 
 void PaymentGateway::addObserver(TransactionObserver* observer) {
