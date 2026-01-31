@@ -39,6 +39,8 @@ public:
     
     const std::vector<std::unique_ptr<Transaction>>& getTransactionHistory() const;
     
+    PaymentGateway& getPaymentGateway();
+    
     
     void onTransactionUpdated(const Transaction& transaction) override;
     

@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     m_refundManager = &RefundManager::getInstance();
     m_reportManager = &ReportManager::getInstance();
     
+    // Reports read live data from the gateway (transactions, fraud alerts) and refund manager
+    m_reportManager->setPaymentGateway(&m_appController->getPaymentGateway());
+    m_reportManager->setRefundManager(m_refundManager);
+    m_reportManager->setFraudSystem(&FraudSystem::getInstance());
+    
     // Setup UI
     setupUI();
     
@@ -56,6 +61,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
+    // ReportManager is a singleton that outlives this window's AppController
+    m_reportManager->setPaymentGateway(nullptr);
 }
 
 void MainWindow::setupUI() {

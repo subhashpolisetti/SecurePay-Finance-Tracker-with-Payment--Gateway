@@ -75,6 +75,10 @@ const std::vector<std::unique_ptr<Transaction>>& AppController::getTransactionHi
     return m_paymentGateway->getTransactions();
 }
 
+PaymentGateway& AppController::getPaymentGateway() {
+    return *m_paymentGateway;
+}
+
 void AppController::onTransactionUpdated(const Transaction& transaction) {
     std::cout << "Transaction updated: " << transaction.getTransactionId() 
               << " - Status: " << Transaction::statusToString(transaction.getStatus()) 
