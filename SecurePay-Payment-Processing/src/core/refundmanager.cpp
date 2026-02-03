@@ -22,6 +22,10 @@ Refund* FullRefundCommand::getRefund() const {
     return m_refund.get();
 }
 
+std::unique_ptr<Refund> FullRefundCommand::releaseRefund() {
+    return std::move(m_refund);
+}
+
 // PartialRefundCommand implementation
 PartialRefundCommand::PartialRefundCommand(Transaction& transaction, double amount, const std::string& reason)
     : m_transaction(transaction), m_amount(amount), m_reason(reason), m_refund(nullptr) {
@@ -38,6 +42,10 @@ bool PartialRefundCommand::execute() {
 
 Refund* PartialRefundCommand::getRefund() const {
     return m_refund.get();
+}
+
+std::unique_ptr<Refund> PartialRefundCommand::releaseRefund() {
+    return std::move(m_refund);
 }
 
 // RefundManager implementation
@@ -60,15 +68,14 @@ bool RefundManager::processPartialRefund(Transaction& transaction, double amount
 
 bool RefundManager::processRefundCommand(std::unique_ptr<RefundCommand> command) {
     if (command->execute()) {
-        Refund* refund = command->getRefund();
+        std::unique_ptr<Refund> refund = command->releaseRefund();
         if (refund) {
             std::cout << "Refund processed: " << refund->getRefundId() 
                       << " for transaction " << refund->getTransaction().getTransactionId()
                       << " amount: " << refund->getAmount() << std::endl;
             
-            // Take ownership of the refund
-            m_refunds.push_back(RefundFactory::createRefund(
-                refund->getTransaction(), refund->getAmount(), refund->getReason()));
+            // Keep the refund the command created so its ID and timestamp stay the same
+            m_refunds.push_back(std::move(refund));
             
             return true;
         }

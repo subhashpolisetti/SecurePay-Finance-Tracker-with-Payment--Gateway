@@ -30,6 +30,12 @@ public:
      * @return Pointer to the refund, or nullptr if no refund was created
      */
     virtual Refund* getRefund() const = 0;
+    
+    /**
+     * @brief Transfer ownership of the refund created by this command
+     * @return The refund, or nullptr if the command has not succeeded
+     */
+    virtual std::unique_ptr<Refund> releaseRefund() = 0;
 };
 
 /**
@@ -56,6 +62,8 @@ public:
      * @return Pointer to the refund, or nullptr if no refund was created
      */
     Refund* getRefund() const override;
+    
+    std::unique_ptr<Refund> releaseRefund() override;
     
 private:
     Transaction& m_transaction;
@@ -88,6 +96,8 @@ public:
      * @return Pointer to the refund, or nullptr if no refund was created
      */
     Refund* getRefund() const override;
+    
+    std::unique_ptr<Refund> releaseRefund() override;
     
 private:
     Transaction& m_transaction;
