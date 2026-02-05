@@ -133,6 +133,13 @@ public:
     virtual double getRefundedAmount() const;
     
     /**
+     * @brief Check whether an amount can be refunded, allowing for cent rounding
+     * @param amount The amount to refund
+     * @return True if the amount is positive and no more than what remains
+     */
+    bool isRefundableAmount(double amount) const;
+    
+    /**
      * @brief Get the transaction status
      * @return The transaction status
      */

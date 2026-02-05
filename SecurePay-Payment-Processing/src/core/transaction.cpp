@@ -5,6 +5,31 @@
 #include <iomanip>
 #include <iostream>
 
+namespace {
+
+// Amounts are dollars held in doubles; differences under half a cent are treated as equal
+constexpr double kHalfCent = 0.005;
+
+// Shared refund rules for states that allow refunds; moves to Refunded once nothing remains
+bool applyRefund(Transaction& transaction, double amount) {
+    if (!transaction.isRefundableAmount(amount)) {
+        std::cout << "Invalid refund amount" << std::endl;
+        return false;
+    }
+    
+    transaction.addRefundedAmount(amount);
+    
+    if (transaction.getRemainingAmount() < kHalfCent) {
+        transaction.setState(std::make_unique<RefundedState>());
+    } else {
+        transaction.setState(std::make_unique<PartiallyRefundedState>());
+    }
+    
+    return true;
+}
+
+} // namespace
+
 // Transaction implementation
 Transaction::Transaction(const Customer& customer, const Merchant& merchant,
                          std::unique_ptr<PaymentMethod> paymentMethod, double amount)
@@ -44,6 +69,10 @@ double Transaction::getRemainingAmount() const {
 
 double Transaction::getRefundedAmount() const {
     return m_refundedAmount;
+}
+
+bool Transaction::isRefundableAmount(double amount) const {
+    return amount > 0 && amount <= getRemainingAmount() + kHalfCent;
 }
 
 TransactionStatus Transaction::getStatus() const {
@@ -150,21 +179,7 @@ bool ApprovedState::process(Transaction& transaction) {
 
 bool ApprovedState::refund(Transaction& transaction, double amount) {
     std::cout << "Refunding " << amount << " from transaction " << transaction.getTransactionId() << std::endl;
-    
-    if (amount <= 0 || amount > transaction.getRemainingAmount()) {
-        std::cout << "Invalid refund amount" << std::endl;
-        return false;
-    }
-    
-    transaction.addRefundedAmount(amount);
-    
-    if (transaction.getRemainingAmount() <= 0.001) { // Using a small epsilon for floating-point comparison
-        transaction.setState(std::make_unique<RefundedState>());
-    } else {
-        transaction.setState(std::make_unique<PartiallyRefundedState>());
-    }
-    
-    return true;
+    return applyRefund(transaction, amount);
 }
 
 TransactionStatus ApprovedState::getStatus() const {
@@ -240,19 +255,7 @@ bool PartiallyRefundedState::process(Transaction& transaction) {
 
 bool PartiallyRefundedState::refund(Transaction& transaction, double amount) {
     std::cout << "Refunding additional " << amount << " from transaction " << transaction.getTransactionId() << std::endl;
-    
-    if (amount <= 0 || amount > transaction.getRemainingAmount()) {
-        std::cout << "Invalid refund amount" << std::endl;
-        return false;
-    }
-    
-    transaction.addRefundedAmount(amount);
-    
-    if (transaction.getRemainingAmount() <= 0.001) { // Using a small epsilon for floating-point comparison
-        transaction.setState(std::make_unique<RefundedState>());
-    }
-    
-    return true;
+    return applyRefund(transaction, amount);
 }
 
 TransactionStatus PartiallyRefundedState::getStatus() const {

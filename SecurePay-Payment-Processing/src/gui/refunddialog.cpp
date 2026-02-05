@@ -236,7 +236,7 @@ void RefundDialog::processRefund() {
     } else {
         bool ok;
         refundAmount = m_amountEdit->text().toDouble(&ok);
-        if (!ok || refundAmount <= 0.0 || refundAmount > selectedTransaction->getRemainingAmount()) {
+        if (!ok || !selectedTransaction->isRefundableAmount(refundAmount)) {
             QMessageBox::warning(this, "Error", "Invalid refund amount");
             return;
         }
