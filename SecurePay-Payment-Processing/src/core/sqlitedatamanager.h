@@ -3,6 +3,8 @@
 
 #include <string>
 #include <map>
+#include <variant>
+#include <vector>
 #include <sqlite3.h>
 #include "datamanager.h"
 
@@ -179,6 +181,19 @@ private:
      * @return True if query was successful, false otherwise
      */
     bool executeQuery(const std::string& sql, int (*callback)(void*, int, char**, char**), void* data);
+    
+    using SqlValue = std::variant<std::string, double, int>;
+    
+    /**
+     * @brief Execute a single statement with values bound as parameters
+     *
+     * Values are never spliced into the SQL text, so quotes in names or
+     * descriptions cannot change the statement (no SQL injection).
+     * @param sql Statement with one '?' placeholder per value
+     * @param params Values bound to the placeholders in order
+     * @return True if the statement ran to completion
+     */
+    bool executeStatement(const std::string& sql, const std::vector<SqlValue>& params);
     
     
     std::string m_dbPath;

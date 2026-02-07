@@ -1,6 +1,5 @@
 #include "sqlitedatamanager.h"
 #include <iostream>
-#include <sstream>
 
 SQLiteDataManager::SQLiteDataManager(const std::string& dbPath)
     : m_dbPath(dbPath), m_db(nullptr) {
@@ -131,6 +130,32 @@ bool SQLiteDataManager::executeQuery(const std::string& sql, int (*callback)(voi
     return true;
 }
 
+bool SQLiteDataManager::executeStatement(const std::string& sql, const std::vector<SqlValue>& params) {
+    sqlite3_stmt* stmt = nullptr;
+    if (sqlite3_prepare_v2(m_db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cerr << "SQL prepare error: " << sqlite3_errmsg(m_db) << std::endl;
+        return false;
+    }
+    
+    for (size_t i = 0; i < params.size(); ++i) {
+        int index = static_cast<int>(i) + 1;
+        if (const auto* text = std::get_if<std::string>(&params[i])) {
+            sqlite3_bind_text(stmt, index, text->c_str(), -1, SQLITE_TRANSIENT);
+        } else if (const auto* real = std::get_if<double>(&params[i])) {
+            sqlite3_bind_double(stmt, index, *real);
+        } else {
+            sqlite3_bind_int(stmt, index, std::get<int>(params[i]));
+        }
+    }
+    
+    int rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE) {
+        std::cerr << "SQL execution error: " << sqlite3_errmsg(m_db) << std::endl;
+    }
+    sqlite3_finalize(stmt);
+    return rc == SQLITE_DONE;
+}
+
 bool SQLiteDataManager::saveAll() {
     // This would be implemented to save all data in memory to the database
     // For now, we'll just return true
@@ -144,14 +169,9 @@ bool SQLiteDataManager::loadAll() {
 }
 
 bool SQLiteDataManager::saveCustomer(const Customer& customer) {
-    std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO customers (name, email, billing_address) VALUES ("
-       << "'" << customer.getName() << "', "
-       << "'" << customer.getEmail() << "', "
-       << "'" << customer.getBillingAddress() << "'"
-       << ");";
-    
-    return executeSQL(ss.str());
+    return executeStatement(
+        "INSERT OR REPLACE INTO customers (name, email, billing_address) VALUES (?, ?, ?);",
+        {customer.getName(), customer.getEmail(), customer.getBillingAddress()});
 }
 
 // Callback function for loadCustomers
@@ -180,14 +200,9 @@ std::vector<Customer> SQLiteDataManager::loadCustomers() {
 }
 
 bool SQLiteDataManager::saveMerchant(const Merchant& merchant) {
-    std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO merchants (name, email, business_address) VALUES ("
-       << "'" << merchant.getName() << "', "
-       << "'" << merchant.getEmail() << "', "
-       << "'" << merchant.getBusinessAddress() << "'"
-       << ");";
-    
-    return executeSQL(ss.str());
+    return executeStatement(
+        "INSERT OR REPLACE INTO merchants (name, email, business_address) VALUES (?, ?, ?);",
+        {merchant.getName(), merchant.getEmail(), merchant.getBusinessAddress()});
 }
 
 // Callback function for loadMerchants
@@ -216,26 +231,20 @@ std::vector<Merchant> SQLiteDataManager::loadMerchants() {
 }
 
 bool SQLiteDataManager::saveTransaction(const Transaction& transaction) {
-    std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO transactions ("
-       << "id, customer_name, merchant_name, amount, refunded_amount, status, timestamp, "
-       << "payment_method_type, payment_detail1, payment_detail2, payment_detail3, payment_detail4"
-       << ") VALUES ("
-       << "'" << transaction.getTransactionId() << "', "
-       << "'" << transaction.getCustomer().getName() << "', "
-       << "'" << transaction.getMerchant().getName() << "', "
-       << transaction.getAmount() << ", "
-       << transaction.getRefundedAmount() << ", "
-       << static_cast<int>(transaction.getStatus()) << ", "
-       << "'" << transaction.getTimestamp() << "', "
-       << "'" << transaction.getPaymentMethod().getType() << "', ";
-    
-    // Payment method details would be extracted here
-    // For simplicity, we'll just use empty strings for now
-    ss << "'', '', '', ''"
-       << ");";
-    
-    return executeSQL(ss.str());
+    // Payment method details are not persisted yet; the detail columns stay empty
+    return executeStatement(
+        "INSERT OR REPLACE INTO transactions ("
+        "id, customer_name, merchant_name, amount, refunded_amount, status, timestamp, "
+        "payment_method_type, payment_detail1, payment_detail2, payment_detail3, payment_detail4"
+        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, '', '', '', '');",
+        {transaction.getTransactionId(),
+         transaction.getCustomer().getName(),
+         transaction.getMerchant().getName(),
+         transaction.getAmount(),
+         transaction.getRefundedAmount(),
+         static_cast<int>(transaction.getStatus()),
+         transaction.getTimestamp(),
+         transaction.getPaymentMethod().getType()});
 }
 
 // Structure to hold transaction data during loading
@@ -316,16 +325,13 @@ std::vector<std::unique_ptr<Transaction>> SQLiteDataManager::loadTransactions(
 }
 
 bool SQLiteDataManager::saveRefund(const Refund& refund) {
-    std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO refunds (id, transaction_id, amount, reason, timestamp) VALUES ("
-       << "'" << refund.getRefundId() << "', "
-       << "'" << refund.getTransaction().getTransactionId() << "', "
-       << refund.getAmount() << ", "
-       << "'" << refund.getReason() << "', "
-       << "'" << refund.getTimestamp() << "'"
-       << ");";
-    
-    return executeSQL(ss.str());
+    return executeStatement(
+        "INSERT OR REPLACE INTO refunds (id, transaction_id, amount, reason, timestamp) VALUES (?, ?, ?, ?, ?);",
+        {refund.getRefundId(),
+         refund.getTransaction().getTransactionId(),
+         refund.getAmount(),
+         refund.getReason(),
+         refund.getTimestamp()});
 }
 
 // Structure to hold refund data during loading
@@ -381,17 +387,15 @@ std::vector<std::unique_ptr<Refund>> SQLiteDataManager::loadRefunds(
 }
 
 bool SQLiteDataManager::saveFraudAlert(const FraudAlert& fraudAlert) {
-    std::stringstream ss;
-    ss << "INSERT OR REPLACE INTO fraud_alerts (id, transaction_id, risk_level, description, timestamp, reviewed) VALUES ("
-       << "'" << fraudAlert.getAlertId() << "', "
-       << "'" << fraudAlert.getTransaction().getTransactionId() << "', "
-       << static_cast<int>(fraudAlert.getRiskLevel()) << ", "
-       << "'" << fraudAlert.getDescription() << "', "
-       << "'" << fraudAlert.getTimestamp() << "', "
-       << (fraudAlert.isReviewed() ? 1 : 0)
-       << ");";
-    
-    return executeSQL(ss.str());
+    return executeStatement(
+        "INSERT OR REPLACE INTO fraud_alerts (id, transaction_id, risk_level, description, timestamp, reviewed) "
+        "VALUES (?, ?, ?, ?, ?, ?);",
+        {fraudAlert.getAlertId(),
+         fraudAlert.getTransaction().getTransactionId(),
+         static_cast<int>(fraudAlert.getRiskLevel()),
+         fraudAlert.getDescription(),
+         fraudAlert.getTimestamp(),
+         fraudAlert.isReviewed() ? 1 : 0});
 }
 
 // Structure to hold fraud alert data during loading
