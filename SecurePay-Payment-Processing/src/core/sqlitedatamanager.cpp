@@ -1,5 +1,32 @@
 #include "sqlitedatamanager.h"
+#include <ctime>
+#include <iomanip>
 #include <iostream>
+#include <sstream>
+
+namespace {
+
+// Timestamps are saved as local "YYYY-MM-DD HH:MM:SS" strings by Transaction::getTimestamp()
+std::chrono::system_clock::time_point parseTimestamp(const std::string& text) {
+    std::tm tm{};
+    std::istringstream in(text);
+    in >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+    if (in.fail()) {
+        return std::chrono::system_clock::now();
+    }
+    tm.tm_isdst = -1;
+    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
+TransactionStatus parseStatus(int value) {
+    if (value < static_cast<int>(TransactionStatus::PENDING) ||
+        value > static_cast<int>(TransactionStatus::PARTIALLY_REFUNDED)) {
+        return TransactionStatus::PENDING;
+    }
+    return static_cast<TransactionStatus>(value);
+}
+
+} // namespace
 
 SQLiteDataManager::SQLiteDataManager(const std::string& dbPath)
     : m_dbPath(dbPath), m_db(nullptr) {
@@ -290,11 +317,10 @@ static int transactionCallback(void* data, int argc, char** argv, char** azColNa
         return 0;
     }
     
-    // Create the transaction
-    auto transaction = TransactionFactory::createTransaction(*customer, *merchant, std::move(paymentMethod), amount);
-    
-    // Set the transaction state based on the status
-    // This would need to be implemented based on the State pattern
+    // Restore the transaction with its saved ID, status, refunds and timestamp
+    auto transaction = TransactionFactory::restoreTransaction(
+        id, *customer, *merchant, std::move(paymentMethod), amount, refundedAmount,
+        parseStatus(status), parseTimestamp(timestamp));
     
     transactionData->transactions->push_back(std::move(transaction));
     

@@ -43,6 +43,20 @@ Transaction::Transaction(const Customer& customer, const Merchant& merchant,
     m_state = std::make_unique<PendingState>();
 }
 
+Transaction::Transaction(const std::string& transactionId, const Customer& customer,
+                         const Merchant& merchant, std::unique_ptr<PaymentMethod> paymentMethod,
+                         double amount, double refundedAmount, TransactionStatus status,
+                         std::chrono::system_clock::time_point timestamp)
+    : m_transactionId(transactionId),
+      m_customer(customer),
+      m_merchant(merchant),
+      m_paymentMethod(std::move(paymentMethod)),
+      m_amount(amount),
+      m_refundedAmount(refundedAmount),
+      m_state(createStateForStatus(status)),
+      m_timestamp(timestamp) {
+}
+
 std::string Transaction::getTransactionId() const {
     return m_transactionId;
 }
@@ -146,6 +160,32 @@ std::unique_ptr<Transaction> TransactionFactory::createTransaction(
     const Customer& customer, const Merchant& merchant,
     std::unique_ptr<PaymentMethod> paymentMethod, double amount) {
     return std::make_unique<Transaction>(customer, merchant, std::move(paymentMethod), amount);
+}
+
+std::unique_ptr<Transaction> TransactionFactory::restoreTransaction(
+    const std::string& transactionId, const Customer& customer, const Merchant& merchant,
+    std::unique_ptr<PaymentMethod> paymentMethod, double amount, double refundedAmount,
+    TransactionStatus status, std::chrono::system_clock::time_point timestamp) {
+    return std::make_unique<Transaction>(transactionId, customer, merchant, std::move(paymentMethod),
+                                         amount, refundedAmount, status, timestamp);
+}
+
+std::unique_ptr<TransactionState> createStateForStatus(TransactionStatus status) {
+    switch (status) {
+        case TransactionStatus::APPROVED:
+            return std::make_unique<ApprovedState>();
+        case TransactionStatus::DECLINED:
+            return std::make_unique<DeclinedState>();
+        case TransactionStatus::FLAGGED_FOR_REVIEW:
+            return std::make_unique<FlaggedState>();
+        case TransactionStatus::REFUNDED:
+            return std::make_unique<RefundedState>();
+        case TransactionStatus::PARTIALLY_REFUNDED:
+            return std::make_unique<PartiallyRefundedState>();
+        case TransactionStatus::PENDING:
+        default:
+            return std::make_unique<PendingState>();
+    }
 }
 
 // PendingState implementation

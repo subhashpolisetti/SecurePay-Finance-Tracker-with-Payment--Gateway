@@ -86,6 +86,21 @@ public:
                 std::unique_ptr<PaymentMethod> paymentMethod, double amount);
     
     /**
+     * @brief Constructor for restoring a saved transaction with its original identity
+     * @param transactionId The ID the transaction was saved with
+     * @param customer The customer making the payment
+     * @param merchant The merchant receiving the payment
+     * @param paymentMethod The payment method used
+     * @param amount The transaction amount
+     * @param refundedAmount Amount already refunded
+     * @param status The saved status
+     * @param timestamp When the transaction was originally created
+     */
+    Transaction(const std::string& transactionId, const Customer& customer, const Merchant& merchant,
+                std::unique_ptr<PaymentMethod> paymentMethod, double amount, double refundedAmount,
+                TransactionStatus status, std::chrono::system_clock::time_point timestamp);
+    
+    /**
      * @brief Virtual destructor
      */
     virtual ~Transaction() = default;
@@ -217,6 +232,14 @@ public:
     static std::unique_ptr<Transaction> createTransaction(
         const Customer& customer, const Merchant& merchant,
         std::unique_ptr<PaymentMethod> paymentMethod, double amount);
+    
+    /**
+     * @brief Rebuild a saved transaction, keeping its ID, status, refunds and timestamp
+     */
+    static std::unique_ptr<Transaction> restoreTransaction(
+        const std::string& transactionId, const Customer& customer, const Merchant& merchant,
+        std::unique_ptr<PaymentMethod> paymentMethod, double amount, double refundedAmount,
+        TransactionStatus status, std::chrono::system_clock::time_point timestamp);
 };
 
 /**
@@ -290,5 +313,10 @@ public:
     TransactionStatus getStatus() const override;
     std::string toString() const override;
 };
+
+/**
+ * @brief Create the state object that matches a stored status
+ */
+std::unique_ptr<TransactionState> createStateForStatus(TransactionStatus status);
 
 #endif // TRANSACTION_H

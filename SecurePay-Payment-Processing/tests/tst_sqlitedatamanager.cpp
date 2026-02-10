@@ -33,6 +33,33 @@ private slots:
         QVERIFY(storedAsData);
     }
 
+    void transactionsReloadWithOriginalIdStatusAndRefunds() {
+        SQLiteDataManager db(":memory:");
+        QVERIFY(db.initialize());
+
+        Customer alice("Alice Smith", "alice@example.com", "123 Main St");
+        Merchant acme("Acme Store", "acme@example.com", "789 Market St");
+        QVERIFY(db.saveCustomer(alice));
+        QVERIFY(db.saveMerchant(acme));
+
+        auto tx = TransactionFactory::createTransaction(
+            alice, acme,
+            PaymentMethodFactory::createCreditCard("4111111111111111", "Alice Smith", "12/30", "123"),
+            120.0);
+        tx->setState(std::make_unique<ApprovedState>());
+        QVERIFY(tx->refund(20.0));
+        QVERIFY(db.saveTransaction(*tx));
+
+        auto loaded = db.loadTransactions(db.loadCustomers(), db.loadMerchants());
+        QCOMPARE(loaded.size(), size_t(1));
+        QCOMPARE(loaded[0]->getTransactionId(), tx->getTransactionId());
+        QCOMPARE(loaded[0]->getStatus(), TransactionStatus::PARTIALLY_REFUNDED);
+        QCOMPARE(loaded[0]->getAmount(), 120.0);
+        QCOMPARE(loaded[0]->getRefundedAmount(), 20.0);
+        QCOMPARE(loaded[0]->getTimestamp(), tx->getTimestamp());
+        QCOMPARE(loaded[0]->getPaymentMethod().getType(), std::string("Credit Card"));
+    }
+
     void refundReasonWithQuotesIsSaved() {
         SQLiteDataManager db(":memory:");
         QVERIFY(db.initialize());
