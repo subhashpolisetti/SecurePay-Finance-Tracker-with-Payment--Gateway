@@ -14,6 +14,10 @@ std::string maskCardNumber(const std::string& cardNumber) {
     return "XXXX-XXXX-XXXX-" + cardNumber.substr(cardNumber.length() - 4);
 }
 
+std::string lastFourDigits(const std::string& cardNumber) {
+    return cardNumber.length() < 4 ? "" : cardNumber.substr(cardNumber.length() - 4);
+}
+
 bool isAllDigits(const std::string& value) {
     return !value.empty() && std::all_of(value.begin(), value.end(),
                                          [](unsigned char c) { return std::isdigit(c); });
@@ -103,6 +107,10 @@ bool CreditCard::isValid() const {
            isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
+std::vector<std::string> CreditCard::getStorableDetails() const {
+    return {lastFourDigits(m_cardNumber), m_cardholderName, m_expiryDate};
+}
+
 std::unique_ptr<PaymentMethod> CreditCard::clone() const {
     return std::make_unique<CreditCard>(*this);
 }
@@ -131,6 +139,10 @@ bool DebitCard::isValid() const {
            isExpiryDateValid(m_expiryDate) && isCvvValid(m_cvv);
 }
 
+std::vector<std::string> DebitCard::getStorableDetails() const {
+    return {lastFourDigits(m_cardNumber), m_cardholderName, m_expiryDate};
+}
+
 std::unique_ptr<PaymentMethod> DebitCard::clone() const {
     return std::make_unique<DebitCard>(*this);
 }
@@ -155,6 +167,10 @@ std::string DigitalWallet::getDetails() const {
 bool DigitalWallet::isValid() const {
     auto at = m_email.find('@');
     return !m_walletId.empty() && at != std::string::npos && at > 0 && at + 1 < m_email.length();
+}
+
+std::vector<std::string> DigitalWallet::getStorableDetails() const {
+    return {m_walletId, m_email};
 }
 
 std::unique_ptr<PaymentMethod> DigitalWallet::clone() const {

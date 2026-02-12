@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <vector>
 
 /**
  * @brief Luhn (mod 10) checksum used by card networks to catch mistyped numbers
@@ -69,6 +70,14 @@ public:
     virtual bool isValid() const = 0;
     
     /**
+     * @brief Details that are safe to persist, in the order the factory accepts them
+     *
+     * Cards never expose the full number or the CVV here, only the last four digits.
+     * @return Up to four detail strings
+     */
+    virtual std::vector<std::string> getStorableDetails() const = 0;
+    
+    /**
      * @brief Create a clone of this payment method
      * @return A unique pointer to the cloned payment method
      */
@@ -89,6 +98,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
+    std::vector<std::string> getStorableDetails() const override;
     std::unique_ptr<PaymentMethod> clone() const override;
     
 private:
@@ -112,6 +122,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
+    std::vector<std::string> getStorableDetails() const override;
     std::unique_ptr<PaymentMethod> clone() const override;
     
 private:
@@ -134,6 +145,7 @@ public:
     std::string getType() const override;
     std::string getDetails() const override;
     bool isValid() const override;
+    std::vector<std::string> getStorableDetails() const override;
     std::unique_ptr<PaymentMethod> clone() const override;
     
 private:

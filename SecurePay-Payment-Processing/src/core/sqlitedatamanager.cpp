@@ -258,12 +258,15 @@ std::vector<Merchant> SQLiteDataManager::loadMerchants() {
 }
 
 bool SQLiteDataManager::saveTransaction(const Transaction& transaction) {
-    // Payment method details are not persisted yet; the detail columns stay empty
+    // Only display-safe details are stored: never the full card number or the CVV
+    std::vector<std::string> details = transaction.getPaymentMethod().getStorableDetails();
+    details.resize(4);
+    
     return executeStatement(
         "INSERT OR REPLACE INTO transactions ("
         "id, customer_name, merchant_name, amount, refunded_amount, status, timestamp, "
         "payment_method_type, payment_detail1, payment_detail2, payment_detail3, payment_detail4"
-        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, '', '', '', '');",
+        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
         {transaction.getTransactionId(),
          transaction.getCustomer().getName(),
          transaction.getMerchant().getName(),
@@ -271,7 +274,8 @@ bool SQLiteDataManager::saveTransaction(const Transaction& transaction) {
          transaction.getRefundedAmount(),
          static_cast<int>(transaction.getStatus()),
          transaction.getTimestamp(),
-         transaction.getPaymentMethod().getType()});
+         transaction.getPaymentMethod().getType(),
+         details[0], details[1], details[2], details[3]});
 }
 
 // Structure to hold transaction data during loading
