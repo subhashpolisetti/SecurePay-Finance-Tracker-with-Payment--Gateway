@@ -116,6 +116,46 @@ private slots:
         QCOMPARE(loaded[0]->getPaymentMethod().getDetails(), std::string("wallet-9 (bob@example.com)"));
     }
 
+    void refundsAndFraudAlertsReloadWithOriginalIdentity() {
+        SQLiteDataManager db(":memory:");
+        QVERIFY(db.initialize());
+
+        Customer alice("Alice Smith", "alice@example.com", "123 Main St");
+        Merchant acme("Acme Store", "acme@example.com", "789 Market St");
+        QVERIFY(db.saveCustomer(alice));
+        QVERIFY(db.saveMerchant(acme));
+
+        auto tx = TransactionFactory::createTransaction(
+            alice, acme,
+            PaymentMethodFactory::createCreditCard("4111111111111111", "Alice Smith", "12/30", "123"),
+            1500.0);
+        tx->setState(std::make_unique<ApprovedState>());
+        QVERIFY(tx->refund(100.0));
+        auto refund = RefundFactory::createRefund(*tx, 100.0, "Late delivery");
+        auto alert = FraudAlertFactory::createFraudAlert(*tx, FraudRiskLevel::MEDIUM, "Large amount");
+        alert->setReviewed(true);
+
+        QVERIFY(db.saveTransaction(*tx));
+        QVERIFY(db.saveRefund(*refund));
+        QVERIFY(db.saveFraudAlert(*alert));
+
+        auto transactions = db.loadTransactions(db.loadCustomers(), db.loadMerchants());
+        auto refunds = db.loadRefunds(transactions);
+        auto alerts = db.loadFraudAlerts(transactions);
+
+        QCOMPARE(refunds.size(), size_t(1));
+        QCOMPARE(refunds[0]->getRefundId(), refund->getRefundId());
+        QCOMPARE(refunds[0]->getTimestamp(), refund->getTimestamp());
+        QCOMPARE(refunds[0]->getReason(), std::string("Late delivery"));
+        QCOMPARE(&refunds[0]->getTransaction(), transactions[0].get());
+
+        QCOMPARE(alerts.size(), size_t(1));
+        QCOMPARE(alerts[0]->getAlertId(), alert->getAlertId());
+        QCOMPARE(alerts[0]->getTimestamp(), alert->getTimestamp());
+        QCOMPARE(alerts[0]->getRiskLevel(), FraudRiskLevel::MEDIUM);
+        QVERIFY(alerts[0]->isReviewed());
+    }
+
     void refundReasonWithQuotesIsSaved() {
         SQLiteDataManager db(":memory:");
         QVERIFY(db.initialize());

@@ -25,6 +25,13 @@ public:
     FraudAlert(const Transaction& transaction, FraudRiskLevel riskLevel, const std::string& description);
     
     /**
+     * @brief Constructor for restoring a saved alert with its original ID, timestamp and review state
+     */
+    FraudAlert(const std::string& alertId, const Transaction& transaction, FraudRiskLevel riskLevel,
+               const std::string& description, std::chrono::system_clock::time_point timestamp,
+               bool reviewed);
+    
+    /**
      * @brief Get the alert ID
      * @return The unique alert ID
      */
@@ -96,6 +103,13 @@ public:
      */
     static std::unique_ptr<FraudAlert> createFraudAlert(
         const Transaction& transaction, FraudRiskLevel riskLevel, const std::string& description);
+    
+    /**
+     * @brief Rebuild a saved fraud alert, keeping its ID, timestamp and review state
+     */
+    static std::unique_ptr<FraudAlert> restoreFraudAlert(
+        const std::string& alertId, const Transaction& transaction, FraudRiskLevel riskLevel,
+        const std::string& description, std::chrono::system_clock::time_point timestamp, bool reviewed);
 };
 
 #endif // FRAUDALERT_H

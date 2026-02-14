@@ -389,8 +389,8 @@ static int refundCallback(void* data, int argc, char** argv, char** azColName) {
         return 0;
     }
     
-    // Create the refund
-    auto refund = RefundFactory::createRefund(*transaction, amount, reason);
+    // Restore the refund with its saved ID and timestamp
+    auto refund = RefundFactory::restoreRefund(id, *transaction, amount, reason, parseTimestamp(timestamp));
     
     refundData->refunds->push_back(std::move(refund));
     
@@ -454,12 +454,10 @@ static int fraudAlertCallback(void* data, int argc, char** argv, char** azColNam
         return 0;
     }
     
-    // Create the fraud alert
-    auto fraudAlert = FraudAlertFactory::createFraudAlert(
-        *transaction, static_cast<FraudRiskLevel>(riskLevel), description);
-    
-    // Set the reviewed status
-    fraudAlert->setReviewed(reviewed);
+    // Restore the alert with its saved ID, timestamp and review state
+    auto fraudAlert = FraudAlertFactory::restoreFraudAlert(
+        id, *transaction, static_cast<FraudRiskLevel>(riskLevel), description,
+        parseTimestamp(timestamp), reviewed);
     
     fraudAlertData->fraudAlerts->push_back(std::move(fraudAlert));
     

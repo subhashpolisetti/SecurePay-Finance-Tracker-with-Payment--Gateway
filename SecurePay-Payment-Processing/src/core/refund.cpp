@@ -11,6 +11,15 @@ Refund::Refund(const Transaction& transaction, double amount, const std::string&
     m_refundId = generateRefundId();
 }
 
+Refund::Refund(const std::string& refundId, const Transaction& transaction, double amount,
+               const std::string& reason, std::chrono::system_clock::time_point timestamp)
+    : m_refundId(refundId),
+      m_transaction(transaction),
+      m_amount(amount),
+      m_reason(reason),
+      m_timestamp(timestamp) {
+}
+
 std::string Refund::getRefundId() const {
     return m_refundId;
 }
@@ -57,4 +66,10 @@ std::string Refund::generateRefundId() {
 std::unique_ptr<Refund> RefundFactory::createRefund(
     const Transaction& transaction, double amount, const std::string& reason) {
     return std::make_unique<Refund>(transaction, amount, reason);
+}
+
+std::unique_ptr<Refund> RefundFactory::restoreRefund(
+    const std::string& refundId, const Transaction& transaction, double amount,
+    const std::string& reason, std::chrono::system_clock::time_point timestamp) {
+    return std::make_unique<Refund>(refundId, transaction, amount, reason, timestamp);
 }

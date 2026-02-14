@@ -12,6 +12,17 @@ FraudAlert::FraudAlert(const Transaction& transaction, FraudRiskLevel riskLevel,
     m_alertId = generateAlertId();
 }
 
+FraudAlert::FraudAlert(const std::string& alertId, const Transaction& transaction,
+                       FraudRiskLevel riskLevel, const std::string& description,
+                       std::chrono::system_clock::time_point timestamp, bool reviewed)
+    : m_alertId(alertId),
+      m_transaction(transaction),
+      m_riskLevel(riskLevel),
+      m_description(description),
+      m_timestamp(timestamp),
+      m_reviewed(reviewed) {
+}
+
 std::string FraudAlert::getAlertId() const {
     return m_alertId;
 }
@@ -66,4 +77,10 @@ std::string FraudAlert::generateAlertId() {
 std::unique_ptr<FraudAlert> FraudAlertFactory::createFraudAlert(
     const Transaction& transaction, FraudRiskLevel riskLevel, const std::string& description) {
     return std::make_unique<FraudAlert>(transaction, riskLevel, description);
+}
+
+std::unique_ptr<FraudAlert> FraudAlertFactory::restoreFraudAlert(
+    const std::string& alertId, const Transaction& transaction, FraudRiskLevel riskLevel,
+    const std::string& description, std::chrono::system_clock::time_point timestamp, bool reviewed) {
+    return std::make_unique<FraudAlert>(alertId, transaction, riskLevel, description, timestamp, reviewed);
 }

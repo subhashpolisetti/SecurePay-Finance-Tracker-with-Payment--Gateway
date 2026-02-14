@@ -24,6 +24,12 @@ public:
     Refund(const Transaction& transaction, double amount, const std::string& reason);
     
     /**
+     * @brief Constructor for restoring a saved refund with its original ID and timestamp
+     */
+    Refund(const std::string& refundId, const Transaction& transaction, double amount,
+           const std::string& reason, std::chrono::system_clock::time_point timestamp);
+    
+    /**
      * @brief Get the refund ID
      * @return The unique refund ID
      */
@@ -82,6 +88,13 @@ public:
      */
     static std::unique_ptr<Refund> createRefund(
         const Transaction& transaction, double amount, const std::string& reason);
+    
+    /**
+     * @brief Rebuild a saved refund, keeping its ID and timestamp
+     */
+    static std::unique_ptr<Refund> restoreRefund(
+        const std::string& refundId, const Transaction& transaction, double amount,
+        const std::string& reason, std::chrono::system_clock::time_point timestamp);
 };
 
 #endif // REFUND_H
