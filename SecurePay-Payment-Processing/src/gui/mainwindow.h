@@ -47,6 +47,7 @@ private:
     QComboBox* m_customerComboBox;
     QPushButton* m_addCustomerButton;
     QLabel* m_customerDetailsLabel;
+    QComboBox* m_payeeMerchantComboBox;
     QLineEdit* m_amountEdit;
     QComboBox* m_paymentMethodComboBox;
     QLineEdit* m_cardNumberEdit;

@@ -57,9 +57,8 @@ target_include_directories(securepay_core PUBLIC
 
 target_link_libraries(securepay_core PUBLIC SQLite::SQLite3)
 
-# Qt desktop application
+# Qt widgets, built as a library so GUI tests can drive them
 set(GUI_SOURCES
-    src/main.cpp
     src/gui/mainwindow.cpp
     src/gui/addcustomerdialog.cpp
     src/gui/addmerchantdialog.cpp
@@ -75,21 +74,25 @@ set(GUI_HEADERS
     src/gui/exportreportdialog.h
 )
 
-add_executable(SecurePay ${GUI_SOURCES} ${GUI_HEADERS})
+add_library(securepay_gui STATIC ${GUI_SOURCES} ${GUI_HEADERS})
 
-set_target_properties(SecurePay PROPERTIES
+set_target_properties(securepay_gui PROPERTIES
     AUTOMOC ON
     AUTORCC ON
     AUTOUIC ON
 )
 
-target_link_libraries(SecurePay PRIVATE
+target_link_libraries(securepay_gui PUBLIC
     securepay_core
     Qt6::Core
     Qt6::Gui
     Qt6::Widgets
     Qt6::Charts
 )
+
+# Qt desktop application
+add_executable(SecurePay src/main.cpp)
+target_link_libraries(SecurePay PRIVATE securepay_gui)
 
 # Install SQLite3 DLL on Windows
 if(WIN32)

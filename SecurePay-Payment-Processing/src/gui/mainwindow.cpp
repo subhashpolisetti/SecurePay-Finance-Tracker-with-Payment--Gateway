@@ -35,9 +35,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
         m_customerComboBox->addItem(QString::fromUtf8(customer.getName().c_str()));
     }
     
-    // Populate merchant combo box
+    // Populate merchant combo boxes (merchant view and payment form)
     for (const auto& merchant : m_appController->getMerchants()) {
         m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
+        m_payeeMerchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
     }
     
     // Select first customer if available
@@ -124,6 +125,7 @@ void MainWindow::setupCustomerView() {
     
     QHBoxLayout* customerSelectionLayout = new QHBoxLayout();
     m_customerComboBox = new QComboBox(customerGroup);
+    m_customerComboBox->setObjectName("customerComboBox");
     m_addCustomerButton = new QPushButton("Add Customer", customerGroup);
     customerSelectionLayout->addWidget(new QLabel("Select Customer:"));
     customerSelectionLayout->addWidget(m_customerComboBox, 1);
@@ -141,15 +143,21 @@ void MainWindow::setupCustomerView() {
     QVBoxLayout* paymentLayout = new QVBoxLayout(paymentGroup);
     
     QFormLayout* paymentFormLayout = new QFormLayout();
+    m_payeeMerchantComboBox = new QComboBox(paymentGroup);
+    m_payeeMerchantComboBox->setObjectName("payeeMerchantComboBox");
+    
     m_amountEdit = new QLineEdit(paymentGroup);
+    m_amountEdit->setObjectName("amountEdit");
     m_amountEdit->setValidator(new QDoubleValidator(0.01, 10000.00, 2, paymentGroup));
     m_amountEdit->setPlaceholderText("Enter amount (e.g., 100.00)");
     
     m_paymentMethodComboBox = new QComboBox(paymentGroup);
+    m_paymentMethodComboBox->setObjectName("paymentMethodComboBox");
     m_paymentMethodComboBox->addItem("Credit Card");
     m_paymentMethodComboBox->addItem("Debit Card");
     m_paymentMethodComboBox->addItem("Digital Wallet");
     
+    paymentFormLayout->addRow("Pay To:", m_payeeMerchantComboBox);
     paymentFormLayout->addRow("Amount ($):", m_amountEdit);
     paymentFormLayout->addRow("Payment Method:", m_paymentMethodComboBox);
     
@@ -158,17 +166,21 @@ void MainWindow::setupCustomerView() {
     QGridLayout* cardGridLayout = new QGridLayout(m_cardFieldsGroup);
     
     m_cardNumberEdit = new QLineEdit(m_cardFieldsGroup);
+    m_cardNumberEdit->setObjectName("cardNumberEdit");
     m_cardNumberEdit->setPlaceholderText("Enter card number");
     m_cardNumberEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{13,19}"), m_cardFieldsGroup));
     
     m_cardholderNameEdit = new QLineEdit(m_cardFieldsGroup);
+    m_cardholderNameEdit->setObjectName("cardholderNameEdit");
     m_cardholderNameEdit->setPlaceholderText("Enter cardholder name");
     
     m_expiryDateEdit = new QLineEdit(m_cardFieldsGroup);
+    m_expiryDateEdit->setObjectName("expiryDateEdit");
     m_expiryDateEdit->setPlaceholderText("MM/YY");
     m_expiryDateEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("([0-9]{2}/[0-9]{2})|([0-9]{4})"), m_cardFieldsGroup));
     
     m_cvvEdit = new QLineEdit(m_cardFieldsGroup);
+    m_cvvEdit->setObjectName("cvvEdit");
     m_cvvEdit->setPlaceholderText("CVV");
     m_cvvEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]{3,4}"), m_cardFieldsGroup));
     m_cvvEdit->setMaxLength(4);
@@ -205,6 +217,7 @@ void MainWindow::setupCustomerView() {
     
     // Submit button
     m_submitButton = new QPushButton("Submit Payment", paymentGroup);
+    m_submitButton->setObjectName("submitButton");
     m_submitButton->setMinimumHeight(40);
     
     // Payment fields container
@@ -238,6 +251,7 @@ void MainWindow::setupCustomerView() {
     QVBoxLayout* resultLayout = new QVBoxLayout(resultGroup);
     
     m_resultLabel = new QLabel(resultGroup);
+    m_resultLabel->setObjectName("resultLabel");
     m_resultLabel->setAlignment(Qt::AlignCenter);
     m_resultLabel->setMinimumHeight(60);
     m_resultLabel->setStyleSheet("font-size: 16pt;");
@@ -249,6 +263,7 @@ void MainWindow::setupCustomerView() {
     QVBoxLayout* historyLayout = new QVBoxLayout(historyGroup);
     
     m_customerTransactionTable = new QTableWidget(0, 5, historyGroup);
+    m_customerTransactionTable->setObjectName("customerTransactionTable");
     m_customerTransactionTable->setHorizontalHeaderLabels({"ID", "Customer", "Amount", "Payment Method", "Status"});
     m_customerTransactionTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_customerTransactionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -291,6 +306,7 @@ void MainWindow::setupMerchantView() {
     
     QHBoxLayout* merchantSelectionLayout = new QHBoxLayout();
     m_merchantComboBox = new QComboBox(merchantGroup);
+    m_merchantComboBox->setObjectName("merchantComboBox");
     m_addMerchantButton = new QPushButton("Add Merchant", merchantGroup);
     merchantSelectionLayout->addWidget(new QLabel("Select Merchant:"));
     merchantSelectionLayout->addWidget(m_merchantComboBox, 1);
@@ -311,6 +327,7 @@ void MainWindow::setupMerchantView() {
     QVBoxLayout* transactionsLayout = new QVBoxLayout(transactionsTab);
     
     m_merchantTransactionTable = new QTableWidget(0, 6, transactionsTab);
+    m_merchantTransactionTable->setObjectName("merchantTransactionTable");
     m_merchantTransactionTable->setHorizontalHeaderLabels({"ID", "Customer", "Merchant", "Amount", "Payment Method", "Status"});
     m_merchantTransactionTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_merchantTransactionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -328,6 +345,7 @@ void MainWindow::setupMerchantView() {
     QVBoxLayout* refundsLayout = new QVBoxLayout(refundsTab);
     
     m_refundTable = new QTableWidget(0, 5, refundsTab);
+    m_refundTable->setObjectName("refundTable");
     m_refundTable->setHorizontalHeaderLabels({"ID", "Transaction ID", "Amount", "Reason", "Date"});
     m_refundTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_refundTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -342,6 +360,7 @@ void MainWindow::setupMerchantView() {
     QVBoxLayout* fraudAlertsLayout = new QVBoxLayout(fraudAlertsTab);
     
     m_fraudAlertTable = new QTableWidget(0, 4, fraudAlertsTab);
+    m_fraudAlertTable->setObjectName("fraudAlertTable");
     m_fraudAlertTable->setHorizontalHeaderLabels({"ID", "Transaction ID", "Risk Level", "Date"});
     m_fraudAlertTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     m_fraudAlertTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -527,6 +546,7 @@ void MainWindow::onAddMerchantClicked() {
         m_appController->addMerchant(merchant);
         
         m_merchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
+        m_payeeMerchantComboBox->addItem(QString::fromUtf8(merchant.getName().c_str()));
         
         m_merchantComboBox->setCurrentIndex(m_merchantComboBox->count() - 1);
     }
@@ -603,13 +623,13 @@ void MainWindow::onSubmitClicked() {
         details2 = m_walletEmailEdit->text().toUtf8().constData();
     }
     
-    // For now, just use the first merchant in the list
-    if (m_appController->getMerchants().empty()) {
-        QMessageBox::warning(this, "Validation Error", "No merchants available.");
+    int merchantIndex = m_payeeMerchantComboBox->currentIndex();
+    if (merchantIndex < 0 || merchantIndex >= static_cast<int>(m_appController->getMerchants().size())) {
+        QMessageBox::warning(this, "Validation Error", "Please select a merchant to pay.");
         return;
     }
     
-    const Merchant& merchant = m_appController->getMerchants()[0];
+    const Merchant& merchant = m_appController->getMerchants()[merchantIndex];
     
     auto transaction = m_appController->createTransaction(
         customer,
