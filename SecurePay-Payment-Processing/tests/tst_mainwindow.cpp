@@ -43,11 +43,35 @@ private slots:
 
         payByCard(window, 0, 1, "25.00");
 
+        widget<QComboBox>(window, "merchantComboBox")->setCurrentIndex(1);
         auto* table = widget<QTableWidget>(window, "merchantTransactionTable");
         QCOMPARE(table->rowCount(), 1);
         QCOMPARE(table->item(0, 2)->text(), QString("XYZ Electronics"));
         QCOMPARE(table->item(0, 5)->text(), QString("Approved"));
         QCOMPARE(widget<QLabel>(window, "resultLabel")->text(), QString("Transaction Approved"));
+    }
+
+    void historyTablesShowOnlySelectedCustomerAndMerchant() {
+        MainWindow window;
+        payByCard(window, 0, 0, "10.00");   // Alice -> Acme Store
+        payByCard(window, 1, 1, "20.00");   // Bob -> XYZ Electronics
+        payByCard(window, 1, 0, "30.00");   // Bob -> Acme Store
+
+        auto* customers = widget<QComboBox>(window, "customerComboBox");
+        auto* customerTable = widget<QTableWidget>(window, "customerTransactionTable");
+        customers->setCurrentIndex(0);
+        QCOMPARE(customerTable->rowCount(), 1);
+        QCOMPARE(customerTable->item(0, 1)->text(), QString("Alice Smith"));
+        customers->setCurrentIndex(1);
+        QCOMPARE(customerTable->rowCount(), 2);
+
+        auto* merchants = widget<QComboBox>(window, "merchantComboBox");
+        auto* merchantTable = widget<QTableWidget>(window, "merchantTransactionTable");
+        merchants->setCurrentIndex(0);
+        QCOMPARE(merchantTable->rowCount(), 2);
+        merchants->setCurrentIndex(1);
+        QCOMPARE(merchantTable->rowCount(), 1);
+        QCOMPARE(merchantTable->item(0, 1)->text(), QString("Bob Johnson"));
     }
 };
 

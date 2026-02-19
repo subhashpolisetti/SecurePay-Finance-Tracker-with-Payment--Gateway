@@ -474,10 +474,15 @@ void MainWindow::updatePaymentMethodFields() {
 
 void MainWindow::updateCustomerTransactionHistory() {
     const auto& transactions = m_appController->getTransactionHistory();
+    std::string customerName = m_customerComboBox->currentText().toUtf8().constData();
     
     m_customerTransactionTable->setRowCount(0);
     
     for (const auto& transaction : transactions) {
+        if (transaction->getCustomer().getName() != customerName) {
+            continue;
+        }
+        
         int row = m_customerTransactionTable->rowCount();
         m_customerTransactionTable->insertRow(row);
         
@@ -491,10 +496,15 @@ void MainWindow::updateCustomerTransactionHistory() {
 
 void MainWindow::updateMerchantTransactionHistory() {
     const auto& transactions = m_appController->getTransactionHistory();
+    std::string merchantName = m_merchantComboBox->currentText().toUtf8().constData();
     
     m_merchantTransactionTable->setRowCount(0);
     
     for (const auto& transaction : transactions) {
+        if (transaction->getMerchant().getName() != merchantName) {
+            continue;
+        }
+        
         int row = m_merchantTransactionTable->rowCount();
         m_merchantTransactionTable->insertRow(row);
         
@@ -521,10 +531,12 @@ void MainWindow::updateFraudAlerts() {
 
 void MainWindow::onCustomerSelected(int index) {
     updateCustomerDetails();
+    updateCustomerTransactionHistory();
 }
 
 void MainWindow::onMerchantSelected(int index) {
     updateMerchantDetails();
+    updateMerchantTransactionHistory();
 }
 
 void MainWindow::onAddCustomerClicked() {
