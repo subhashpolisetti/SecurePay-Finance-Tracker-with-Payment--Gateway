@@ -334,6 +334,7 @@ void MainWindow::setupMerchantView() {
     m_merchantTransactionTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     
     m_processRefundButton = new QPushButton("Process Refund", transactionsTab);
+    m_processRefundButton->setObjectName("processRefundButton");
     
     transactionsLayout->addWidget(m_merchantTransactionTable);
     transactionsLayout->addWidget(m_processRefundButton);
@@ -518,15 +519,44 @@ void MainWindow::updateMerchantTransactionHistory() {
 }
 
 void MainWindow::updateRefundHistory() {
-    // In a real implementation, this would fetch refunds from the RefundManager
-    // For now, we'll just clear the table
+    std::string merchantName = m_merchantComboBox->currentText().toUtf8().constData();
+    
     m_refundTable->setRowCount(0);
+    
+    for (const auto& refund : m_refundManager->getRefunds()) {
+        if (refund->getTransaction().getMerchant().getName() != merchantName) {
+            continue;
+        }
+        
+        int row = m_refundTable->rowCount();
+        m_refundTable->insertRow(row);
+        
+        m_refundTable->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(refund->getRefundId())));
+        m_refundTable->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(refund->getTransaction().getTransactionId())));
+        m_refundTable->setItem(row, 2, new QTableWidgetItem(QString("$%1").arg(refund->getAmount(), 0, 'f', 2)));
+        m_refundTable->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(refund->getReason())));
+        m_refundTable->setItem(row, 4, new QTableWidgetItem(QString::fromStdString(refund->getTimestamp())));
+    }
 }
 
 void MainWindow::updateFraudAlerts() {
-    // In a real implementation, this would fetch fraud alerts from the FraudSystem
-    // For now, we'll just clear the table
+    std::string merchantName = m_merchantComboBox->currentText().toUtf8().constData();
+    
     m_fraudAlertTable->setRowCount(0);
+    
+    for (const auto& alert : m_appController->getPaymentGateway().getFraudAlerts()) {
+        if (alert->getTransaction().getMerchant().getName() != merchantName) {
+            continue;
+        }
+        
+        int row = m_fraudAlertTable->rowCount();
+        m_fraudAlertTable->insertRow(row);
+        
+        m_fraudAlertTable->setItem(row, 0, new QTableWidgetItem(QString::fromStdString(alert->getAlertId())));
+        m_fraudAlertTable->setItem(row, 1, new QTableWidgetItem(QString::fromStdString(alert->getTransaction().getTransactionId())));
+        m_fraudAlertTable->setItem(row, 2, new QTableWidgetItem(QString::fromStdString(FraudSystem::riskLevelToString(alert->getRiskLevel()))));
+        m_fraudAlertTable->setItem(row, 3, new QTableWidgetItem(QString::fromStdString(alert->getTimestamp())));
+    }
 }
 
 void MainWindow::onCustomerSelected(int index) {
@@ -537,6 +567,8 @@ void MainWindow::onCustomerSelected(int index) {
 void MainWindow::onMerchantSelected(int index) {
     updateMerchantDetails();
     updateMerchantTransactionHistory();
+    updateRefundHistory();
+    updateFraudAlerts();
 }
 
 void MainWindow::onAddCustomerClicked() {
@@ -758,6 +790,7 @@ void MainWindow::onExportMerchantReportClicked() {
 void MainWindow::onTransactionUpdated(const Transaction& transaction) {
     updateCustomerTransactionHistory();
     updateMerchantTransactionHistory();
+    updateFraudAlerts();
     
     statusBar()->showMessage("Transaction updated: " + QString::fromUtf8(transaction.getTransactionId().c_str()));
 }

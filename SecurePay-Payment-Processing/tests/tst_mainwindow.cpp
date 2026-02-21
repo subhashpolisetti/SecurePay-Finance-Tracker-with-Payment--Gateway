@@ -2,8 +2,10 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QTableWidget>
+#include <QTextEdit>
 #include "gui/mainwindow.h"
 
 namespace {
@@ -72,6 +74,54 @@ private slots:
         merchants->setCurrentIndex(1);
         QCOMPARE(merchantTable->rowCount(), 1);
         QCOMPARE(merchantTable->item(0, 1)->text(), QString("Bob Johnson"));
+    }
+
+    void fraudAlertsTabListsMerchantAlerts() {
+        MainWindow window;
+        payByCard(window, 0, 0, "1500.00");   // above the large-amount threshold -> medium risk
+
+        auto* merchants = widget<QComboBox>(window, "merchantComboBox");
+        auto* alerts = widget<QTableWidget>(window, "fraudAlertTable");
+        merchants->setCurrentIndex(0);
+        QCOMPARE(alerts->rowCount(), 1);
+        QCOMPARE(alerts->item(0, 2)->text(), QString("Medium"));
+        merchants->setCurrentIndex(1);
+        QCOMPARE(alerts->rowCount(), 0);
+    }
+
+    // Keep last: RefundManager is a process-wide singleton holding references to this window's transactions
+    void refundsTabListsMerchantRefunds() {
+        MainWindow window;
+        payByCard(window, 0, 1, "80.00");
+
+        widget<QComboBox>(window, "merchantComboBox")->setCurrentIndex(1);
+        auto* transactions = widget<QTableWidget>(window, "merchantTransactionTable");
+        QCOMPARE(transactions->rowCount(), 1);
+        transactions->setCurrentCell(0, 0);
+
+        // The refund dialog and its confirmation box are modal; answer them from inside their event loops
+        QTimer::singleShot(0, [] {
+            auto* dialog = QApplication::activeModalWidget();
+            QVERIFY(dialog);
+            dialog->findChild<QTextEdit*>()->setPlainText("Damaged on arrival");
+            QTimer::singleShot(0, [] {
+                auto* box = qobject_cast<QMessageBox*>(QApplication::activeModalWidget());
+                QVERIFY(box);
+                box->accept();
+            });
+            for (auto* button : dialog->findChildren<QPushButton*>()) {
+                if (button->text() == "Process Refund") {
+                    button->click();
+                }
+            }
+        });
+        widget<QPushButton>(window, "processRefundButton")->click();
+
+        auto* refunds = widget<QTableWidget>(window, "refundTable");
+        QCOMPARE(refunds->rowCount(), 1);
+        QCOMPARE(refunds->item(0, 2)->text(), QString("$80.00"));
+        QCOMPARE(refunds->item(0, 3)->text(), QString("Damaged on arrival"));
+        QCOMPARE(transactions->item(0, 5)->text(), QString("Refunded"));
     }
 };
 
