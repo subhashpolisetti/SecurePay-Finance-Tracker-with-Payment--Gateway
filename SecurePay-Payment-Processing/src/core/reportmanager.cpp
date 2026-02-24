@@ -18,6 +18,75 @@ std::string getCurrentTimestamp() {
     return ss.str();
 }
 
+namespace {
+
+// Quote a free-text CSV field when it contains a separator, quote or line break (RFC 4180)
+std::string csvField(const std::string& value) {
+    if (value.find_first_of(",\"\r\n") == std::string::npos) {
+        return value;
+    }
+    std::string quoted = "\"";
+    for (char c : value) {
+        if (c == '"') {
+            quoted += '"';
+        }
+        quoted += c;
+    }
+    return quoted + "\"";
+}
+
+// Split one CSV line, honouring quoted fields and doubled quotes
+std::vector<std::string> parseCsvLine(const std::string& line) {
+    std::vector<std::string> fields;
+    std::string field;
+    bool inQuotes = false;
+    for (size_t i = 0; i < line.size(); ++i) {
+        char c = line[i];
+        if (inQuotes) {
+            if (c == '"' && i + 1 < line.size() && line[i + 1] == '"') {
+                field += '"';
+                ++i;
+            } else if (c == '"') {
+                inQuotes = false;
+            } else {
+                field += c;
+            }
+        } else if (c == '"') {
+            inQuotes = true;
+        } else if (c == ',') {
+            fields.push_back(field);
+            field.clear();
+        } else {
+            field += c;
+        }
+    }
+    fields.push_back(field);
+    return fields;
+}
+
+std::string jsonEscape(const std::string& value) {
+    std::ostringstream out;
+    for (unsigned char c : value) {
+        switch (c) {
+            case '"': out << "\\\""; break;
+            case '\\': out << "\\\\"; break;
+            case '\n': out << "\\n"; break;
+            case '\r': out << "\\r"; break;
+            case '\t': out << "\\t"; break;
+            default:
+                if (c < 0x20) {
+                    out << "\\u" << std::hex << std::setw(4) << std::setfill('0') << static_cast<int>(c)
+                        << std::dec;
+                } else {
+                    out << c;
+                }
+        }
+    }
+    return out.str();
+}
+
+} // namespace
+
 // TransactionHistoryReport implementation
 std::string TransactionHistoryReport::generateReport(
     const std::vector<const Transaction*>& transactions,
@@ -77,10 +146,10 @@ std::string TransactionHistoryReport::generateReport(
         
         ss << transaction->getTransactionId() << ","
            << transaction->getTimestamp() << ","
-           << transaction->getCustomer().getName() << ","
-           << transaction->getMerchant().getName() << ","
+           << csvField(transaction->getCustomer().getName()) << ","
+           << csvField(transaction->getMerchant().getName()) << ","
            << transaction->getAmount() << ","
-           << transaction->getPaymentMethod().getType() << ","
+           << csvField(transaction->getPaymentMethod().getType()) << ","
            << Transaction::statusToString(transaction->getStatus()) << "\n";
     }
     
@@ -149,10 +218,10 @@ std::string RefundHistoryReport::generateReport(
         ss << refund->getRefundId() << ","
            << refund->getTimestamp() << ","
            << transaction.getTransactionId() << ","
-           << transaction.getCustomer().getName() << ","
-           << transaction.getMerchant().getName() << ","
+           << csvField(transaction.getCustomer().getName()) << ","
+           << csvField(transaction.getMerchant().getName()) << ","
            << refund->getAmount() << ","
-           << refund->getReason() << "\n";
+           << csvField(refund->getReason()) << "\n";
     }
     
     return ss.str();
@@ -226,11 +295,11 @@ std::string FraudAlertReport::generateReport(
         ss << alert->getAlertId() << ","
            << alert->getTimestamp() << ","
            << transaction.getTransactionId() << ","
-           << transaction.getCustomer().getName() << ","
-           << transaction.getMerchant().getName() << ","
+           << csvField(transaction.getCustomer().getName()) << ","
+           << csvField(transaction.getMerchant().getName()) << ","
            << transaction.getAmount() << ","
            << FraudSystem::riskLevelToString(alert->getRiskLevel()) << ","
-           << alert->getDescription() << ","
+           << csvField(alert->getDescription()) << ","
            << (alert->isReviewed() ? "Yes" : "No") << "\n";
     }
     
@@ -300,7 +369,7 @@ std::string CustomerSpendingReport::generateReport(
     ss << "Customer,Total Spending,Transaction Count\n";
     
     for (const auto& pair : customerTotals) {
-        ss << pair.first << ","
+        ss << csvField(pair.first) << ","
            << pair.second << ","
            << customerTransactions[pair.first].size() << "\n";
     }
@@ -392,7 +461,7 @@ std::string MerchantEarningsReport::generateReport(
         double refunds = merchantRefunds[merchantName];
         double netEarnings = grossEarnings - refunds;
         
-        ss << merchantName << ","
+        ss << csvField(merchantName) << ","
            << grossEarnings << ","
            << refunds << ","
            << netEarnings << ","
@@ -666,52 +735,51 @@ bool CSVExport::exportToFile(const std::string& reportData, const std::string& f
 
 // JSONExport implementation
 bool JSONExport::exportToFile(const std::string& reportData, const std::string& filePath) const {
-    // For simplicity, we'll just convert the CSV data to a basic JSON format
     std::ofstream file(filePath);
     if (!file.is_open()) {
         std::cerr << "Failed to open file for writing: " << filePath << std::endl;
         return false;
     }
     
+    // Reports start with a title/filter preamble; the CSV header follows the last blank line
+    std::vector<std::string> lines;
     std::istringstream iss(reportData);
     std::string line;
+    while (std::getline(iss, line)) {
+        lines.push_back(line);
+    }
+    
+    size_t headerIndex = 0;
+    for (size_t i = 0; i < lines.size(); ++i) {
+        if (lines[i].empty() && i + 1 < lines.size()) {
+            headerIndex = i + 1;
+        }
+    }
+    
     std::vector<std::string> headers;
     std::vector<std::vector<std::string>> rows;
-    
-    // Parse the CSV data
-    if (std::getline(iss, line)) {
-        std::istringstream headerStream(line);
-        std::string header;
-        while (std::getline(headerStream, header, ',')) {
-            headers.push_back(header);
+    if (headerIndex < lines.size()) {
+        headers = parseCsvLine(lines[headerIndex]);
+        for (size_t i = headerIndex + 1; i < lines.size(); ++i) {
+            if (!lines[i].empty()) {
+                rows.push_back(parseCsvLine(lines[i]));
+            }
         }
     }
     
-    while (std::getline(iss, line)) {
-        std::istringstream rowStream(line);
-        std::string cell;
-        std::vector<std::string> row;
-        while (std::getline(rowStream, cell, ',')) {
-            row.push_back(cell);
-        }
-        if (!row.empty()) {
-            rows.push_back(row);
-        }
-    }
-    
-    // Write JSON
     file << "[\n";
     for (size_t i = 0; i < rows.size(); ++i) {
         file << "  {\n";
-        for (size_t j = 0; j < headers.size() && j < rows[i].size(); ++j) {
-            file << "    \"" << headers[j] << "\": \"" << rows[i][j] << "\"";
-            if (j < headers.size() - 1 && j < rows[i].size() - 1) {
+        size_t columns = std::min(headers.size(), rows[i].size());
+        for (size_t j = 0; j < columns; ++j) {
+            file << "    \"" << jsonEscape(headers[j]) << "\": \"" << jsonEscape(rows[i][j]) << "\"";
+            if (j + 1 < columns) {
                 file << ",";
             }
             file << "\n";
         }
         file << "  }";
-        if (i < rows.size() - 1) {
+        if (i + 1 < rows.size()) {
             file << ",";
         }
         file << "\n";

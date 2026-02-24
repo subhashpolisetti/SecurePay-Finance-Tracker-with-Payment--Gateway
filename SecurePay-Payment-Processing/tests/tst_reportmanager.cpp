@@ -1,4 +1,8 @@
 #include <QtTest>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QTemporaryDir>
 #include "reportmanager.h"
 #include "paymentgateway.h"
 #include "refundmanager.h"
@@ -64,6 +68,43 @@ private slots:
 
         std::string report = ReportManager::getInstance().generateReport(ReportType::FRAUD_ALERTS, {});
         QVERIFY(contains(report, id));
+    }
+
+    void freeTextWithCommasAndQuotesIsQuotedInCsv() {
+        PaymentGateway gateway;
+        gateway.processTransaction(makeTransaction("Smith, \"Ace\" Jr", 15.0));
+        ReportManager::getInstance().setPaymentGateway(&gateway);
+
+        std::string report = ReportManager::getInstance().generateReport(ReportType::TRANSACTION_HISTORY, {});
+        QVERIFY(contains(report, ",\"Smith, \"\"Ace\"\" Jr\","));
+    }
+
+    void jsonExportUsesCsvHeaderAndProducesValidJson() {
+        PaymentGateway gateway;
+        auto tx = makeTransaction("Json \"Quoted\", Customer", 64.0);
+        std::string id = tx->getTransactionId();
+        gateway.processTransaction(std::move(tx));
+        ReportManager& reports = ReportManager::getInstance();
+        reports.setPaymentGateway(&gateway);
+
+        QTemporaryDir dir;
+        QVERIFY(dir.isValid());
+        std::string path = dir.filePath("history.json").toStdString();
+        QVERIFY(reports.generateAndExportReport(ReportType::TRANSACTION_HISTORY, path, ExportFormat::JSON, {}));
+
+        QFile file(QString::fromStdString(path));
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &error);
+        QCOMPARE(error.error, QJsonParseError::NoError);
+        QVERIFY(doc.isArray());
+        QCOMPARE(doc.array().size(), 1);
+
+        QJsonObject row = doc.array().at(0).toObject();
+        QCOMPARE(row.value("ID").toString(), QString::fromStdString(id));
+        QCOMPARE(row.value("Customer").toString(), QString("Json \"Quoted\", Customer"));
+        QCOMPARE(row.value("Amount").toString(), QString("64"));
+        QCOMPARE(row.value("Status").toString(), QString("Approved"));
     }
 
     void reportWithoutDataSourcesHasNoRows() {
